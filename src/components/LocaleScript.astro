@@ -1,0 +1,21 @@
+---
+// Redirects to saved locale preference on the default Arabic entry route only.
+---
+
+<script is:inline>
+  (function () {
+    var storageKey = "rawafid-locale";
+    var path = window.location.pathname;
+
+    if (path !== "/" && path !== "/index.html") return;
+
+    try {
+      var saved = localStorage.getItem(storageKey);
+      if (saved === "en") {
+        window.location.replace("/en/");
+      }
+    } catch (_error) {
+      /* ignore storage errors */
+    }
+  })();
+</script>

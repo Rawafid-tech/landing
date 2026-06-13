@@ -31,6 +31,10 @@ body {
   overflow-x: hidden;
 }
 
+body.navbar-menu-open {
+  overflow: hidden;
+}
+
 /* ============================================
    🎯 SELECTION STYLES
    ============================================ */
@@ -79,6 +83,25 @@ a {
 
 a:hover {
   color: var(--color-primary);
+}
+
+a.btn-primary:hover,
+a.btn-accent:hover {
+  color: var(--color-white);
+}
+
+.lang-switcher,
+.lang-switcher:hover {
+  color: var(--color-gray-700);
+}
+
+[data-theme="dark"] .lang-switcher,
+[data-theme="dark"] .lang-switcher:hover {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .lang-switcher:hover {
+  color: #ffffff;
 }
 
 /* ============================================

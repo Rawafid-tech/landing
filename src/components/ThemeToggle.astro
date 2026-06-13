@@ -1,140 +1,93 @@
 ---
-// Theme Toggle Component
-// Switches between Light and Dark mode
+import type { Translations } from "../i18n/types";
+
+interface Props {
+  labels: Translations["theme"];
+}
+
+const { labels } = Astro.props;
 ---
 
-<button 
-  id="theme-toggle" 
-  class="theme-toggle" 
-  aria-label="Toggle theme"
-  aria-pressed="false"
+<button
   type="button"
+  class="theme-toggle"
+  data-theme-toggle
+  data-label-light={labels.switchToLight}
+  data-label-dark={labels.switchToDark}
+  aria-label={labels.switchToDark}
+  aria-pressed="false"
 >
-  <!-- Sun Icon (Light Mode) -->
-  <svg 
-    class="sun-icon theme-toggle-icon" 
-    fill="none" 
-    viewBox="0 0 24 24" 
-    stroke="currentColor"
-    aria-hidden="true"
-  >
-    <path 
-      stroke-linecap="round" 
-      stroke-linejoin="round" 
-      stroke-width="2" 
-      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" 
-    />
-  </svg>
+  <span class="theme-toggle__track" aria-hidden="true">
+    <span class="theme-toggle__icon theme-toggle__icon--sun">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+        ></path>
+      </svg>
+    </span>
 
-  <!-- Moon Icon (Dark Mode) -->
-  <svg 
-    class="moon-icon theme-toggle-icon" 
-    fill="none" 
-    viewBox="0 0 24 24" 
-    stroke="currentColor"
-    aria-hidden="true"
-  >
-    <path 
-      stroke-linecap="round" 
-      stroke-linejoin="round" 
-      stroke-width="2" 
-      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" 
-    />
-  </svg>
+    <span class="theme-toggle__thumb"></span>
+
+    <span class="theme-toggle__icon theme-toggle__icon--moon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+        ></path>
+      </svg>
+    </span>
+  </span>
 </button>
 
 <script>
-  // Theme Toggle Logic
-  const storageKey = 'rawafid-theme';
-  
-  // Get theme from localStorage or system preference
-  const getTheme = (): 'light' | 'dark' => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem(storageKey)) {
-      return localStorage.getItem(storageKey) as 'light' | 'dark';
-    }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
+  import { THEME_STORAGE_KEY, type Theme } from "../lib/theme";
+
+  const getTheme = (): Theme => {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === "light" || stored === "dark") return stored;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   };
 
-  // Set theme
-  const setTheme = (theme: 'light' | 'dark') => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(storageKey, theme);
-    
-    // Update button aria-pressed
-    const toggleButton = document.getElementById('theme-toggle');
-    if (toggleButton) {
-      toggleButton.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-    }
-  };
+  const updateToggleButtons = (theme: Theme) => {
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
+      const labelLight = button.dataset.labelLight ?? "Switch to light mode";
+      const labelDark = button.dataset.labelDark ?? "Switch to dark mode";
 
-  // Toggle theme
-  const toggleTheme = () => {
-    const currentTheme = getTheme();
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-  };
-
-  // Initialize theme on page load (blocking script to prevent flash)
-  const theme = getTheme();
-  setTheme(theme);
-
-  // Add event listener to toggle button
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.getElementById('theme-toggle');
-    if (toggleButton) {
-      toggleButton.addEventListener('click', toggleTheme);
-    }
-
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem(storageKey)) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
+      button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+      button.setAttribute("aria-label", theme === "dark" ? labelLight : labelDark);
     });
-  });
+  };
 
-  // Handle view transitions (Astro)
-  document.addEventListener('astro:after-swap', () => {
+  const setTheme = (theme: Theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+    updateToggleButtons(theme);
+  };
+
+  const toggleTheme = () => {
+    setTheme(getTheme() === "light" ? "dark" : "light");
+  };
+
+  const initThemeToggles = () => {
     const theme = getTheme();
     setTheme(theme);
+
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
+      button.onclick = toggleTheme;
+    });
+  };
+
+  initThemeToggles();
+  document.addEventListener("astro:page-load", initThemeToggles);
+
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+    if (!localStorage.getItem(THEME_STORAGE_KEY)) {
+      setTheme(event.matches ? "dark" : "light");
+    }
   });
 </script>
-
-<style>
-  /* Ensure icons are properly sized */
-  .theme-toggle {
-    position: relative;
-  }
-
-  .theme-toggle-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: opacity var(--transition-base), transform var(--transition-base);
-  }
-
-  /* Show/Hide icons based on theme */
-  [data-theme="light"] .moon-icon {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(-90deg) scale(0);
-  }
-
-  [data-theme="light"] .sun-icon {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
-  }
-
-  [data-theme="dark"] .sun-icon {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(90deg) scale(0);
-  }
-
-  [data-theme="dark"] .moon-icon {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
-  }
-</style>
