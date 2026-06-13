@@ -1,0 +1,40 @@
+---
+// Inline blocking script to prevent theme flash (FOUC)
+// This must be placed in <head> before any content renders
+---
+
+<script is:inline>
+  // This script runs immediately, before page render
+  // to prevent flash of wrong theme
+  
+  const storageKey = 'rawafid-theme';
+  
+  const getInitialTheme = () => {
+    // Check localStorage first
+    if (typeof localStorage !== 'undefined' && localStorage.getItem(storageKey)) {
+      return localStorage.getItem(storageKey);
+    }
+    
+    // Check system preference
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    
+    // Default to light
+    return 'light';
+  };
+  
+  // Set theme immediately
+  const theme = getInitialTheme();
+  document.documentElement.setAttribute('data-theme', theme);
+  
+  // Add no-transition class to prevent animations on page load
+  document.documentElement.classList.add('no-transition');
+  
+  // Remove no-transition class after a short delay
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      document.documentElement.classList.remove('no-transition');
+    }, 100);
+  });
+</script>

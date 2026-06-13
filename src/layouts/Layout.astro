@@ -1,23 +1,27 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import "../styles/global.css";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+const siteName = "Rawafid";
+const siteNameAr = "روافد";
+const tagline = "The Operating System for E-commerce Logistics";
+const description =
+  "Rawafid (روافد) helps e-commerce businesses manage shipments, returns, courier integrations, and real-time tracking from one unified platform.";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{siteName} ({siteNameAr}) – {tagline}</title>
+    <meta name="description" content={description} />
+    <meta name="application-name" content={siteName} />
+    <meta property="og:title" content={`${siteName} (${siteNameAr})`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content="website" />
+  </head>
+
+  <body class="bg-white text-slate-900">
+    <slot />
+  </body>
+</html>
