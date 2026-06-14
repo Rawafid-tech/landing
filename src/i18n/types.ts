@@ -54,4 +54,18 @@ export interface Translations {
       delay: number;
     }[];
   };
+  marketStats: {
+    ariaLabel: string;
+    eyebrow: string;
+    stats: readonly {
+      id: string;
+      icon: "merchants" | "carriers" | "time" | "market";
+      value: number;
+      prefix?: string;
+      suffix?: string;
+      unit?: string;
+      labelPrimary: string;
+      labelSecondary: string;
+    }[];
+  };
 }

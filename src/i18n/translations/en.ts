@@ -58,6 +58,45 @@ const en: Translations = {
       { emoji: "🔁", label: "Returns management", position: "bottom-end", delay: 0.55 },
     ],
   },
+  marketStats: {
+    ariaLabel: "Egyptian market statistics",
+    eyebrow: "Egyptian market insights",
+    stats: [
+      {
+        id: "merchant-pain",
+        icon: "merchants",
+        value: 85,
+        suffix: "%",
+        labelPrimary: "of merchants",
+        labelSecondary: "struggle with fragmented shipment management",
+      },
+      {
+        id: "carrier-fragmentation",
+        icon: "carriers",
+        value: 6,
+        suffix: "+",
+        labelPrimary: "shipping carriers",
+        labelSecondary: "the average merchant juggles",
+      },
+      {
+        id: "manual-admin-time",
+        icon: "time",
+        value: 3,
+        suffix: "+",
+        unit: "hours",
+        labelPrimary: "every day",
+        labelSecondary: "lost to manual admin work",
+      },
+      {
+        id: "market-volume",
+        icon: "market",
+        value: 15,
+        suffix: "M+",
+        labelPrimary: "monthly orders",
+        labelSecondary: "e-commerce volume in Egypt",
+      },
+    ],
+  },
 };
 
 export default en;

@@ -58,6 +58,45 @@ const ar: Translations = {
       { emoji: "🔁", label: "إدارة المرتجعات", position: "bottom-end", delay: 0.55 },
     ],
   },
+  marketStats: {
+    ariaLabel: "إحصائيات السوق المصري",
+    eyebrow: "أرقام من السوق المصري",
+    stats: [
+      {
+        id: "merchant-pain",
+        icon: "merchants",
+        value: 85,
+        suffix: "%",
+        labelPrimary: "من التجار",
+        labelSecondary: "بيعانوا من تشتت إدارة الشحنات",
+      },
+      {
+        id: "carrier-fragmentation",
+        icon: "carriers",
+        value: 6,
+        suffix: "+",
+        labelPrimary: "شركات شحن",
+        labelSecondary: "بيتعاملوا معاها التاجر في المتوسط",
+      },
+      {
+        id: "manual-admin-time",
+        icon: "time",
+        value: 3,
+        suffix: "+",
+        unit: "ساعات",
+        labelPrimary: "يومياً",
+        labelSecondary: "وقت ضايع في الإدارة اليدوية",
+      },
+      {
+        id: "market-volume",
+        icon: "market",
+        value: 15,
+        suffix: "M+",
+        labelPrimary: "أوردر شهرياً",
+        labelSecondary: "e-commerce في مصر",
+      },
+    ],
+  },
 };
 
 export default ar;
