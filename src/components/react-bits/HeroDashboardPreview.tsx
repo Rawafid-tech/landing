@@ -1,6 +1,15 @@
 import { motion, useReducedMotion } from "motion/react";
 import type { CSSProperties, FC } from "react";
 
+export interface HeroImageSource {
+  avifSrcSet: string;
+  webpSrcSet: string;
+  fallbackSrc: string;
+  fallbackWidth: number;
+  fallbackHeight: number;
+  sizes: string;
+}
+
 export interface FloatingIcon {
   emoji: string;
   label: string;
@@ -9,13 +18,13 @@ export interface FloatingIcon {
 }
 
 interface HeroDashboardPreviewProps {
-  imageSrc: string;
+  image: HeroImageSource;
   imageAlt: string;
   floatingIcons: readonly FloatingIcon[];
 }
 
 const HeroDashboardPreview: FC<HeroDashboardPreviewProps> = ({
-  imageSrc,
+  image,
   imageAlt,
   floatingIcons,
 }) => {
@@ -52,16 +61,22 @@ const HeroDashboardPreview: FC<HeroDashboardPreviewProps> = ({
             <span />
           </div>
 
-          <img
-            src={imageSrc}
-            alt={imageAlt}
-            width={1280}
-            height={720}
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="hero-dashboard__image"
-          />
+          <picture>
+            <source type="image/avif" srcSet={image.avifSrcSet} sizes={image.sizes} />
+            <source type="image/webp" srcSet={image.webpSrcSet} sizes={image.sizes} />
+            <img
+              src={image.fallbackSrc}
+              srcSet={image.webpSrcSet}
+              sizes={image.sizes}
+              alt={imageAlt}
+              width={image.fallbackWidth}
+              height={image.fallbackHeight}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="hero-dashboard__image"
+            />
+          </picture>
         </motion.div>
 
         {floatingIcons.map((icon) => (

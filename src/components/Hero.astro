@@ -1,5 +1,6 @@
 ---
-import heroDashboard from "../assets/hero-dashboard-preview.png";
+import { getImage } from "astro:assets";
+import heroDashboardSrc from "../assets/hero-dashboard-preview.png";
 import HeroBackground from "./react-bits/HeroBackground";
 import HeroContent from "./react-bits/HeroContent";
 import HeroDashboardPreview from "./react-bits/HeroDashboardPreview";
@@ -13,7 +14,63 @@ interface Props {
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
 const hero = t.hero;
+
+const heroWidths = [640, 896] as const;
+const heroAspectRatio = heroDashboardSrc.width / heroDashboardSrc.height;
+const heroImageSizes = "(max-width: 640px) 100vw, (max-width: 1024px) min(90vw, 896px), 896px";
+
+const [heroAvifImages, heroWebpImages] = await Promise.all([
+  Promise.all(
+    heroWidths.map((width) =>
+      getImage({
+        src: heroDashboardSrc,
+        width,
+        height: Math.round(width / heroAspectRatio),
+        format: "avif",
+        quality: 62,
+      }),
+    ),
+  ),
+  Promise.all(
+    heroWidths.map((width) =>
+      getImage({
+        src: heroDashboardSrc,
+        width,
+        height: Math.round(width / heroAspectRatio),
+        format: "webp",
+        quality: 80,
+      }),
+    ),
+  ),
+]);
+
+const heroAvifSrcSet = heroAvifImages
+  .map((image, index) => `${image.src} ${heroWidths[index]}w`)
+  .join(", ");
+const heroWebpSrcSet = heroWebpImages
+  .map((image, index) => `${image.src} ${heroWidths[index]}w`)
+  .join(", ");
+
+const heroFallback = heroWebpImages[heroWebpImages.length - 1];
+const heroImage = {
+  avifSrcSet: heroAvifSrcSet,
+  webpSrcSet: heroWebpSrcSet,
+  fallbackSrc: heroFallback.src,
+  fallbackWidth: heroFallback.attributes.width,
+  fallbackHeight: heroFallback.attributes.height,
+  sizes: heroImageSizes,
+};
 ---
+
+<link
+  rel="preload"
+  as="image"
+  type="image/avif"
+  href={heroAvifImages[heroAvifImages.length - 1].src}
+  imagesrcset={heroAvifSrcSet}
+  imagesizes={heroImageSizes}
+  fetchpriority="high"
+/>
 
 <section
   id="hero"
@@ -39,7 +96,7 @@ const hero = t.hero;
 
     <HeroDashboardPreview
       client:visible
-      imageSrc={heroDashboard.src}
+      image={heroImage}
       imageAlt={hero.dashboardAlt}
       floatingIcons={hero.floatingIcons}
     />
