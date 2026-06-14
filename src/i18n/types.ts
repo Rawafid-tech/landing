@@ -35,4 +35,23 @@ export interface Translations {
     shortEn: string;
     shortAr: string;
   };
+  hero: {
+    ariaLabel: string;
+    badge: string;
+    headlinePrefix: string;
+    rotatingWords: readonly string[];
+    subheadline: string;
+    ctaPrimary: string;
+    ctaPrimaryHref: string;
+    ctaSecondary: string;
+    ctaSecondaryHref: string;
+    trustBadges: readonly string[];
+    dashboardAlt: string;
+    floatingIcons: readonly {
+      emoji: string;
+      label: string;
+      position: "top-start" | "top-end" | "bottom-start" | "bottom-end";
+      delay: number;
+    }[];
+  };
 }

@@ -31,6 +31,10 @@ body {
   overflow-x: hidden;
 }
 
+html[lang="ar"] {
+  --font-primary: var(--font-arabic);
+}
+
 body.navbar-menu-open {
   overflow: hidden;
 }
@@ -88,6 +92,19 @@ a:hover {
 a.btn-primary:hover,
 a.btn-accent:hover {
   color: var(--color-white);
+}
+
+a.hero__cta-secondary:hover {
+  color: #0f172a;
+}
+
+[data-theme="dark"] a.hero__cta-secondary,
+[data-theme="dark"] a.hero__cta-secondary:hover {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] a.hero__cta-secondary:hover {
+  color: #ffffff;
 }
 
 .lang-switcher,

@@ -17,6 +17,10 @@ interface Props {
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
 const { dir, htmlLang } = localeConfig[locale];
+const fontUrl =
+  locale === "ar"
+    ? "https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap"
+    : "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
 const alternateLocale = getAlternateLocale(locale);
 const siteUrl = Astro.site ?? "https://rawafid.app";
 const canonicalPath = getLocalePath(locale);
@@ -28,6 +32,9 @@ const alternateUrl = new URL(getLocalePath(alternateLocale), siteUrl).href;
   <head>
     <ThemeScript />
     <LocaleScript />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fontUrl} />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{t.meta.title}</title>
