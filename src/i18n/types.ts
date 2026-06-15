@@ -68,4 +68,16 @@ export interface Translations {
       labelSecondary: string;
     }[];
   };
+  problemSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    problems: readonly {
+      id: string;
+      title: string;
+      description: string;
+      image: "dashboards" | "tracking" | "returns" | "manual" | "pricing" | "hidden-costs";
+    }[];
+  };
 }

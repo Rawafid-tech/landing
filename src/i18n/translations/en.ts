@@ -97,6 +97,50 @@ const en: Translations = {
       },
     ],
   },
+  problemSection: {
+    ariaLabel: "Problems merchants face",
+    eyebrow: "Challenges",
+    headline: "Problems every e-commerce merchant faces",
+    subheadline: "Rawafid solves all these problems from one place",
+    problems: [
+      {
+        id: "multiple-dashboards",
+        title: "Multiple Dashboards",
+        description: "Each shipping company has a different system, wasting your time switching between dashboards",
+        image: "dashboards",
+      },
+      {
+        id: "no-unified-tracking",
+        title: "No Unified Tracking",
+        description: "Shipments are scattered and you can't track them all from one place",
+        image: "tracking",
+      },
+      {
+        id: "returns-nightmare",
+        title: "Difficult Returns Management",
+        description: "Returns take too much time with no clear system to manage them",
+        image: "returns",
+      },
+      {
+        id: "manual-entry",
+        title: "Manual Order Entry",
+        description: "Entering every order manually takes significant time and effort",
+        image: "manual",
+      },
+      {
+        id: "price-comparison",
+        title: "Hard Price Comparison",
+        description: "Difficult to compare carrier prices and choose the best option for each shipment",
+        image: "pricing",
+      },
+      {
+        id: "hidden-costs",
+        title: "Hidden Costs",
+        description: "Unclear fees affect your profit margins and you discover them too late",
+        image: "hidden-costs",
+      },
+    ],
+  },
 };
 
 export default en;

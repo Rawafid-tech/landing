@@ -1,0 +1,186 @@
+---
+import ProblemSectionContent from "./react-bits/ProblemSectionContent";
+import { getTranslations, type Locale } from "../i18n";
+
+import dashboardsImg from "../assets/problems/dashboards.jpg";
+import trackingImg from "../assets/problems/tracking.jpg";
+import returnsImg from "../assets/problems/returns.jpg";
+import manualImg from "../assets/problems/manual.jpg";
+import pricingImg from "../assets/problems/pricing.jpg";
+import hiddenCostsImg from "../assets/problems/hidden-costs.jpg";
+
+interface Props {
+  locale?: Locale;
+}
+
+const locale = Astro.props.locale ?? "ar";
+const t = getTranslations(locale);
+const problemSection = t.problemSection;
+
+const images = {
+  dashboards: dashboardsImg,
+  tracking: trackingImg,
+  returns: returnsImg,
+  manual: manualImg,
+  pricing: pricingImg,
+  "hidden-costs": hiddenCostsImg,
+};
+---
+
+<section
+  id="problems"
+  class="problem-section"
+  aria-label={problemSection.ariaLabel}
+>
+  <div class="container">
+    <ProblemSectionContent
+      client:visible
+      eyebrow={problemSection.eyebrow}
+      headline={problemSection.headline}
+      subheadline={problemSection.subheadline}
+      problems={problemSection.problems}
+      images={images}
+    />
+  </div>
+</section>
+
+<style is:global>
+  .problem-section {
+    position: relative;
+    padding-block: var(--space-12) var(--space-16);
+    background: var(--bg-secondary);
+  }
+
+  [data-theme="dark"] .problem-section {
+    background: var(--bg-primary);
+  }
+
+  @media (min-width: 1024px) {
+    .problem-section {
+      padding-block: var(--space-16) var(--space-20);
+    }
+  }
+
+  .problem-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-xl);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    overflow: hidden;
+    transition:
+      border-color var(--transition-base),
+      box-shadow var(--transition-base),
+      transform var(--transition-base);
+  }
+
+  .problem-card:hover {
+    border-color: var(--color-primary-alpha-20);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  [data-theme="dark"] .problem-card {
+    background: var(--bg-secondary);
+    border-color: var(--border-primary);
+  }
+
+  [data-theme="dark"] .problem-card:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 30%, var(--border-secondary));
+    box-shadow: var(--shadow-lg);
+  }
+
+  .problem-card__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-gray-100);
+  }
+
+  [data-theme="dark"] .problem-card__image-wrapper {
+    background: var(--color-gray-800);
+  }
+
+  .problem-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .problem-card:hover .problem-card__image {
+    transform: scale(1.05);
+  }
+
+  .problem-card__image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 60%,
+      color-mix(in srgb, var(--color-gray-900) 10%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  [data-theme="dark"] .problem-card__image-overlay {
+    background: linear-gradient(
+      to bottom,
+      transparent 60%,
+      color-mix(in srgb, var(--color-gray-900) 30%, transparent) 100%
+    );
+  }
+
+  .problem-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-6);
+  }
+
+  @media (min-width: 1024px) {
+    .problem-card__content {
+      padding: var(--space-6);
+    }
+  }
+
+  .problem-card__title {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-gray-900);
+  }
+
+  [data-theme="dark"] .problem-card__title {
+    color: var(--color-gray-50);
+  }
+
+  .problem-card__description {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-gray-600);
+  }
+
+  [data-theme="dark"] .problem-card__description {
+    color: var(--color-gray-400);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .problem-card,
+    .problem-card__image {
+      transition: none;
+    }
+
+    .problem-card:hover {
+      transform: none;
+    }
+
+    .problem-card:hover .problem-card__image {
+      transform: none;
+    }
+  }
+</style>

@@ -469,15 +469,29 @@
    ============================================ */
 
 .section {
-  padding: var(--space-20) 0;
+  padding: var(--space-12) 0;
 }
 
 .section-large {
-  padding: var(--space-32) 0;
+  padding: var(--space-20) 0;
 }
 
 .section-small {
-  padding: var(--space-16) 0;
+  padding: var(--space-8) 0;
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: var(--space-16) 0;
+  }
+
+  .section-large {
+    padding: var(--space-24) 0;
+  }
+
+  .section-small {
+    padding: var(--space-12) 0;
+  }
 }
 
 /* ============================================
@@ -603,9 +617,6 @@
   .text-h1 { font-size: var(--text-4xl); }
   .text-h2 { font-size: var(--text-3xl); }
   .text-h3 { font-size: var(--text-2xl); }
-  
-  .section { padding: var(--space-16) 0; }
-  .section-large { padding: var(--space-20) 0; }
 }
 
 
@@ -1000,4 +1011,53 @@ body,
 /* Enhanced glow for dark mode cards */
 [data-theme="dark"] .card-feature:hover {
   box-shadow: var(--shadow-xl), 0 0 60px rgba(37, 99, 235, 0.2);
+}
+
+/* ============================================
+   📋 SECTION HEADER COMPONENT
+   ============================================ */
+
+.section-header__eyebrow {
+  display: inline-block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .section-header__eyebrow {
+  color: var(--color-primary-light);
+}
+
+.section-header__headline {
+  margin: 0;
+  font-size: clamp(var(--text-2xl), 4.5vw, var(--text-4xl));
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-gray-900);
+  text-wrap: balance;
+}
+
+[data-theme="dark"] .section-header__headline {
+  color: var(--color-gray-50);
+}
+
+.section-header__subheadline {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-gray-600);
+  text-wrap: balance;
+}
+
+[data-theme="dark"] .section-header__subheadline {
+  color: var(--color-gray-400);
+}
+
+@media (min-width: 1024px) {
+  .section-header__subheadline {
+    font-size: var(--text-xl);
+  }
 }

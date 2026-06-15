@@ -97,6 +97,50 @@ const ar: Translations = {
       },
     ],
   },
+  problemSection: {
+    ariaLabel: "المشاكل اللي بيواجهها التجار",
+    eyebrow: "التحديات",
+    headline: "مشاكل بتواجه كل تاجر إلكتروني",
+    subheadline: "روافد بتحل المشاكل دي كلها من مكان واحد",
+    problems: [
+      {
+        id: "multiple-dashboards",
+        title: "داشبوردات متعددة",
+        description: "كل شركة شحن ليها نظام مختلف، وبتضيع وقتك بين الداشبوردات",
+        image: "dashboards",
+      },
+      {
+        id: "no-unified-tracking",
+        title: "مفيش تتبع موحد",
+        description: "الشحنات متفرقة ومش قادر تتابعها كلها من مكان واحد",
+        image: "tracking",
+      },
+      {
+        id: "returns-nightmare",
+        title: "إدارة المرتجعات صعبة",
+        description: "المرتجعات بتاخد وقت كتير ومفيش نظام واضح لإدارتها",
+        image: "returns",
+      },
+      {
+        id: "manual-entry",
+        title: "إدخال يدوي للأوردرات",
+        description: "بتدخل كل أوردر يدوياً وده بياخد وقت ومجهود كبير",
+        image: "manual",
+      },
+      {
+        id: "price-comparison",
+        title: "مقارنة الأسعار صعبة",
+        description: "صعب تقارن أسعار شركات الشحن وتختار الأنسب لكل شحنة",
+        image: "pricing",
+      },
+      {
+        id: "hidden-costs",
+        title: "تكاليف مخفية",
+        description: "مصاريف مش واضحة بتأثر على الربح وبتكتشفها متأخر",
+        image: "hidden-costs",
+      },
+    ],
+  },
 };
 
 export default ar;
