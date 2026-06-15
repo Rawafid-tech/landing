@@ -1,0 +1,303 @@
+---
+import HowItWorksSectionContent from "./react-bits/HowItWorksSectionContent";
+import { getTranslations, type Locale } from "../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const locale = Astro.props.locale ?? "ar";
+const t = getTranslations(locale);
+const { howItWorksSection } = t;
+---
+
+<section
+  id="how-it-works"
+  class="hiw-section"
+  aria-label={howItWorksSection.ariaLabel}
+>
+  <div class="hiw-section__glow hiw-section__glow--start" aria-hidden="true"></div>
+  <div class="hiw-section__glow hiw-section__glow--end" aria-hidden="true"></div>
+
+  <div class="container hiw-section__container">
+    <HowItWorksSectionContent
+      client:visible
+      locale={locale}
+      eyebrow={howItWorksSection.eyebrow}
+      headline={howItWorksSection.headline}
+      subheadline={howItWorksSection.subheadline}
+      steps={howItWorksSection.steps}
+      cta={howItWorksSection.cta}
+      ctaHref={howItWorksSection.ctaHref}
+      ctaAriaLabel={howItWorksSection.ctaAriaLabel}
+    />
+  </div>
+</section>
+
+<style is:global>
+  /* ─── Section ───────────────────────────────────────────── */
+  .hiw-section {
+    position: relative;
+    isolation: isolate;
+    padding-block: var(--space-12) var(--space-16);
+    background: var(--bg-secondary);
+    overflow: hidden;
+  }
+
+  [data-theme="dark"] .hiw-section {
+    background: var(--bg-primary);
+  }
+
+  @media (min-width: 1024px) {
+    .hiw-section {
+      padding-block: var(--space-16) var(--space-24);
+    }
+  }
+
+  .hiw-section__container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hiw-section__glow {
+    position: absolute;
+    width: min(28rem, 50vw);
+    height: min(28rem, 50vw);
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.14;
+    pointer-events: none;
+  }
+
+  .hiw-section__glow--start {
+    top: -15%;
+    inset-inline-start: -10%;
+    background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  }
+
+  .hiw-section__glow--end {
+    bottom: -15%;
+    inset-inline-end: -8%;
+    background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  }
+
+  [data-theme="dark"] .hiw-section__glow {
+    opacity: 0.07;
+  }
+
+  /* ─── Flow stepper ──────────────────────────────────────── */
+  /* Pulsing ring — infinite, cycles per step colour */
+  @keyframes hiw-ring-pulse {
+    0%, 100% { transform: scale(1);   opacity: 0.45; }
+    50%       { transform: scale(1.18); opacity: 0;    }
+  }
+
+  .hiw-flow-node__ring {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .hiw-flow-node__ring::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    animation: hiw-ring-pulse 2.4s ease-out infinite;
+    pointer-events: none;
+  }
+
+  .hiw-flow-node__ring--connect::before { background: rgba(124, 58, 237, 0.35); animation-delay: 0s;    }
+  .hiw-flow-node__ring--create::before  { background: rgba(37, 99, 235, 0.35);  animation-delay: 0.8s;  }
+  .hiw-flow-node__ring--track::before   { background: rgba(22, 163, 74, 0.35);  animation-delay: 1.6s;  }
+
+  /* ─── Flow bridge (line + arrow) ──────────────────────── */
+  .hiw-flow-bridge__bg {
+    background: var(--border-primary);
+  }
+
+  @keyframes hiw-shimmer-h {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(200%);  }
+  }
+
+  @keyframes hiw-shimmer-h-rtl {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-200%); }
+  }
+
+  @keyframes hiw-shimmer-v {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(200%);  }
+  }
+
+  @keyframes hiw-arrow-nudge {
+    0%, 100% { transform: translateX(0);   opacity: 0.55; }
+    50%       { transform: translateX(4px); opacity: 1;    }
+  }
+
+  @keyframes hiw-arrow-nudge-rtl {
+    0%, 100% { transform: scaleX(-1) translateX(0);    opacity: 0.55; }
+    50%       { transform: scaleX(-1) translateX(-4px); opacity: 1;     }
+  }
+
+  .hiw-flow-bridge__shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-primary) 40%,
+      #8b5cf6 60%,
+      transparent 100%
+    );
+    animation: hiw-shimmer-h 2s linear infinite;
+  }
+
+  .hiw-flow-bridge__shimmer--rtl {
+    background: linear-gradient(
+      270deg,
+      transparent 0%,
+      var(--color-primary) 40%,
+      #8b5cf6 60%,
+      transparent 100%
+    );
+    animation: hiw-shimmer-h-rtl 2s linear infinite;
+  }
+
+  .hiw-flow-bridge__shimmer-vertical {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--color-primary) 40%,
+      var(--color-accent) 60%,
+      transparent 100%
+    );
+    animation: hiw-shimmer-v 2s linear infinite;
+  }
+
+  .hiw-flow-rail {
+    align-items: center;
+  }
+
+  .hiw-flow-bridge {
+    height: 100%;
+  }
+
+  .hiw-flow-arrow {
+    margin-inline-start: var(--space-2);
+    flex-shrink: 0;
+    color: var(--color-primary);
+    animation: hiw-arrow-nudge 1.6s ease-in-out infinite;
+  }
+
+  .hiw-flow-arrow--rtl {
+    transform: scaleX(-1);
+    animation: hiw-arrow-nudge-rtl 1.6s ease-in-out infinite;
+  }
+
+  /* ─── Nodes & badges ──────────────────────────────────── */
+  .hiw-node--connect { background: rgba(124, 58, 237, 0.1);  color: #7c3aed; border-color: rgba(124, 58, 237, 0.28); }
+  .hiw-node--create  { background: rgba(37, 99, 235, 0.1);   color: #2563eb; border-color: rgba(37, 99, 235, 0.28); }
+  .hiw-node--track   { background: rgba(22, 163, 74, 0.1);   color: #16a34a; border-color: rgba(22, 163, 74, 0.28); }
+
+  [data-theme="dark"] .hiw-node--connect { background: rgba(124, 58, 237, 0.15); color: #a78bfa; border-color: rgba(124, 58, 237, 0.35); }
+  [data-theme="dark"] .hiw-node--create  { background: rgba(37, 99, 235, 0.15);  color: #60a5fa; border-color: rgba(37, 99, 235, 0.35); }
+  [data-theme="dark"] .hiw-node--track   { background: rgba(22, 163, 74, 0.12);  color: #4ade80; border-color: rgba(22, 163, 74, 0.3);  }
+
+  .hiw-badge--connect { background: rgba(124, 58, 237, 0.1);  color: #7c3aed; }
+  .hiw-badge--create  { background: rgba(37, 99, 235, 0.1);   color: #2563eb; }
+  .hiw-badge--track   { background: rgba(22, 163, 74, 0.1);   color: #16a34a; }
+
+  [data-theme="dark"] .hiw-badge--connect { background: rgba(124, 58, 237, 0.15); color: #a78bfa; }
+  [data-theme="dark"] .hiw-badge--create  { background: rgba(37, 99, 235, 0.15);  color: #60a5fa; }
+  [data-theme="dark"] .hiw-badge--track   { background: rgba(22, 163, 74, 0.12);  color: #4ade80; }
+
+  /* ─── Cards ───────────────────────────────────────────── */
+  .hiw-card {
+    position: relative;
+    padding: var(--space-6) var(--space-6) var(--space-8);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-primary);
+    background: var(--bg-primary);
+    overflow: hidden;
+    transition:
+      border-color var(--transition-base),
+      box-shadow var(--transition-base),
+      transform var(--transition-base);
+  }
+
+  @media (min-width: 1024px) {
+    .hiw-card {
+      padding: var(--space-8) var(--space-8) var(--space-10);
+    }
+  }
+
+  .hiw-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    inset-inline: 0;
+    height: 3px;
+    border-radius: var(--radius-full) var(--radius-full) 0 0;
+  }
+
+  .hiw-step--connect .hiw-card::before { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+  .hiw-step--create  .hiw-card::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+  .hiw-step--track   .hiw-card::before { background: linear-gradient(90deg, #16a34a, #4ade80); }
+
+  .hiw-card:hover {
+    border-color: var(--color-primary-alpha-20);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  [data-theme="dark"] .hiw-card {
+    background: var(--bg-secondary);
+  }
+
+  .hiw-card-title {
+    color: var(--color-gray-900);
+  }
+
+  [data-theme="dark"] .hiw-card-title {
+    color: var(--color-gray-50);
+  }
+
+  .hiw-card-desc {
+    color: var(--color-gray-600);
+  }
+
+  [data-theme="dark"] .hiw-card-desc {
+    color: var(--color-gray-400);
+  }
+
+  .hiw-mobile-bridge .hiw-flow-arrow {
+    position: absolute;
+    bottom: 0;
+    transform: rotate(90deg);
+    animation: hiw-arrow-nudge-down 1.6s ease-in-out infinite;
+  }
+
+  @keyframes hiw-arrow-nudge-down {
+    0%, 100% { transform: rotate(90deg) translateX(0);   opacity: 0.55; }
+    50%       { transform: rotate(90deg) translateX(4px); opacity: 1;    }
+  }
+
+  /* ─── Reduced motion ──────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .hiw-section__glow,
+    .hiw-flow-node__ring::before,
+    .hiw-flow-bridge__shimmer,
+    .hiw-flow-bridge__shimmer-vertical,
+    .hiw-flow-arrow,
+    .hiw-mobile-bridge .hiw-flow-arrow {
+      animation: none !important;
+    }
+
+    .hiw-card {
+      transition: none;
+    }
+
+    .hiw-card:hover {
+      transform: none;
+    }
+  }
+</style>

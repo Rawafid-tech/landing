@@ -106,4 +106,20 @@ export interface Translations {
       benefits: readonly string[];
     }[];
   };
+  howItWorksSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    steps: readonly {
+      id: string;
+      number: string;
+      icon: "connect" | "create" | "track";
+      title: string;
+      description: string;
+    }[];
+    cta: string;
+    ctaHref: string;
+    ctaAriaLabel: string;
+  };
 }

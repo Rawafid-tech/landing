@@ -269,6 +269,41 @@ const en: Translations = {
       },
     ],
   },
+  howItWorksSection: {
+    ariaLabel: "How Rawafid works",
+    eyebrow: "How it works",
+    headline: "Up and running in 3 steps",
+    subheadline: "From store connection to delivered shipment — all in one place.",
+    steps: [
+      {
+        id: "connect",
+        number: "01",
+        icon: "connect",
+        title: "Connect your store",
+        description:
+          "Link Shopify or EzOrders in under a minute and let Rawafid pull your orders automatically.",
+      },
+      {
+        id: "create",
+        number: "02",
+        icon: "create",
+        title: "Create the shipment",
+        description:
+          "Pick the best carrier, compare rates, and create the shipment in a single click.",
+      },
+      {
+        id: "track",
+        number: "03",
+        icon: "track",
+        title: "Track & deliver",
+        description:
+          "Monitor every shipment in real time from one dashboard until it reaches your customer.",
+      },
+    ],
+    cta: "Start for free",
+    ctaHref: "#cta",
+    ctaAriaLabel: "Start your free trial with Rawafid",
+  },
 };
 
 export default en;

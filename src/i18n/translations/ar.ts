@@ -269,6 +269,41 @@ const ar: Translations = {
       },
     ],
   },
+  howItWorksSection: {
+    ariaLabel: "كيفية عمل روافد",
+    eyebrow: "كيف يعمل",
+    headline: "إزاي بتشتغل روافد؟",
+    subheadline: "٣ خطوات بسيطة وشحناتك تحت السيطرة",
+    steps: [
+      {
+        id: "connect",
+        number: "01",
+        icon: "connect",
+        title: "اربط متجرك",
+        description:
+          "اربط Shopify أو EzOrders في أقل من دقيقة وخلّي روافد تجيب الأوردرات تلقائياً.",
+      },
+      {
+        id: "create",
+        number: "02",
+        icon: "create",
+        title: "أنشئ الشحنة",
+        description:
+          "اختار شركة الشحن الأنسب، قارن الأسعار، وأنشئ الشحنة بضغطة واحدة.",
+      },
+      {
+        id: "track",
+        number: "03",
+        icon: "track",
+        title: "تتبع وسلّم",
+        description:
+          "تابع حالة كل شحنة لحظياً من لوحة تحكم واحدة حتى وصولها للعميل.",
+      },
+    ],
+    cta: "ابدأ مجاناً",
+    ctaHref: "#cta",
+    ctaAriaLabel: "ابدأ تجربتك المجانية مع روافد",
+  },
 };
 
 export default ar;
