@@ -80,4 +80,17 @@ export interface Translations {
       image: "dashboards" | "tracking" | "returns" | "manual" | "pricing" | "hidden-costs";
     }[];
   };
+  solutionSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    beforeLabel: string;
+    afterLabel: string;
+    pairs: readonly {
+      id: string;
+      before: string;
+      after: string;
+    }[];
+  };
 }

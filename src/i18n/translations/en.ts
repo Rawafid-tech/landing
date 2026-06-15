@@ -141,6 +141,47 @@ const en: Translations = {
       },
     ],
   },
+  solutionSection: {
+    ariaLabel: "How Rawafid solves your logistics challenges",
+    eyebrow: "The Solution",
+    headline: "One platform. Every problem solved.",
+    subheadline:
+      "Rawafid replaces the chaos of juggling multiple tools with a single, unified platform built for Egyptian e-commerce.",
+    beforeLabel: "Before Rawafid",
+    afterLabel: "With Rawafid",
+    pairs: [
+      {
+        id: "dashboards",
+        before: "6+ separate carrier dashboards",
+        after: "One unified control panel",
+      },
+      {
+        id: "entry",
+        before: "Manual order entry every time",
+        after: "Automatic sync from your store",
+      },
+      {
+        id: "tracking",
+        before: "No unified shipment tracking",
+        after: "Live real-time tracking in one place",
+      },
+      {
+        id: "returns",
+        before: "Returns with no clear workflow",
+        after: "Structured returns management system",
+      },
+      {
+        id: "pricing",
+        before: "Hard carrier price comparison",
+        after: "Instant side-by-side price comparison",
+      },
+      {
+        id: "manual",
+        before: "Hours of repetitive manual work",
+        after: "Fully automated operations",
+      },
+    ],
+  },
 };
 
 export default en;
