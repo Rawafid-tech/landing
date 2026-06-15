@@ -1,0 +1,314 @@
+---
+import FeaturesSectionContent from "./react-bits/FeaturesSectionContent";
+import { getTranslations, type Locale } from "../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const locale = Astro.props.locale ?? "ar";
+const t = getTranslations(locale);
+const { featuresSection } = t;
+---
+
+<section
+  id="features"
+  class="features-section"
+  aria-label={featuresSection.ariaLabel}
+>
+  <!-- Decorative ambient glows -->
+  <div class="features-section__glow features-section__glow--start" aria-hidden="true"></div>
+  <div class="features-section__glow features-section__glow--end" aria-hidden="true"></div>
+
+  <div class="container features-section__container">
+    <FeaturesSectionContent
+      client:visible
+      eyebrow={featuresSection.eyebrow}
+      headline={featuresSection.headline}
+      subheadline={featuresSection.subheadline}
+      features={featuresSection.features}
+    />
+  </div>
+</section>
+
+<style is:global>
+  /* ─── Section shell ──────────────────────────────────────── */
+  .features-section {
+    position: relative;
+    isolation: isolate;
+    padding-block: var(--space-12) var(--space-16);
+    background: var(--bg-secondary);
+    overflow: hidden;
+  }
+
+  [data-theme="dark"] .features-section {
+    background: var(--bg-primary);
+  }
+
+  @media (min-width: 1024px) {
+    .features-section {
+      padding-block: var(--space-16) var(--space-20);
+    }
+  }
+
+  .features-section__container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── Ambient glow decorations ───────────────────────────── */
+  .features-section__glow {
+    position: absolute;
+    width: min(28rem, 55vw);
+    height: min(28rem, 55vw);
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
+  .features-section__glow--start {
+    top: -20%;
+    inset-inline-start: -12%;
+    background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  }
+
+  .features-section__glow--end {
+    bottom: -25%;
+    inset-inline-end: -10%;
+    background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  }
+
+  [data-theme="dark"] .features-section__glow {
+    opacity: 0.12;
+  }
+
+  /* ─── Grid ───────────────────────────────────────────────── */
+  .features-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  /* ─── Card ───────────────────────────────────────────────── */
+  .feature-card {
+    /* CSS vars for the spotlight effect */
+    --spotlight-x: 0px;
+    --spotlight-y: 0px;
+    --spotlight-visible: 0;
+    /* Per-feature spotlight tint — overridden below */
+    --spotlight-color: var(--color-primary);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-primary);
+    background: var(--bg-primary);
+    overflow: hidden;
+    transition:
+      border-color var(--transition-base),
+      box-shadow var(--transition-base),
+      transform var(--transition-base);
+  }
+
+  .feature-card:hover {
+    border-color: var(--color-primary-alpha-20);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  [data-theme="dark"] .feature-card {
+    background: var(--bg-secondary);
+  }
+
+  [data-theme="dark"] .feature-card:hover {
+    border-color: color-mix(in srgb, var(--spotlight-color) 30%, var(--border-secondary));
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Per-feature spotlight tint colour */
+  .feature-card--shipments    { --spotlight-color: #2563eb; }
+  .feature-card--returns      { --spotlight-color: #f97316; }
+  .feature-card--integrations { --spotlight-color: #8b5cf6; }
+  .feature-card--couriers     { --spotlight-color: #22c55e; }
+  .feature-card--pricing      { --spotlight-color: #f59e0b; }
+  .feature-card--analytics    { --spotlight-color: #06b6d4; }
+
+  /* ─── Spotlight overlay ──────────────────────────────────── */
+  .feature-card__spotlight {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      300px circle at var(--spotlight-x) var(--spotlight-y),
+      color-mix(in srgb, var(--spotlight-color) 9%, transparent),
+      transparent 70%
+    );
+    opacity: var(--spotlight-visible);
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  [data-theme="dark"] .feature-card__spotlight {
+    background: radial-gradient(
+      300px circle at var(--spotlight-x) var(--spotlight-y),
+      color-mix(in srgb, var(--spotlight-color) 13%, transparent),
+      transparent 70%
+    );
+  }
+
+  /* ─── Card body ──────────────────────────────────────────── */
+  .feature-card__body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    height: 100%;
+  }
+
+  /* ─── Icon wrapper ───────────────────────────────────────── */
+  .feature-card__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+    margin-block-end: var(--space-1);
+  }
+
+  /* Light mode icon colours */
+  .feature-card__icon-wrap--shipments    { background: rgba(37, 99, 235, 0.1);  color: #2563eb; }
+  .feature-card__icon-wrap--returns      { background: rgba(249, 115, 22, 0.1); color: #ea580c; }
+  .feature-card__icon-wrap--integrations { background: rgba(139, 92, 246, 0.1); color: #7c3aed; }
+  .feature-card__icon-wrap--couriers     { background: rgba(34, 197, 94, 0.1);  color: #16a34a; }
+  .feature-card__icon-wrap--pricing      { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+  .feature-card__icon-wrap--analytics    { background: rgba(6, 182, 212, 0.1);  color: #0891b2; }
+
+  /* Dark mode icon colours */
+  [data-theme="dark"] .feature-card__icon-wrap--shipments    { background: rgba(37, 99, 235, 0.15);  color: #60a5fa; }
+  [data-theme="dark"] .feature-card__icon-wrap--returns      { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+  [data-theme="dark"] .feature-card__icon-wrap--integrations { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+  [data-theme="dark"] .feature-card__icon-wrap--couriers     { background: rgba(34, 197, 94, 0.15);  color: #4ade80; }
+  [data-theme="dark"] .feature-card__icon-wrap--pricing      { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+  [data-theme="dark"] .feature-card__icon-wrap--analytics    { background: rgba(6, 182, 212, 0.15);  color: #22d3ee; }
+
+  .feature-icon__svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  /* ─── Title ──────────────────────────────────────────────── */
+  .feature-card__title {
+    margin: 0;
+    width: 100%;
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-gray-900);
+  }
+
+  [data-theme="dark"] .feature-card__title {
+    color: var(--color-gray-50);
+  }
+
+  /* ─── Description ────────────────────────────────────────── */
+  .feature-card__description {
+    margin: 0;
+    width: 100%;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-gray-600);
+  }
+
+  [data-theme="dark"] .feature-card__description {
+    color: var(--color-gray-400);
+  }
+
+  /* ─── Benefits list ──────────────────────────────────────── */
+  .feature-card__benefits {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    /* Push benefits to the bottom so all cards align cleanly */
+    margin-block-start: auto;
+    padding-block-start: var(--space-4);
+    border-block-start: 1px solid var(--border-primary);
+  }
+
+  .feature-card__benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    color: var(--color-gray-600);
+  }
+
+  [data-theme="dark"] .feature-card__benefit {
+    color: var(--color-gray-400);
+  }
+
+  .feature-card__benefit-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    /* Slight nudge so icon optical-aligns with first text line */
+    margin-block-start: 0.05em;
+    color: var(--color-accent);
+  }
+
+  [data-theme="dark"] .feature-card__benefit-icon {
+    color: var(--color-accent-light);
+  }
+
+  .feature-benefit__check-svg {
+    width: 0.9375rem;
+    height: 0.9375rem;
+  }
+
+  /* ─── Reduced motion ─────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .features-section__glow {
+      display: none;
+    }
+
+    .feature-card {
+      transition: none;
+    }
+
+    .feature-card:hover {
+      transform: none;
+    }
+
+    .feature-card__spotlight {
+      display: none;
+    }
+  }
+</style>

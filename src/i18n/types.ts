@@ -93,4 +93,17 @@ export interface Translations {
       after: string;
     }[];
   };
+  featuresSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    features: readonly {
+      id: string;
+      icon: "shipments" | "returns" | "integrations" | "couriers" | "pricing" | "analytics";
+      title: string;
+      description: string;
+      benefits: readonly string[];
+    }[];
+  };
 }

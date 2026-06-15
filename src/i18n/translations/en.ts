@@ -182,6 +182,93 @@ const en: Translations = {
       },
     ],
   },
+  featuresSection: {
+    ariaLabel: "Platform features",
+    eyebrow: "Features",
+    headline: "Everything you need to run your logistics",
+    subheadline:
+      "Six powerful tools in one place — so you can focus on growing your business, not managing spreadsheets.",
+    features: [
+      {
+        id: "shipments",
+        icon: "shipments",
+        title: "Shipment Management",
+        description:
+          "Create, track, and manage every shipment from a single control panel.",
+        benefits: [
+          "All shipments in one dashboard",
+          "Auto-sync from your store",
+          "Print shipping labels instantly",
+          "Real-time status tracking",
+        ],
+      },
+      {
+        id: "returns",
+        icon: "returns",
+        title: "Returns Management",
+        description:
+          "A structured workflow for every return request — no more chaos.",
+        benefits: [
+          "Create return requests easily",
+          "Set reason and schedule pickup",
+          "Track the full return lifecycle",
+          "Close returns on completion",
+        ],
+      },
+      {
+        id: "integrations",
+        icon: "integrations",
+        title: "Store Integrations",
+        description:
+          "Connect your store and import orders automatically in minutes.",
+        benefits: [
+          "Shopify & EzOrders support",
+          "Custom API for bespoke stores",
+          "Automatic order synchronization",
+          "Auto-create shipments on new orders",
+        ],
+      },
+      {
+        id: "couriers",
+        icon: "couriers",
+        title: "Multiple Couriers",
+        description:
+          "Ship with any carrier from one place — compare, choose, and go.",
+        benefits: [
+          "Bosta & multiple local carriers",
+          "Unified API across all carriers",
+          "Consolidated tracking dashboard",
+          "Estimated delivery per carrier",
+        ],
+      },
+      {
+        id: "pricing",
+        icon: "pricing",
+        title: "Pricing Calculator",
+        description:
+          "Compare carrier rates instantly and always pick the best deal.",
+        benefits: [
+          "Enter weight and destination",
+          "Side-by-side price comparison",
+          "Estimated delivery per carrier",
+          "Cheapest & fastest recommendation",
+        ],
+      },
+      {
+        id: "analytics",
+        icon: "analytics",
+        title: "Analytics Dashboard",
+        description:
+          "See your logistics performance at a glance with actionable insights.",
+        benefits: [
+          "Total shipments & success rate",
+          "Failed shipments report",
+          "COD collected tracking",
+          "Top performing couriers",
+        ],
+      },
+    ],
+  },
 };
 
 export default en;
