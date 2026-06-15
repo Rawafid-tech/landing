@@ -1,0 +1,105 @@
+---
+import DashboardPreviewContent from "./react-bits/DashboardPreviewContent";
+import { getTranslations, type Locale } from "../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const locale = Astro.props.locale ?? "ar";
+const t = getTranslations(locale);
+const { dashboardPreviewSection: d } = t;
+---
+
+<section
+  id="demo"
+  class="demo-section"
+  aria-label={d.ariaLabel}
+>
+  <!-- Ambient glows -->
+  <div class="demo-section__glow demo-section__glow--start" aria-hidden="true"></div>
+  <div class="demo-section__glow demo-section__glow--end"   aria-hidden="true"></div>
+
+  <div class="container demo-section__container">
+    <DashboardPreviewContent
+      client:visible
+      locale={locale}
+      ariaLabel={d.ariaLabel}
+      eyebrow={d.eyebrow}
+      headline={d.headline}
+      subheadline={d.subheadline}
+      tabs={d.tabs}
+      hotspots={d.hotspots}
+      hints={d.hints}
+      controls={d.controls}
+      cta={d.cta}
+    />
+  </div>
+</section>
+
+<style is:global>
+  /* ─── Section shell ───────────────────────────────────────── */
+  .demo-section {
+    position: relative;
+    isolation: isolate;
+    padding-block: var(--space-12) var(--space-16);
+    background: var(--bg-primary);
+    overflow: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    .demo-section {
+      padding-block: var(--space-16) var(--space-24);
+    }
+  }
+
+  .demo-section__container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── Ambient glows ───────────────────────────────────────── */
+  .demo-section__glow {
+    position: absolute;
+    width: min(32rem, 60vw);
+    height: min(32rem, 60vw);
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .demo-section__glow--start {
+    top: -20%;
+    inset-inline-start: -14%;
+    background: color-mix(in srgb, var(--color-primary) 24%, transparent);
+  }
+
+  .demo-section__glow--end {
+    bottom: -20%;
+    inset-inline-end: -12%;
+    background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  }
+
+  [data-theme="dark"] .demo-section__glow {
+    opacity: 0.08;
+  }
+
+  /* ─── Hotspot pulse keyframe ──────────────────────────────── */
+  @keyframes demo-hotspot-ping {
+    0%        { transform: scale(1);   opacity: 0.5; }
+    70%, 100% { transform: scale(2.4); opacity: 0;   }
+  }
+
+  .demo-hotspot-ping {
+    animation: demo-hotspot-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  /* ─── Reduced-motion overrides ────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .demo-section__glow,
+    .demo-hotspot-ping {
+      animation: none !important;
+    }
+  }
+</style>

@@ -269,6 +269,106 @@ const ar: Translations = {
       },
     ],
   },
+  dashboardPreviewSection: {
+    ariaLabel: "معاينة تفاعلية للوحة تحكم روافد",
+    eyebrow: "معاينة تفاعلية",
+    headline: "شوف روافد وهي شغّالة",
+    subheadline:
+      "اضغط على النقاط المضيئة لاستكشاف المميزات. اسحب للتنقل وكبّر للتفاصيل.",
+    tabs: [
+      { id: "overview", label: "نظرة عامة" },
+      { id: "shipments", label: "الشحنات" },
+      { id: "returns", label: "المرتجعات" },
+    ],
+    hotspots: [
+      {
+        id: "stat-total",
+        view: "overview",
+        title: "إجمالي الشحنات",
+        description:
+          "شوف كل شحناتك في لمحة — مع مؤشر التغيير مقارنةً بالشهر اللي فات.",
+        countUp: { value: 1247, suffix: "" },
+      },
+      {
+        id: "stat-delivered",
+        view: "overview",
+        title: "نسبة التسليم الناجح",
+        description:
+          "تابع أداء شركات الشحن وشوف مين الأفضل تسليماً لعملاءك.",
+        countUp: { value: 89, suffix: ".3%" },
+      },
+      {
+        id: "stat-cod",
+        view: "overview",
+        title: "COD محصّل",
+        description:
+          "ابقى دايماً عارف كام فلوس اتحصلت — بدون جداول بيانات أو حسابات يدوية.",
+        countUp: { value: 34820, suffix: " ج.م" },
+      },
+      {
+        id: "sidebar-shipments",
+        view: "overview",
+        title: "الشحنات",
+        description:
+          "اضغط لعرض كل الشحنات مع فلاتر الحالة وتفاصيل كل شحنة على حدة.",
+        navigatesTo: "shipments",
+      },
+      {
+        id: "sidebar-returns",
+        view: "overview",
+        title: "المرتجعات",
+        description:
+          "نظام مرتجعات متكامل — تابع كل مرحلة من الطلب للاستلام والاسترداد.",
+        navigatesTo: "returns",
+      },
+      {
+        id: "create-shipment",
+        view: "shipments",
+        title: "إنشاء شحنة جديدة",
+        description:
+          "أنشئ شحنة في ثوانٍ — اختار شركة الشحن، أدخل العنوان، واطبع البوليصة فوراً.",
+      },
+      {
+        id: "shipment-row",
+        view: "shipments",
+        title: "تفاصيل الشحنة",
+        description:
+          "اضغط على أي شحنة لعرض التتبع الكامل، حالة التسليم، وبيانات العميل.",
+      },
+      {
+        id: "return-row",
+        view: "returns",
+        title: "طلب الاسترجاع",
+        description:
+          "كل طلب مرتجع ليه سير عمل واضح — من الطلب لحد الاستلام والاسترداد.",
+      },
+      {
+        id: "return-status",
+        view: "returns",
+        title: "حالة المرتجع",
+        description:
+          "تتبع كل مرتجع لحظياً — في الانتظار، تم الاستلام، أو تم الاسترداد.",
+      },
+    ],
+    hints: {
+      drag: "اسحب للتنقل",
+      click: "اضغط على النقاط",
+    },
+    controls: {
+      zoomIn: "تكبير",
+      zoomOut: "تصغير",
+      zoomReset: "إعادة الضبط",
+      closeHotspot: "إغلاق",
+    },
+    cta: {
+      primary: "ابدأ تجربتك المجانية",
+      primaryHref: "#cta",
+      primaryAriaLabel: "ابدأ تجربتك المجانية مع روافد",
+      secondary: "احجز عرضاً توضيحياً",
+      secondaryHref: "#contact",
+      secondaryAriaLabel: "احجز عرضاً توضيحياً مع فريق روافد",
+    },
+  },
   howItWorksSection: {
     ariaLabel: "كيفية عمل روافد",
     eyebrow: "كيف يعمل",

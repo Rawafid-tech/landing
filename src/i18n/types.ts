@@ -122,4 +122,40 @@ export interface Translations {
     ctaHref: string;
     ctaAriaLabel: string;
   };
+  dashboardPreviewSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    tabs: readonly {
+      id: "overview" | "shipments" | "returns";
+      label: string;
+    }[];
+    hotspots: readonly {
+      id: string;
+      view: "overview" | "shipments" | "returns";
+      title: string;
+      description: string;
+      countUp?: { value: number; suffix: string };
+      navigatesTo?: "overview" | "shipments" | "returns";
+    }[];
+    hints: {
+      drag: string;
+      click: string;
+    };
+    controls: {
+      zoomIn: string;
+      zoomOut: string;
+      zoomReset: string;
+      closeHotspot: string;
+    };
+    cta: {
+      primary: string;
+      primaryHref: string;
+      primaryAriaLabel: string;
+      secondary: string;
+      secondaryHref: string;
+      secondaryAriaLabel: string;
+    };
+  };
 }

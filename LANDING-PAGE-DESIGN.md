@@ -16,7 +16,7 @@
 5. [Solution Section](#5-solution-section)
 6. [Features Section](#6-features-section)
 7. [How It Works](#7-how-it-works)
-8. [Dashboard Preview](#8-dashboard-preview)
+8. [Dashboard Preview — Hotspot Interactive Demo](#8-dashboard-preview--hotspot-interactive-demo)
 9. [Integrations Section](#9-integrations-section)
 10. [Pricing Section](#10-pricing-section)
 11. [Why Rawafid?](#11-why-rawafid-بديل-testimonials-للمنصات-الناشئة) ⭐ معدّل للمنصات الناشئة
@@ -500,57 +500,210 @@ Benefits:
 
 ---
 
-## 8. Dashboard Preview
+## 8. Dashboard Preview — Hotspot Interactive Demo
+
+> **✅ القرار المعتمد:** Hotspot Interactive Demo  
+> الزائر يحرّك الشاشة، يضغط على أجزاء من الداشبورد، ويتنقل بين views — بدون iframe أو backend.  
+> **Anchor:** `#demo` (مرتبط بـ CTA «شاهد العرض التوضيحي» في الـ Hero)
 
 ### 📍 Purpose
-- عرض الـ dashboard الفعلية
-- إثبات جودة المنتج
-- بناء الثقة
+- إثبات جودة المنتج وبناء الثقة
+- محاكاة تجربة استخدام الداشبورد بدون deploy لـ staging
+- تحويل الزائر من «شاهد» إلى «جرّب» قبل الـ CTA النهائي
+- ربط الـ features اللي اتعرضت في Section 6 بصورة عملية
+
+### 🎯 ليه Hotspot Demo؟
+
+| Approach | القرار |
+|----------|--------|
+| Screenshot + Video فقط | ❌ مش كفاية — مفيش تفاعل |
+| iframe لـ staging | ❌ تقيل، محتاج infra وصيانة |
+| Fake UI كامل في React | ⏳ Phase 2 — جهد عالي |
+| **Hotspot Interactive Demo** | **✅ المعتمد** — تفاعل مقنع، خفيف، مناسب للـ landing |
 
 ### 📋 Layout
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │              🖥️ شوف روافد وهي شغّالة                           │
+│         جرّب الداشبورد بنفسك — اضغط على أي جزء                 │
+│                                                                 │
+│   [ نظرة عامة ]  [ الشحنات ]  [ المرتجعات ]  ← View Tabs     │
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐   │
+│  │ ● ● ●  demo.rawafid.app                          🔍 − + │   │
+│  ├─────────────────────────────────────────────────────────┤   │
 │  │                                                         │   │
-│  │          [Full Dashboard Screenshot/Video]              │   │
+│  │   ┌─────────┐  ┌─────────┐  ┌─────────┐                │   │
+│  │   │ Stat 1 ◉│  │ Stat 2  │  │ Stat 3  │  ← hotspots   │   │
+│  │   └─────────┘  └─────────┘  └─────────┘                │   │
 │  │                                                         │   │
-│  │    ┌─────────┐  ┌─────────┐  ┌─────────┐              │   │
-│  │    │ Stat 1  │  │ Stat 2  │  │ Stat 3  │              │   │
-│  │    └─────────┘  └─────────┘  └─────────┘              │   │
+│  │   ┌──────────────────────────────────────┐             │   │
+│  │   │  Shipments Table          [row ◉]    │             │   │
+│  │   └──────────────────────────────────────┘             │   │
 │  │                                                         │   │
-│  │    ┌──────────────────────────────────────┐           │   │
-│  │    │     Shipments Table                   │           │   │
-│  │    └──────────────────────────────────────┘           │   │
-│  │                                                         │   │
+│  │   ◉ = clickable hotspot (pulse ring on idle)           │   │
 │  └─────────────────────────────────────────────────────────┘   │
 │                                                                 │
-│              [جرّب بنفسك - Demo تفاعلي]                        │
+│   ┌──────────────────────────────────────┐                     │
+│   │ 💡 تتبع كل الشحنات من لوحة واحدة    │  ← Tooltip/Popover │
+│   └──────────────────────────────────────┘                     │
+│                                                                 │
+│        [ابدأ تجربتك المجانية]   [احجز Demo]                    │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 📝 Content
-- Screenshot أو video من الـ dashboard الحقيقية
-- أو mockup تفاعلي
-- Floating annotations تشرح الـ features
+### 🧭 Views (حالات الداشبورد)
 
-### ✨ Animations
-| Element | Animation |
-|---------|-----------|
-| Dashboard Image | `Parallax` - يتحرك مع السكرول |
-| Floating Annotations | `FadeIn` + `Float` |
-| Stats in Dashboard | `CountUp` عند الظهور |
-| Container | `TiltCard` - يميل مع الماوس |
-| Shadow | Dynamic shadow based on tilt |
-| Background | Subtle `Gradient` |
+كل tab يبدّل screenshot/state كامل للداشبورد:
 
-### 🎯 Interactive Option
-- Demo تفاعلي embedded
-- أو video قصير (15-30 ثانية)
-- Tooltips تظهر عند hover على مناطق معينة
+| View ID | Tab (AR) | Tab (EN) | المحتوى المعروض |
+|---------|----------|----------|-----------------|
+| `overview` | نظرة عامة | Overview | Stats + chart + آخر الشحنات |
+| `shipments` | الشحنات | Shipments | جدول الشحنات + فلاتر |
+| `returns` | المرتجعات | Returns | جدول المرتجعات + حالات |
+
+> **Assets:** 3 screenshots عالية الجودة (أو export من Figma) — مش view واحد بس.
+
+### 🎯 Hotspots (مناطق قابلة للضغط)
+
+| Hotspot ID | View | المنطقة | عند الضغط |
+|------------|------|---------|-----------|
+| `stat-total` | overview | كارت «إجمالي الشحنات» | Tooltip: إجمالي الشحنات + CountUp animation |
+| `stat-delivered` | overview | كارت «تم التسليم» | Tooltip: نسبة النجاح |
+| `stat-cod` | overview | كارت «COD محصّل» | Tooltip: COD المحصّل |
+| `sidebar-shipments` | overview | Sidebar → الشحنات | ينتقل لـ view `shipments` |
+| `sidebar-returns` | overview | Sidebar → المرتجعات | ينتقل لـ view `returns` |
+| `shipment-row` | shipments | صف في الجدول | Popover/Modal: تفاصيل shipment وهمية |
+| `filter-bar` | shipments | شريط الفلاتر | Tooltip: فلترة حسب الحالة والشركة |
+| `create-shipment` | shipments | زر «إنشاء شحنة» | Tooltip: إنشاء شحنة في ثوانٍ |
+| `return-row` | returns | صف مرتجع | Popover: دورة حياة المرتجع |
+| `return-status` | returns | badge الحالة | Tooltip: تتبع مراحل الاسترجاع |
+
+> Hotspots تظهر كـ **pulse ring** خفيف في idle، وتتوهج عند hover/focus.
+
+### 👆 تفاعلات الزائر
+
+| التفاعل | السلوك | Desktop | Mobile |
+|---------|--------|---------|--------|
+| **Pan (تحريك)** | سحب داخل إطار الداشبورد | Drag بالماوس | Touch drag |
+| **Zoom** | تكبير/تصغير المحتوى | أزرار +/− أو scroll wheel | Pinch-to-zoom + أزرار |
+| **Click hotspot** | Tooltip / popover / تبديل view | Click | Tap |
+| **View tabs** | تبديل بين الـ 3 views | Click tab | Swipeable tabs |
+| **Keyboard** | Tab بين hotspots، Enter يفعّل | ✅ | N/A |
+
+### 📝 Content (i18n)
+
+```typescript
+dashboardPreviewSection: {
+  ariaLabel: string;
+  eyebrow: string;           // "🖥️ شوف روافد وهي شغّالة"
+  headline: string;
+  subheadline: string;       // "جرّب الداشبورد بنفسك..."
+  views: { id, label }[];    // overview | shipments | returns
+  hotspots: { id, title, description }[];
+  shipmentDetail: { ... };  // بيانات وهمية للـ popover
+  cta: { primary, secondary, primaryHref, secondaryHref };
+  hints: {
+    drag: string;            // "اسحب لاستكشاف الداشبورد"
+    click: string;           // "اضغط على النقاط المضيئة"
+  };
+}
+```
+
+### ✨ Animations (React Bits + motion)
+
+| Element | Animation | Description |
+|---------|-----------|-------------|
+| Section entry | `ScrollReveal` | يظهر عند الوصول للسيكشن |
+| Section title | `SplitText` / `BlurText` | عنوان + subheadline |
+| Demo container | `TiltCard` | تميل خفيفة مع الماوس (desktop) |
+| View transition | `Fade` + `Slide` | crossfade بين screenshots |
+| Hotspot idle | `Pulse` ring | حلقة نابضة تجذب الانتباه |
+| Hotspot active | `Scale` + `Glow` | عند hover/focus/click |
+| Tooltip/Popover | `FadeIn` + `SlideUp` | spring animation |
+| Stat values | `CountUp` | عند فتح tooltip للـ stats |
+| Tab switch | `LayoutGroup` / underline slide | underline يتحرك للـ tab النشط |
+| First visit hint | `FadeIn` → auto-hide | «اضغط على النقاط المضيئة» |
+
+### 🎨 Visual Style
+- **Browser chrome** فوق الـ demo (نفس style الـ Hero dashboard frame)
+- **Ambient glows** على جانبي السيكشن (consistent مع باقي sections)
+- Hotspots: primary color ring + backdrop blur على tooltip
+- **Dark/Light theme:** screenshots أو overlay يتكيف مع `data-theme`
+- Zoom controls: minimal icons في corner الـ frame
+
+### 📱 Responsive
+
+| Breakpoint | السلوك |
+|------------|--------|
+| Desktop (>1024px) | TiltCard + pan + zoom كامل + hover tooltips |
+| Tablet (640–1024px) | pan + zoom، tabs في صف واحد |
+| Mobile (<640px) | tabs scrollable، pinch zoom، tap tooltips، pan مبسّط |
+| `prefers-reduced-motion` | بدون tilt/pulse، transitions فورية |
+
+### ♿ Accessibility
+- `aria-label` على كل hotspot
+- Keyboard navigation: Tab → Enter/Space
+- Tooltips: `role="tooltip"` + `aria-describedby`
+- Focus ring واضح على hotspots
+- Zoom controls: buttons مع labels
+- Live region لإعلان تغيير الـ view
+
+### 🛠️ Implementation Plan
+
+> **ملاحظة:** التنفيذ يبدأ بعد مراجعة الـ spec ده.
+
+#### Files
+```
+src/components/DashboardPreviewSection.astro
+src/components/react-bits/DashboardPreviewContent.tsx
+src/components/react-bits/DashboardHotspot.tsx
+src/components/react-bits/DashboardViewTabs.tsx
+src/assets/demo/overview.webp
+src/assets/demo/shipments.webp
+src/assets/demo/returns.webp
+src/i18n/types.ts
+src/i18n/translations/ar.ts
+src/i18n/translations/en.ts
+src/pages/index.astro
+src/pages/en/index.astro
+```
+
+#### Reuse from existing codebase
+- `TiltCard` — container tilt
+- `SectionHeader` — eyebrow + headline
+- `MouseParallax` patterns — optional subtle parallax on frame
+- Hero browser bar styling — consistent demo chrome
+
+#### Component structure
+```
+DashboardPreviewSection (Astro)
+└── DashboardPreviewContent (React, client:visible)
+    ├── SectionHeader
+    ├── DashboardViewTabs
+    └── DemoFrame
+        ├── BrowserChrome
+        ├── PanZoomContainer
+        │   ├── ViewImage (per active view)
+        │   └── DashboardHotspot[] (positioned %)
+        ├── ZoomControls (+/−/reset)
+        └── HintBanner (first visit)
+```
+
+#### Hotspot positioning
+- Coordinates كنسب مئوية (`top: 32%`, `left: 18%`) — responsive على كل أحجام الشاشة
+- Config file أو i18n metadata:
+```typescript
+{ id: "stat-total", view: "overview", x: 12, y: 28, width: 18, height: 14 }
+```
+
+### 🔮 Future Upgrades (Phase 2+)
+- [ ] استبدال screenshots بـ Fake UI React كامل
+- [ ] iframe لـ `demo.rawafid.com` لما يبقى جاهز
+- [ ] Guided tour (Driver.js / react-joyride) — «خطوة بخطوة»
+- [ ] Video fallback لمن يفضّل المشاهدة
 
 ---
 
@@ -1035,7 +1188,7 @@ CTA: تواصل معنا
 - [ ] Build Solution section
 - [ ] Build Features with SpotlightCard
 - [ ] Build How It Works with AnimatedBeam
-- [ ] Build Dashboard Preview
+- [ ] Build Dashboard Preview — Hotspot Interactive Demo (#demo)
 - [ ] Build Integrations with connections
 - [ ] Build Pricing with toggle
 - [ ] Build Why Rawafid section (بديل Testimonials)

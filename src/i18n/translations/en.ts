@@ -269,6 +269,106 @@ const en: Translations = {
       },
     ],
   },
+  dashboardPreviewSection: {
+    ariaLabel: "Interactive Rawafid dashboard preview",
+    eyebrow: "Interactive preview",
+    headline: "See Rawafid in action",
+    subheadline:
+      "Click the glowing dots to explore features. Drag to navigate and scroll to zoom.",
+    tabs: [
+      { id: "overview", label: "Overview" },
+      { id: "shipments", label: "Shipments" },
+      { id: "returns", label: "Returns" },
+    ],
+    hotspots: [
+      {
+        id: "stat-total",
+        view: "overview",
+        title: "Total Shipments",
+        description:
+          "See all your shipments at a glance — with a month-over-month change indicator.",
+        countUp: { value: 1247, suffix: "" },
+      },
+      {
+        id: "stat-delivered",
+        view: "overview",
+        title: "Delivery Success Rate",
+        description:
+          "Track courier performance and see who delivers best for your customers.",
+        countUp: { value: 89, suffix: ".3%" },
+      },
+      {
+        id: "stat-cod",
+        view: "overview",
+        title: "COD Collected",
+        description:
+          "Always know how much cash has been collected — no spreadsheets needed.",
+        countUp: { value: 34820, suffix: " EGP" },
+      },
+      {
+        id: "sidebar-shipments",
+        view: "overview",
+        title: "Shipments",
+        description:
+          "Click to view all shipments with status filters and full shipment details.",
+        navigatesTo: "shipments",
+      },
+      {
+        id: "sidebar-returns",
+        view: "overview",
+        title: "Returns",
+        description:
+          "A complete returns workflow — track every stage from request to collection and refund.",
+        navigatesTo: "returns",
+      },
+      {
+        id: "create-shipment",
+        view: "shipments",
+        title: "Create New Shipment",
+        description:
+          "Create a shipment in seconds — pick a courier, enter the address, and print the label instantly.",
+      },
+      {
+        id: "shipment-row",
+        view: "shipments",
+        title: "Shipment Details",
+        description:
+          "Click any shipment to see full tracking history, delivery status, and customer data.",
+      },
+      {
+        id: "return-row",
+        view: "returns",
+        title: "Return Request",
+        description:
+          "Every return has a clear workflow — from request through collection to refund.",
+      },
+      {
+        id: "return-status",
+        view: "returns",
+        title: "Return Status",
+        description:
+          "Track every return in real time — pending, collected, or refunded.",
+      },
+    ],
+    hints: {
+      drag: "Drag to explore",
+      click: "Click the dots",
+    },
+    controls: {
+      zoomIn: "Zoom in",
+      zoomOut: "Zoom out",
+      zoomReset: "Reset zoom",
+      closeHotspot: "Close",
+    },
+    cta: {
+      primary: "Start your free trial",
+      primaryHref: "#cta",
+      primaryAriaLabel: "Start your free trial with Rawafid",
+      secondary: "Book a demo",
+      secondaryHref: "#contact",
+      secondaryAriaLabel: "Book a demo with the Rawafid team",
+    },
+  },
   howItWorksSection: {
     ariaLabel: "How Rawafid works",
     eyebrow: "How it works",
