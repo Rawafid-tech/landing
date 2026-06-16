@@ -465,6 +465,95 @@ const ar: Translations = {
       comingSoon: "قريباً",
     },
   },
+  whyRawafidSection: {
+    ariaLabel: "لماذا تختار روافد",
+    eyebrow: "لماذا روافد؟",
+    headline: "ليه تختار روافد؟",
+    subheadline: "منصة شحن مصممة للتاجر المصري — بمزايا حقيقية مش وعود فارغة",
+    points: [
+      {
+        id: "local-market",
+        icon: "local",
+        title: "مصممة للسوق المصري",
+        description: "نفهم احتياجات التاجر المصري وشركات الشحن المحلية — من COD للمرتجعات.",
+      },
+      {
+        id: "security",
+        icon: "security",
+        title: "بياناتك في أمان",
+        description: "تشفير كامل للبيانات مع أعلى معايير الحماية والخصوصية.",
+      },
+      {
+        id: "support",
+        icon: "support",
+        title: "دعم فني سريع",
+        description: "فريق دعم متاح للرد على استفساراتك خلال ساعات — مش أيام.",
+      },
+      {
+        id: "ease",
+        icon: "ease",
+        title: "سهولة الاستخدام",
+        description: "واجهة بسيطة ومباشرة — تبدأ الشغل من أول يوم بدون تعقيد.",
+      },
+      {
+        id: "pricing",
+        icon: "pricing",
+        title: "بدون تكاليف خفية",
+        description: "أسعار واضحة ومعلنة — مفيش مفاجآت في الفاتورة.",
+      },
+      {
+        id: "updates",
+        icon: "updates",
+        title: "تحديثات مستمرة",
+        description: "ميزات جديدة وتحسينات باستمرار بناءً على احتياجات التجار.",
+      },
+    ],
+    comparison: {
+      ariaLabel: "مقارنة روافد مع الطريقة التقليدية",
+      headline: "الفرق بين روافد والطرق التقليدية",
+      columns: {
+        feature: "الميزة",
+        rawafid: "روافد",
+        traditional: "الطريقة التقليدية",
+      },
+      rows: [
+        {
+          id: "dashboards",
+          feature: "عدد الداشبوردات",
+          rawafid: { kind: "text", value: "1" },
+          traditional: { kind: "text", value: "6+" },
+        },
+        {
+          id: "shipment-time",
+          feature: "وقت إنشاء الشحنة",
+          rawafid: { kind: "text", value: "30 ثانية" },
+          traditional: { kind: "text", value: "5+ دقائق" },
+        },
+        {
+          id: "tracking",
+          feature: "تتبع موحد",
+          rawafid: { kind: "yes" },
+          traditional: { kind: "no" },
+        },
+        {
+          id: "price-compare",
+          feature: "مقارنة الأسعار",
+          rawafid: { kind: "text", value: "فورية" },
+          traditional: { kind: "text", value: "يدوية" },
+        },
+        {
+          id: "returns",
+          feature: "إدارة المرتجعات",
+          rawafid: { kind: "text", value: "منظمة" },
+          traditional: { kind: "text", value: "فوضى" },
+        },
+      ],
+      labels: {
+        yes: "متاح",
+        no: "غير متاح",
+      },
+    },
+  },
   pricingSection: {
     ariaLabel: "خطط أسعار روافد",
     eyebrow: "الأسعار",

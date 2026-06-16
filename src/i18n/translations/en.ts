@@ -465,6 +465,95 @@ const en: Translations = {
       comingSoon: "Coming soon",
     },
   },
+  whyRawafidSection: {
+    ariaLabel: "Why choose Rawafid",
+    eyebrow: "Why Rawafid?",
+    headline: "Why choose Rawafid?",
+    subheadline: "A shipping platform built for Egyptian merchants — real value, not empty promises",
+    points: [
+      {
+        id: "local-market",
+        icon: "local",
+        title: "Built for Egypt",
+        description: "We understand Egyptian merchants and local couriers — from COD to returns.",
+      },
+      {
+        id: "security",
+        icon: "security",
+        title: "Your data is safe",
+        description: "End-to-end encryption with industry-standard security and privacy practices.",
+      },
+      {
+        id: "support",
+        icon: "support",
+        title: "Fast support",
+        description: "A responsive team that answers within hours — not days.",
+      },
+      {
+        id: "ease",
+        icon: "ease",
+        title: "Easy to use",
+        description: "A simple, focused interface — productive from day one.",
+      },
+      {
+        id: "pricing",
+        icon: "pricing",
+        title: "No hidden fees",
+        description: "Clear, published pricing — no surprises on your invoice.",
+      },
+      {
+        id: "updates",
+        icon: "updates",
+        title: "Continuous updates",
+        description: "New features and improvements driven by merchant feedback.",
+      },
+    ],
+    comparison: {
+      ariaLabel: "Rawafid vs traditional shipping workflow",
+      headline: "Rawafid vs the traditional way",
+      columns: {
+        feature: "Feature",
+        rawafid: "Rawafid",
+        traditional: "Traditional",
+      },
+      rows: [
+        {
+          id: "dashboards",
+          feature: "Dashboards to manage",
+          rawafid: { kind: "text", value: "1" },
+          traditional: { kind: "text", value: "6+" },
+        },
+        {
+          id: "shipment-time",
+          feature: "Time to create a shipment",
+          rawafid: { kind: "text", value: "30 seconds" },
+          traditional: { kind: "text", value: "5+ minutes" },
+        },
+        {
+          id: "tracking",
+          feature: "Unified tracking",
+          rawafid: { kind: "yes" },
+          traditional: { kind: "no" },
+        },
+        {
+          id: "price-compare",
+          feature: "Price comparison",
+          rawafid: { kind: "text", value: "Instant" },
+          traditional: { kind: "text", value: "Manual" },
+        },
+        {
+          id: "returns",
+          feature: "Returns management",
+          rawafid: { kind: "text", value: "Organized" },
+          traditional: { kind: "text", value: "Chaotic" },
+        },
+      ],
+      labels: {
+        yes: "Available",
+        no: "Not available",
+      },
+    },
+  },
   pricingSection: {
     ariaLabel: "Rawafid pricing plans",
     eyebrow: "Pricing",

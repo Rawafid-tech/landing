@@ -152,6 +152,37 @@ export interface Translations {
       comingSoon: string;
     };
   };
+  whyRawafidSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    points: readonly {
+      id: string;
+      icon: "local" | "security" | "support" | "ease" | "pricing" | "updates";
+      title: string;
+      description: string;
+    }[];
+    comparison: {
+      ariaLabel: string;
+      headline: string;
+      columns: {
+        feature: string;
+        rawafid: string;
+        traditional: string;
+      };
+      rows: readonly {
+        id: string;
+        feature: string;
+        rawafid: { kind: "text" | "yes"; value?: string };
+        traditional: { kind: "text" | "no"; value?: string };
+      }[];
+      labels: {
+        yes: string;
+        no: string;
+      };
+    };
+  };
   pricingSection: {
     ariaLabel: string;
     eyebrow: string;
