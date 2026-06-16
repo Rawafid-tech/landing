@@ -152,6 +152,42 @@ export interface Translations {
       comingSoon: string;
     };
   };
+  pricingSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    billing: {
+      toggleLabel: string;
+      monthly: string;
+      annual: string;
+      annualSave: string;
+      monthlyHint: string;
+      annualHint: string;
+    };
+    plans: readonly {
+      id: "starter" | "growth" | "enterprise";
+      name: string;
+      tagline: string;
+      priceType: "free" | "numeric" | "custom";
+      monthlyPrice?: string;
+      annualPrice?: string;
+      priceSuffix?: string;
+      freeLabel?: string;
+      freeSub?: string;
+      customLabel?: string;
+      customSub?: string;
+      popular?: boolean;
+      popularBadge?: string;
+      features: readonly string[];
+      cta: string;
+      ctaHref: string;
+      ctaAriaLabel: string;
+      ctaVariant: "primary" | "secondary";
+    }[];
+    featuresHeading: string;
+    priceUpdated: string;
+  };
   dashboardPreviewSection: {
     ariaLabel: string;
     eyebrow: string;

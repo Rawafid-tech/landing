@@ -1,0 +1,433 @@
+---
+import PricingSectionContent from "./react-bits/PricingSectionContent";
+import { getTranslations, type Locale } from "../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const locale = Astro.props.locale ?? "ar";
+const t = getTranslations(locale);
+const { pricingSection: s } = t;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: locale === "ar" ? "روافد" : "Rawafid",
+  description: s.subheadline,
+  offers: s.plans.map((plan) => ({
+    "@type": "Offer",
+    name: plan.name,
+    description: plan.tagline,
+    price:
+      plan.priceType === "numeric"
+        ? plan.monthlyPrice
+        : plan.priceType === "free"
+          ? "0"
+          : undefined,
+    priceCurrency: plan.priceType === "numeric" ? "EGP" : undefined,
+    availability: "https://schema.org/InStock",
+    url: Astro.site ? `${Astro.site}#pricing` : "#pricing",
+  })),
+};
+---
+
+<section
+  id="pricing"
+  class="pricing-section"
+  aria-label={s.ariaLabel}
+>
+  <div class="pricing-section__glow pricing-section__glow--start" aria-hidden="true"></div>
+  <div class="pricing-section__glow pricing-section__glow--end" aria-hidden="true"></div>
+
+  <div class="container pricing-section__container">
+    <PricingSectionContent
+      client:visible
+      locale={locale}
+      eyebrow={s.eyebrow}
+      headline={s.headline}
+      subheadline={s.subheadline}
+      billing={s.billing}
+      plans={s.plans}
+      featuresHeading={s.featuresHeading}
+      priceUpdated={s.priceUpdated}
+    />
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+<style is:global>
+  /* ── Section shell ─────────────────────────────────────────── */
+  .pricing-section {
+    position: relative;
+    isolation: isolate;
+    padding-block: var(--space-12) var(--space-16);
+    background: var(--bg-primary);
+    overflow: visible;
+  }
+
+  [data-theme="dark"] .pricing-section {
+    background: var(--bg-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing-section {
+      padding-block: var(--space-16) var(--space-20);
+    }
+  }
+
+  .pricing-section__container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Ambient glows ─────────────────────────────────────────── */
+  .pricing-section__glow {
+    position: absolute;
+    width: min(32rem, 58vw);
+    height: min(32rem, 58vw);
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.16;
+    pointer-events: none;
+  }
+
+  .pricing-section__glow--start {
+    top: -18%;
+    inset-inline-start: -14%;
+    background: color-mix(in srgb, var(--color-primary) 24%, transparent);
+  }
+
+  .pricing-section__glow--end {
+    bottom: -18%;
+    inset-inline-end: -12%;
+    background: color-mix(in srgb, var(--color-warning) 16%, transparent);
+  }
+
+  [data-theme="dark"] .pricing-section__glow {
+    opacity: 0.08;
+  }
+
+  /* ── Grid ──────────────────────────────────────────────────── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    align-items: stretch;
+    padding-block-start: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .pricing-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+
+    /* Growth (popular) spans full row on tablet, centered */
+    .pricing-grid__item--growth {
+      grid-column: 1 / -1;
+      max-width: 28rem;
+      justify-self: center;
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pricing-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-6);
+      align-items: stretch;
+      padding-block-start: var(--space-5);
+    }
+
+    .pricing-grid__item--growth {
+      grid-column: auto;
+      max-width: none;
+    }
+  }
+
+  /* ── Billing toggle ─────────────────────────────────────────── */
+  .pricing-toggle {
+    background: var(--color-gray-100);
+    border-color: var(--border-primary);
+  }
+
+  [data-theme="dark"] .pricing-toggle {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+  }
+
+  .pricing-toggle__btn {
+    color: var(--color-gray-600);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .pricing-toggle__btn:hover:not(.pricing-toggle__btn--active) {
+    color: var(--color-gray-900);
+  }
+
+  [data-theme="dark"] .pricing-toggle__btn {
+    color: var(--color-gray-400);
+  }
+
+  [data-theme="dark"] .pricing-toggle__btn:hover:not(.pricing-toggle__btn--active) {
+    color: var(--color-gray-100);
+  }
+
+  .pricing-toggle__btn--active {
+    color: var(--color-gray-900);
+  }
+
+  [data-theme="dark"] .pricing-toggle__btn--active {
+    color: var(--color-gray-50);
+  }
+
+  .pricing-toggle__indicator {
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  [data-theme="dark"] .pricing-toggle__indicator {
+    background: var(--bg-secondary);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  }
+
+  .pricing-toggle__save {
+    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+    color: var(--color-accent-dark);
+  }
+
+  [data-theme="dark"] .pricing-toggle__save {
+    background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+    color: var(--color-accent-light);
+  }
+
+  .pricing-toggle__btn--active .pricing-toggle__save {
+    background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  }
+
+  /* ── Plan cards ─────────────────────────────────────────────── */
+  .pricing-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-primary);
+    background: var(--bg-primary);
+    overflow: hidden;
+    transition:
+      border-color var(--transition-base),
+      box-shadow var(--transition-base),
+      transform var(--transition-base);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing-card {
+      padding: var(--space-8);
+    }
+  }
+
+  .pricing-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    inset-inline: 0;
+    height: 3px;
+    border-radius: var(--radius-full) var(--radius-full) 0 0;
+    opacity: 0.85;
+  }
+
+  .pricing-card--starter::before {
+    background: linear-gradient(90deg, #64748b, #94a3b8);
+  }
+
+  .pricing-card--growth::before {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+  }
+
+  .pricing-card--enterprise::before {
+    background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  }
+
+  .pricing-card:hover {
+    border-color: var(--color-primary-alpha-20);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+  }
+
+  [data-theme="dark"] .pricing-card {
+    background: var(--bg-primary);
+    border-color: var(--border-primary);
+  }
+
+  [data-theme="dark"] .pricing-card:hover {
+    border-color: color-mix(in srgb, var(--color-primary-light) 35%, var(--border-primary));
+    box-shadow: var(--shadow-lg);
+  }
+
+  .pricing-card--popular {
+    border-color: color-mix(in srgb, var(--color-primary) 45%, var(--border-primary));
+    box-shadow:
+      var(--shadow-md),
+      0 0 0 1px color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+
+  [data-theme="dark"] .pricing-card--popular {
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--bg-primary));
+    border-color: color-mix(in srgb, var(--color-primary-light) 40%, var(--border-primary));
+    box-shadow:
+      var(--shadow-lg),
+      0 0 0 1px color-mix(in srgb, var(--color-primary-light) 12%, transparent),
+      0 0 40px color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+
+  @media (min-width: 1024px) {
+    .pricing-card--popular {
+      padding-block: calc(var(--space-8) + 0.25rem);
+    }
+  }
+
+  .pricing-card__badge-wrap {
+    position: absolute;
+    top: -0.875rem;
+    inset-inline: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .pricing-popular-badge {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-light) 0%,
+      var(--color-primary-dark) 100%
+    );
+    color: var(--color-white);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 35%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pricing-card,
+    .pricing-card--popular {
+      transform: none !important;
+    }
+  }
+
+  .pricing-card__header {
+    padding-block-start: var(--space-1);
+  }
+
+  .pricing-card--popular .pricing-card__header {
+    padding-block-start: var(--space-3);
+  }
+
+  .pricing-card__name {
+    color: var(--color-secondary);
+  }
+
+  [data-theme="dark"] .pricing-card__name {
+    color: var(--color-gray-50);
+  }
+
+  .pricing-card__tagline {
+    color: var(--color-gray-500);
+  }
+
+  [data-theme="dark"] .pricing-card__tagline {
+    color: var(--color-gray-400);
+  }
+
+  .pricing-card__divider {
+    height: 1px;
+    width: 100%;
+    margin-block: var(--space-6);
+    background: var(--border-primary);
+    flex-shrink: 0;
+  }
+
+  [data-theme="dark"] .pricing-card__divider {
+    background: var(--border-primary);
+  }
+
+  .pricing-card__body {
+    margin-block-end: var(--space-8);
+  }
+
+  .pricing-card__feature {
+    color: var(--color-gray-700);
+  }
+
+  [data-theme="dark"] .pricing-card__feature {
+    color: var(--color-gray-300);
+  }
+
+  .pricing-price__amount {
+    color: var(--color-secondary);
+  }
+
+  [data-theme="dark"] .pricing-price__amount {
+    color: var(--color-gray-50);
+  }
+
+  .pricing-price__sub,
+  .pricing-price__suffix {
+    color: var(--color-gray-500);
+  }
+
+  [data-theme="dark"] .pricing-price__sub,
+  [data-theme="dark"] .pricing-price__suffix {
+    color: var(--color-gray-400);
+  }
+
+  .pricing-check-icon {
+    color: var(--color-accent);
+    margin-top: 0.125rem;
+  }
+
+  [data-theme="dark"] .pricing-check-icon {
+    color: var(--color-accent-light);
+  }
+
+  .pricing-card__cta.btn-primary {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pricing-card--popular .pricing-card__cta.btn-primary {
+    box-shadow: var(--shadow-glow-primary);
+  }
+
+  .pricing-card__footer .btn {
+    min-height: 2.75rem;
+  }
+
+  /* Secondary CTAs — avoid dark-mode gray-800 token (inverted to a light color) */
+  .pricing-card .btn-secondary {
+    background: var(--color-gray-50);
+    color: var(--color-secondary);
+    border: 1px solid var(--border-primary);
+  }
+
+  .pricing-card .btn-secondary:hover {
+    background: var(--color-gray-100);
+    border-color: var(--border-secondary);
+    color: var(--color-secondary);
+  }
+
+  [data-theme="dark"] .pricing-card .btn-secondary {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--color-gray-100);
+    border-color: var(--border-primary);
+  }
+
+  [data-theme="dark"] .pricing-card .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: color-mix(in srgb, var(--color-primary-light) 45%, var(--border-primary));
+    color: var(--color-white);
+  }
+</style>
