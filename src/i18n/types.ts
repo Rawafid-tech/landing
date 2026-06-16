@@ -219,6 +219,17 @@ export interface Translations {
     featuresHeading: string;
     priceUpdated: string;
   };
+  faqSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    items: readonly {
+      id: string;
+      question: string;
+      answer: string;
+    }[];
+  };
   dashboardPreviewSection: {
     ariaLabel: string;
     eyebrow: string;

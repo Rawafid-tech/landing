@@ -639,6 +639,56 @@ const en: Translations = {
     featuresHeading: "What's included",
     priceUpdated: "Prices updated to {period} billing",
   },
+  faqSection: {
+    ariaLabel: "Rawafid frequently asked questions",
+    eyebrow: "FAQ",
+    headline: "Frequently asked questions",
+    subheadline: "Quick answers to the questions merchants ask us most",
+    items: [
+      {
+        id: "supported-couriers",
+        question: "Which shipping carriers are supported?",
+        answer:
+          "We currently support Bosta and other local couriers. We add new carriers regularly based on merchant demand — contact us if you need a specific partner.",
+      },
+      {
+        id: "shopify-connect",
+        question: "How do I connect my Shopify store?",
+        answer:
+          'From Settings, choose "Add store" and follow the connection steps. It takes under a minute — orders sync automatically once connected.',
+      },
+      {
+        id: "returns-system",
+        question: "How does the returns system work?",
+        answer:
+          "Create a return request, select a reason, and Rawafid coordinates pickup with the courier. Track every stage from one dashboard until the return is closed.",
+      },
+      {
+        id: "api-access",
+        question: "Is there an API for my systems?",
+        answer:
+          "Yes — Enterprise includes full API access for custom stores, ERP tools, or internal systems. Contact us for integration details.",
+      },
+      {
+        id: "pricing-plans",
+        question: "What pricing plans are available?",
+        answer:
+          "Three plans: Starter (free forever), Growth (299 EGP/month), and Enterprise (custom). Growth includes a 14-day free trial. See the Pricing section for full details.",
+      },
+      {
+        id: "cancel-anytime",
+        question: "Can I cancel anytime?",
+        answer:
+          "Yes — no long-term contracts. Cancel or change your plan anytime from account settings with no cancellation fees.",
+      },
+      {
+        id: "free-trial",
+        question: "Is there a free trial?",
+        answer:
+          "Starter is free forever — great for testing and small stores. Growth includes a full 14-day trial with no credit card required.",
+      },
+    ],
+  },
 };
 
 export default en;
