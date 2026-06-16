@@ -98,6 +98,16 @@ a.hero__cta-secondary:hover {
   color: #0f172a;
 }
 
+a.final-cta-section__btn--primary:hover,
+a.final-cta-section__btn--primary:focus-visible {
+  color: var(--color-primary-dark);
+}
+
+a.final-cta-section__btn--secondary:hover,
+a.final-cta-section__btn--secondary:focus-visible {
+  color: #ffffff;
+}
+
 [data-theme="dark"] a.hero__cta-secondary,
 [data-theme="dark"] a.hero__cta-secondary:hover {
   color: #f8fafc;

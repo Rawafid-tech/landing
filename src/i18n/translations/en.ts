@@ -689,6 +689,25 @@ const en: Translations = {
       },
     ],
   },
+  finalCtaSection: {
+    ariaLabel: "Start your free Rawafid trial",
+    icon: "🚀",
+    headline: "Ready to get started?",
+    subheadline:
+      "Stop wasting time on manual work. Start now and we'll help you organize every shipment.",
+    ctaPrimary: "Start your free trial",
+    ctaPrimaryHref: "https://app.rawafid.com/signup",
+    ctaPrimaryAriaLabel: "Start your free trial with Rawafid",
+    ctaSecondary: "Book a demo",
+    ctaSecondaryHref: "#contact",
+    ctaSecondaryAriaLabel: "Book a demo with the Rawafid team",
+    trustBadges: [
+      "14-day free trial",
+      "No credit card required",
+      "Cancel anytime",
+    ],
+    trustListAriaLabel: "Free trial guarantees",
+  },
 };
 
 export default en;

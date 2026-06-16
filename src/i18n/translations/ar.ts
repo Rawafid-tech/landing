@@ -689,6 +689,25 @@ const ar: Translations = {
       },
     ],
   },
+  finalCtaSection: {
+    ariaLabel: "ابدأ تجربتك المجانية مع روافد",
+    icon: "🚀",
+    headline: "جاهز تبدأ؟",
+    subheadline:
+      "بطّل تضيّع وقتك في الشغل اليدوي. ابدأ دلوقتي واحنا هنساعدك تنظم كل شحناتك.",
+    ctaPrimary: "ابدأ تجربتك المجانية",
+    ctaPrimaryHref: "https://app.rawafid.com/signup",
+    ctaPrimaryAriaLabel: "ابدأ تجربتك المجانية مع روافد",
+    ctaSecondary: "احجز Demo",
+    ctaSecondaryHref: "#contact",
+    ctaSecondaryAriaLabel: "احجز عرضاً توضيحياً مع فريق روافد",
+    trustBadges: [
+      "14 يوم تجربة مجانية",
+      "بدون بطاقة ائتمان",
+      "إلغاء في أي وقت",
+    ],
+    trustListAriaLabel: "ضمانات التجربة المجانية",
+  },
 };
 
 export default ar;

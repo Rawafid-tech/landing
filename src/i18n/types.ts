@@ -230,6 +230,20 @@ export interface Translations {
       answer: string;
     }[];
   };
+  finalCtaSection: {
+    ariaLabel: string;
+    icon: string;
+    headline: string;
+    subheadline: string;
+    ctaPrimary: string;
+    ctaPrimaryHref: string;
+    ctaPrimaryAriaLabel: string;
+    ctaSecondary: string;
+    ctaSecondaryHref: string;
+    ctaSecondaryAriaLabel: string;
+    trustBadges: readonly string[];
+    trustListAriaLabel: string;
+  };
   dashboardPreviewSection: {
     ariaLabel: string;
     eyebrow: string;
