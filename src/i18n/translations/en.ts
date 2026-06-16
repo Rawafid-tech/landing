@@ -708,6 +708,150 @@ const en: Translations = {
     ],
     trustListAriaLabel: "Free trial guarantees",
   },
+  footerSection: {
+    ariaLabel: "Site footer",
+    tagline: "Logistics operating system for e-commerce",
+    backToTop: "Back to top",
+    backToTopAriaLabel: "Return to the top of the page",
+    columns: [
+      {
+        id: "product",
+        title: "Product",
+        links: [
+          { id: "features", label: "Features", href: "#features" },
+          { id: "integrations", label: "Integrations", href: "#integrations" },
+          { id: "pricing", label: "Pricing", href: "#pricing" },
+          {
+            id: "changelog",
+            label: "Updates",
+            href: "https://rawafid.app/changelog",
+            external: true,
+            ariaLabel: "Product updates — opens in a new tab",
+          },
+        ],
+      },
+      {
+        id: "company",
+        title: "Company",
+        links: [
+          {
+            id: "about",
+            label: "About Rawafid",
+            href: "https://rawafid.app/about",
+            external: true,
+            ariaLabel: "About Rawafid — opens in a new tab",
+          },
+          {
+            id: "careers",
+            label: "Careers",
+            href: "https://rawafid.app/careers",
+            external: true,
+            ariaLabel: "Careers — opens in a new tab",
+          },
+          {
+            id: "blog",
+            label: "Blog",
+            href: "https://rawafid.app/blog",
+            external: true,
+            ariaLabel: "Blog — opens in a new tab",
+          },
+          { id: "contact", label: "Contact", href: "#contact" },
+        ],
+      },
+      {
+        id: "support",
+        title: "Support",
+        links: [
+          {
+            id: "help",
+            label: "Help Center",
+            href: "https://help.rawafid.app",
+            external: true,
+            ariaLabel: "Help center — opens in a new tab",
+          },
+          {
+            id: "docs",
+            label: "Documentation",
+            href: "https://docs.rawafid.app",
+            external: true,
+            ariaLabel: "Documentation — opens in a new tab",
+          },
+          {
+            id: "status",
+            label: "System Status",
+            href: "https://status.rawafid.app",
+            external: true,
+            ariaLabel: "System status — opens in a new tab",
+          },
+          {
+            id: "api",
+            label: "API Docs",
+            href: "https://docs.rawafid.app/api",
+            external: true,
+            ariaLabel: "API documentation — opens in a new tab",
+          },
+        ],
+      },
+    ],
+    contact: {
+      title: "Contact us",
+      email: {
+        label: "Email",
+        value: "hello@rawafid.com",
+        href: "mailto:hello@rawafid.com",
+        ariaLabel: "Email hello@rawafid.com",
+      },
+      phone: {
+        label: "Phone",
+        value: "+20 100 000 0000",
+        href: "tel:+201000000000",
+        ariaLabel: "Call +20 100 000 0000",
+      },
+      address: {
+        label: "Address",
+        value: "Cairo, Egypt",
+      },
+    },
+    social: {
+      ariaLabel: "Rawafid on social media",
+      links: [
+        {
+          id: "linkedin",
+          label: "LinkedIn",
+          href: "https://www.linkedin.com/company/rawafid",
+        },
+        {
+          id: "facebook",
+          label: "Facebook",
+          href: "https://www.facebook.com/rawafid",
+        },
+        {
+          id: "x",
+          label: "X (Twitter)",
+          href: "https://x.com/rawafid",
+        },
+        {
+          id: "instagram",
+          label: "Instagram",
+          href: "https://www.instagram.com/rawafid",
+        },
+      ],
+    },
+    legal: {
+      navAriaLabel: "Legal links",
+      copyright: "© {year} Rawafid. All rights reserved.",
+      privacy: {
+        label: "Privacy Policy",
+        href: "https://rawafid.app/privacy",
+        ariaLabel: "Privacy policy — opens in a new tab",
+      },
+      terms: {
+        label: "Terms of Service",
+        href: "https://rawafid.app/terms",
+        ariaLabel: "Terms of service — opens in a new tab",
+      },
+    },
+  },
 };
 
 export default en;

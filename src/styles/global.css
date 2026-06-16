@@ -108,6 +108,16 @@ a.final-cta-section__btn--secondary:focus-visible {
   color: #ffffff;
 }
 
+.footer-section a:hover,
+.footer-section a:focus-visible {
+  color: var(--color-white);
+}
+
+.footer-section__logo-link:hover,
+.footer-section__logo-link:focus-visible {
+  color: inherit;
+}
+
 [data-theme="dark"] a.hero__cta-secondary,
 [data-theme="dark"] a.hero__cta-secondary:hover {
   color: #f8fafc;

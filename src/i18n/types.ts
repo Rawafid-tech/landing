@@ -244,6 +244,64 @@ export interface Translations {
     trustBadges: readonly string[];
     trustListAriaLabel: string;
   };
+  footerSection: {
+    ariaLabel: string;
+    tagline: string;
+    backToTop: string;
+    backToTopAriaLabel: string;
+    columns: readonly {
+      id: string;
+      title: string;
+      links: readonly {
+        id: string;
+        label: string;
+        href: string;
+        external?: boolean;
+        ariaLabel?: string;
+      }[];
+    }[];
+    contact: {
+      title: string;
+      email: {
+        label: string;
+        value: string;
+        href: string;
+        ariaLabel: string;
+      };
+      phone: {
+        label: string;
+        value: string;
+        href: string;
+        ariaLabel: string;
+      };
+      address: {
+        label: string;
+        value: string;
+      };
+    };
+    social: {
+      ariaLabel: string;
+      links: readonly {
+        id: "linkedin" | "facebook" | "x" | "instagram";
+        label: string;
+        href: string;
+      }[];
+    };
+    legal: {
+      navAriaLabel: string;
+      copyright: string;
+      privacy: {
+        label: string;
+        href: string;
+        ariaLabel: string;
+      };
+      terms: {
+        label: string;
+        href: string;
+        ariaLabel: string;
+      };
+    };
+  };
   dashboardPreviewSection: {
     ariaLabel: string;
     eyebrow: string;
