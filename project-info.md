@@ -212,7 +212,7 @@ Animation:
 ### 7.7 Integrations
 
 - Shopify
-- EzOrders
+- Easy Orders
 - Custom APIs
 
 Coming Soon:

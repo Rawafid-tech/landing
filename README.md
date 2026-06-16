@@ -56,7 +56,7 @@ E-commerce businesses in Egypt and MENA region looking to:
 - Integrate multiple couriers (Bosta, local partners)
 - Manage returns efficiently
 - Track COD payments
-- Connect stores (Shopify, EzOrders, Custom APIs)
+- Connect stores (Shopify, Easy Orders, Custom APIs)
 
 ---
 
@@ -179,7 +179,7 @@ Accent Green:    #22C55E  /* Success, tracking */
    - Parallax effects
 
 6. **Integrations**
-   - Shopify, EzOrders, APIs
+   - Shopify, Easy Orders, APIs
    - Coming soon: WooCommerce, Magento
 
 7. **Courier Partners**

@@ -4,7 +4,7 @@ import SectionHeader from "./SectionHeader";
 
 /* ─── Types ──────────────────────────────────────────────────── */
 
-export type StoreIconType = "shopify" | "ezorders" | "api";
+export type StoreIconType = "shopify" | "Easy Orders" | "api";
 export type CourierIconType = "bosta" | "local";
 
 export interface StoreIntegration {
@@ -82,7 +82,7 @@ function ShopifyIcon() {
   );
 }
 
-function EzOrdersIcon() {
+function EasyOrdersIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
       strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"
@@ -142,7 +142,7 @@ function HubBoxIcon() {
 
 const STORE_ICONS: Record<StoreIconType, FC> = {
   shopify: ShopifyIcon,
-  ezorders: EzOrdersIcon,
+  "Easy Orders": EasyOrdersIcon,
   api: APIIcon,
 };
 
@@ -297,10 +297,20 @@ interface ComingSoonStripProps {
 
 const ComingSoonStrip: FC<ComingSoonStripProps> = ({ items, label }) => (
   <div className="int-coming-soon" aria-label={label}>
-    <span className="int-coming-soon__prefix">{label}</span>
+    <div className="int-coming-soon__label-wrap">
+      <span className="int-coming-soon__icon" aria-hidden="true">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+          <path d="M10 2L12.09 7.26L17.66 7.64L13.45 11.27L14.82 16.74L10 13.77L5.18 16.74L6.55 11.27L2.34 7.64L7.91 7.26L10 2Z"
+            stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" fill="none" />
+        </svg>
+      </span>
+      <span className="int-coming-soon__prefix">{label}</span>
+    </div>
+    <div className="int-coming-soon__divider" aria-hidden="true" />
     <div className="int-coming-soon__list">
       {items.map((item) => (
         <span key={item.id} className="int-coming-soon__badge">
+          <span className="int-coming-soon__dot" aria-hidden="true" />
           {item.name}
         </span>
       ))}
@@ -335,12 +345,11 @@ const DesktopDiagram: FC<DesktopDiagramProps> = ({
     <div
       className="int-diagram hidden lg:grid"
       style={{
-        gridTemplateColumns: "minmax(0, 16.5rem) 8rem auto 8rem minmax(0, 16.5rem)",
+        gridTemplateColumns: "minmax(0, 1fr) minmax(10rem, 16rem) auto minmax(10rem, 16rem) minmax(0, 1fr)",
         gridTemplateRows: `auto repeat(${rowCount}, auto)`,
         columnGap: "1.5rem",
         rowGap: "1.25rem",
         alignItems: "center",
-        justifyContent: "center",
       }}
     >
       {/* Row 1 — column labels */}

@@ -222,7 +222,7 @@ const ar: Translations = {
         description:
           "اربط متجرك واستورد الأوردرات تلقائياً في دقائق.",
         benefits: [
-          "دعم Shopify و EzOrders",
+          "دعم Shopify و Easy Orders",
           "Custom API للمتاجر المخصصة",
           "مزامنة تلقائية للأوردرات",
           "إنشاء شحنات تلقائي عند الأوردر",
@@ -381,7 +381,7 @@ const ar: Translations = {
         icon: "connect",
         title: "اربط متجرك",
         description:
-          "اربط Shopify أو EzOrders في أقل من دقيقة وخلّي روافد تجيب الأوردرات تلقائياً.",
+          "اربط Shopify أو Easy Orders في أقل من دقيقة وخلّي روافد تجيب الأوردرات تلقائياً.",
       },
       {
         id: "create",
@@ -420,9 +420,9 @@ const ar: Translations = {
         description: "مزامنة تلقائية للأوردرات",
       },
       {
-        id: "ezorders",
-        icon: "ezorders",
-        name: "EzOrders",
+        id: "easy-orders",
+        icon: "Easy Orders",
+        name: "Easy Orders",
         description: "استيراد وتحديث الحالة فوري",
       },
       {

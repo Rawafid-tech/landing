@@ -131,7 +131,7 @@ export interface Translations {
     hubTagline: string;
     stores: readonly {
       id: string;
-      icon: "shopify" | "ezorders" | "api";
+      icon: "shopify" | "Easy Orders" | "api";
       name: string;
       description: string;
     }[];

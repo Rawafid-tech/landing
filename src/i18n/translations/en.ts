@@ -222,7 +222,7 @@ const en: Translations = {
         description:
           "Connect your store and import orders automatically in minutes.",
         benefits: [
-          "Shopify & EzOrders support",
+          "Shopify & Easy Orders support",
           "Custom API for bespoke stores",
           "Automatic order synchronization",
           "Auto-create shipments on new orders",
@@ -381,7 +381,7 @@ const en: Translations = {
         icon: "connect",
         title: "Connect your store",
         description:
-          "Link Shopify or EzOrders in under a minute and let Rawafid pull your orders automatically.",
+          "Link Shopify or Easy Orders in under a minute and let Rawafid pull your orders automatically.",
       },
       {
         id: "create",
@@ -420,9 +420,9 @@ const en: Translations = {
         description: "Automatic order sync",
       },
       {
-        id: "ezorders",
-        icon: "ezorders",
-        name: "EzOrders",
+        id: "easy-orders",
+        icon: "Easy Orders",
+        name: "Easy Orders",
         description: "Import & real-time status updates",
       },
       {
