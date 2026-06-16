@@ -122,6 +122,36 @@ export interface Translations {
     ctaHref: string;
     ctaAriaLabel: string;
   };
+  integrationsSection: {
+    ariaLabel: string;
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    hubLabel: string;
+    hubTagline: string;
+    stores: readonly {
+      id: string;
+      icon: "shopify" | "ezorders" | "api";
+      name: string;
+      description: string;
+    }[];
+    couriers: readonly {
+      id: string;
+      icon: "bosta" | "local";
+      name: string;
+      description: string;
+    }[];
+    comingSoon: readonly {
+      id: string;
+      name: string;
+    }[];
+    labels: {
+      stores: string;
+      couriers: string;
+      available: string;
+      comingSoon: string;
+    };
+  };
   dashboardPreviewSection: {
     ariaLabel: string;
     eyebrow: string;

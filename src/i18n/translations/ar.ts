@@ -404,6 +404,67 @@ const ar: Translations = {
     ctaHref: "#cta",
     ctaAriaLabel: "ابدأ تجربتك المجانية مع روافد",
   },
+  integrationsSection: {
+    ariaLabel: "تكاملات روافد مع المتاجر وشركات الشحن",
+    eyebrow: "التكاملات",
+    headline: "اربط كل أدواتك",
+    subheadline:
+      "تكاملات جاهزة مع منصات التجارة الإلكترونية وشركات الشحن المحلية — كل حاجة في مكان واحد",
+    hubLabel: "روافد",
+    hubTagline: "المركز الموحد",
+    stores: [
+      {
+        id: "shopify",
+        icon: "shopify",
+        name: "Shopify",
+        description: "مزامنة تلقائية للأوردرات",
+      },
+      {
+        id: "ezorders",
+        icon: "ezorders",
+        name: "EzOrders",
+        description: "استيراد وتحديث الحالة فوري",
+      },
+      {
+        id: "api",
+        icon: "api",
+        name: "Custom API",
+        description: "ربط أي متجر مخصص",
+      },
+    ],
+    couriers: [
+      {
+        id: "bosta",
+        icon: "bosta",
+        name: "Bosta",
+        description: "الشريك الرئيسي للتوصيل",
+      },
+      {
+        id: "courier-2",
+        icon: "local",
+        name: "شركة شحن محلية",
+        description: "تغطية واسعة في مصر",
+      },
+      {
+        id: "courier-3",
+        icon: "local",
+        name: "شريك التوصيل",
+        description: "شحن سريع وموثوق",
+      },
+    ],
+    comingSoon: [
+      { id: "woocommerce", name: "WooCommerce" },
+      { id: "magento", name: "Magento" },
+      { id: "salla", name: "Salla" },
+      { id: "zid", name: "Zid" },
+    ],
+    labels: {
+      stores: "المتاجر",
+      couriers: "شركات الشحن",
+      available: "متاح",
+      comingSoon: "قريباً",
+    },
+  },
 };
 
 export default ar;

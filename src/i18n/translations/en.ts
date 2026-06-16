@@ -404,6 +404,67 @@ const en: Translations = {
     ctaHref: "#cta",
     ctaAriaLabel: "Start your free trial with Rawafid",
   },
+  integrationsSection: {
+    ariaLabel: "Rawafid integrations with stores and couriers",
+    eyebrow: "Integrations",
+    headline: "Connect all your tools",
+    subheadline:
+      "Ready-made integrations with e-commerce platforms and local couriers — everything unified in one place",
+    hubLabel: "Rawafid",
+    hubTagline: "Unified hub",
+    stores: [
+      {
+        id: "shopify",
+        icon: "shopify",
+        name: "Shopify",
+        description: "Automatic order sync",
+      },
+      {
+        id: "ezorders",
+        icon: "ezorders",
+        name: "EzOrders",
+        description: "Import & real-time status updates",
+      },
+      {
+        id: "api",
+        icon: "api",
+        name: "Custom API",
+        description: "Connect any custom store",
+      },
+    ],
+    couriers: [
+      {
+        id: "bosta",
+        icon: "bosta",
+        name: "Bosta",
+        description: "Primary delivery partner",
+      },
+      {
+        id: "courier-2",
+        icon: "local",
+        name: "Local Courier",
+        description: "Wide Egypt coverage",
+      },
+      {
+        id: "courier-3",
+        icon: "local",
+        name: "Delivery Partner",
+        description: "Fast & reliable shipping",
+      },
+    ],
+    comingSoon: [
+      { id: "woocommerce", name: "WooCommerce" },
+      { id: "magento", name: "Magento" },
+      { id: "salla", name: "Salla" },
+      { id: "zid", name: "Zid" },
+    ],
+    labels: {
+      stores: "Stores",
+      couriers: "Couriers",
+      available: "Available",
+      comingSoon: "Coming soon",
+    },
+  },
 };
 
 export default en;
