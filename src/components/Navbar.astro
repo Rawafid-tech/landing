@@ -1,6 +1,7 @@
 ---
 import { getImage } from "astro:assets";
-import logoSrc from "../assets/main-logo.webp";
+import lightLogoSrc from "../assets/main-logo-light.webp";
+import darkLogoSrc from "../assets/main-logo-dark.webp";
 import ThemeToggle from "./ThemeToggle.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import { getTranslations, getLocalePath, type Locale } from "../i18n";
@@ -12,25 +13,42 @@ interface Props {
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
 
-const logoAspectRatio = logoSrc.width / logoSrc.height;
 const logoWidths = [110, 220] as const;
 
-const logoImages = await Promise.all(
+const lightLogoImages = await Promise.all(
   logoWidths.map((width) =>
     getImage({
-      src: logoSrc,
+      src: lightLogoSrc,
       width,
-      height: Math.round(width / logoAspectRatio),
+      height: Math.round(width / (lightLogoSrc.width / lightLogoSrc.height)),
       format: "webp",
       quality: 82,
     }),
   ),
 );
 
-const logoSrcSet = logoImages
+const darkLogoImages = await Promise.all(
+  logoWidths.map((width) =>
+    getImage({
+      src: darkLogoSrc,
+      width,
+      height: Math.round(width / (darkLogoSrc.width / darkLogoSrc.height)),
+      format: "webp",
+      quality: 82,
+    }),
+  ),
+);
+
+const lightLogoSrcSet = lightLogoImages
   .map((image, index) => `${image.src} ${logoWidths[index]}w`)
   .join(", ");
-const logoFallback = logoImages[0];
+const lightLogoFallback = lightLogoImages[0];
+
+const darkLogoSrcSet = darkLogoImages
+  .map((image, index) => `${image.src} ${logoWidths[index]}w`)
+  .join(", ");
+const darkLogoFallback = darkLogoImages[0];
+
 const logoSizes = `${logoWidths[0]}px`;
 
 const navLinks = [
@@ -67,15 +85,26 @@ const homeHref = getLocalePath(locale);
         aria-label={t.nav.logoAriaLabel}
       >
         <img
-          src={logoFallback.src}
-          srcset={logoSrcSet}
+          src={lightLogoFallback.src}
+          srcset={lightLogoSrcSet}
           sizes={logoSizes}
           alt={t.nav.logoAlt}
-          width={logoFallback.attributes.width}
-          height={logoFallback.attributes.height}
+          width={lightLogoFallback.attributes.width}
+          height={lightLogoFallback.attributes.height}
           loading="eager"
           decoding="async"
-          class="navbar__logo-image"
+          class="navbar__logo-image navbar__logo-image--light"
+        />
+        <img
+          src={darkLogoFallback.src}
+          srcset={darkLogoSrcSet}
+          sizes={logoSizes}
+          alt={t.nav.logoAlt}
+          width={darkLogoFallback.attributes.width}
+          height={darkLogoFallback.attributes.height}
+          loading="eager"
+          decoding="async"
+          class="navbar__logo-image navbar__logo-image--dark"
         />
       </a>
 
@@ -137,15 +166,26 @@ const homeHref = getLocalePath(locale);
       <div class="navbar__mobile-header">
         <a href={homeHref} class="navbar__mobile-logo" data-mobile-link aria-label={t.nav.logoAriaLabel}>
           <img
-            src={logoFallback.src}
-            srcset={logoSrcSet}
+            src={lightLogoFallback.src}
+            srcset={lightLogoSrcSet}
             sizes={logoSizes}
             alt=""
-            width={logoFallback.attributes.width}
-            height={logoFallback.attributes.height}
+            width={lightLogoFallback.attributes.width}
+            height={lightLogoFallback.attributes.height}
             loading="eager"
             decoding="async"
-            class="navbar__logo-image"
+            class="navbar__logo-image navbar__logo-image--light"
+          />
+          <img
+            src={darkLogoFallback.src}
+            srcset={darkLogoSrcSet}
+            sizes={logoSizes}
+            alt=""
+            width={darkLogoFallback.attributes.width}
+            height={darkLogoFallback.attributes.height}
+            loading="eager"
+            decoding="async"
+            class="navbar__logo-image navbar__logo-image--dark"
           />
         </a>
         <button
@@ -404,6 +444,18 @@ const homeHref = getLocalePath(locale);
     width: auto;
     height: 2.25rem;
     object-fit: contain;
+  }
+
+  .navbar__logo-image--dark {
+    display: none;
+  }
+
+  [data-theme="dark"] .navbar__logo-image--light {
+    display: none;
+  }
+
+  [data-theme="dark"] .navbar__logo-image--dark {
+    display: block;
   }
 
   .navbar__links {

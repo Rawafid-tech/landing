@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import ProblemSectionContent from "./react-bits/ProblemSectionContent";
 import { getTranslations, type Locale } from "../i18n";
 
@@ -17,14 +18,45 @@ const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
 const problemSection = t.problemSection;
 
-const images = {
+// Cards are displayed at ~413px wide; generate 1x and 2x retina variants
+const CARD_W = 450;
+const CARD_H = Math.round(CARD_W * (10 / 16)); // 16:10 aspect ratio
+
+const rawImages = {
   dashboards: dashboardsImg,
   tracking: trackingImg,
   returns: returnsImg,
   manual: manualImg,
   pricing: pricingImg,
   "hidden-costs": hiddenCostsImg,
-};
+} as const;
+
+type ProblemImageKey = keyof typeof rawImages;
+
+const optimizedImages = Object.fromEntries(
+  await Promise.all(
+    (Object.entries(rawImages) as [ProblemImageKey, ImageMetadata][]).map(
+      async ([key, src]) => {
+        const [avif, avif2x, webp, webp2x] = await Promise.all([
+          getImage({ src, width: CARD_W, height: CARD_H, format: "avif", quality: 65 }),
+          getImage({ src, width: CARD_W * 2, height: CARD_H * 2, format: "avif", quality: 55 }),
+          getImage({ src, width: CARD_W, height: CARD_H, format: "webp", quality: 80 }),
+          getImage({ src, width: CARD_W * 2, height: CARD_H * 2, format: "webp", quality: 70 }),
+        ]);
+        return [
+          key,
+          {
+            avifSrcSet: `${avif.src} 1x, ${avif2x.src} 2x`,
+            webpSrcSet: `${webp.src} 1x, ${webp2x.src} 2x`,
+            src: webp.src,
+            width: CARD_W,
+            height: CARD_H,
+          },
+        ];
+      }
+    )
+  )
+) as Record<ProblemImageKey, { avifSrcSet: string; webpSrcSet: string; src: string; width: number; height: number }>;
 ---
 
 <section
@@ -39,7 +71,7 @@ const images = {
       headline={problemSection.headline}
       subheadline={problemSection.subheadline}
       problems={problemSection.problems}
-      images={images}
+      images={optimizedImages}
     />
   </div>
 </section>

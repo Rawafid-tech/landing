@@ -77,12 +77,12 @@ const heroImage = {
   class="hero"
   aria-label={hero.ariaLabel}
 >
-  <MouseParallax client:load targetId="hero" />
-  <HeroBackground client:load />
+  <MouseParallax client:idle targetId="hero" />
+  <HeroBackground client:idle />
 
   <div class="hero__container container">
     <HeroContent
-      client:load
+      client:idle
       badge={hero.badge}
       headlinePrefix={hero.headlinePrefix}
       rotatingWords={hero.rotatingWords}

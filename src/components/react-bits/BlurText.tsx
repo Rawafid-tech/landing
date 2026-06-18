@@ -21,8 +21,8 @@ const BlurText: FC<BlurTextProps> = ({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, filter: "blur(14px)" }}
-      animate={{ opacity: 1, filter: "blur(0px)" }}
+      initial={{ filter: "blur(12px)" }}
+      animate={{ filter: "blur(0px)" }}
       transition={{
         delay,
         duration: 0.85,

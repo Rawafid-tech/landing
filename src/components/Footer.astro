@@ -1,6 +1,7 @@
 ---
 import { getImage } from "astro:assets";
-import logoSrc from "../assets/main-logo.webp";
+import lightLogoSrc from "../assets/main-logo-light.webp";
+import darkLogoSrc from "../assets/main-logo-dark.webp";
 import { getLocalePath, getTranslations, type Locale } from "../i18n";
 
 interface Props {
@@ -14,27 +15,44 @@ const homeHref = getLocalePath(locale);
 const siteUrl = Astro.site ?? "https://rawafid.app";
 const copyrightText = f.legal.copyright.replace("{year}", String(new Date().getFullYear()));
 
-const logoAspectRatio = logoSrc.width / logoSrc.height;
 const logoWidths = [110, 220] as const;
 
-const logoImages = await Promise.all(
+const lightLogoImages = await Promise.all(
   logoWidths.map((width) =>
     getImage({
-      src: logoSrc,
+      src: lightLogoSrc,
       width,
-      height: Math.round(width / logoAspectRatio),
+      height: Math.round(width / (lightLogoSrc.width / lightLogoSrc.height)),
       format: "webp",
       quality: 82,
     }),
   ),
 );
 
-const logoSrcSet = logoImages
+const darkLogoImages = await Promise.all(
+  logoWidths.map((width) =>
+    getImage({
+      src: darkLogoSrc,
+      width,
+      height: Math.round(width / (darkLogoSrc.width / darkLogoSrc.height)),
+      format: "webp",
+      quality: 82,
+    }),
+  ),
+);
+
+const lightLogoSrcSet = lightLogoImages
   .map((image, index) => `${image.src} ${logoWidths[index]}w`)
   .join(", ");
-const logoFallback = logoImages[0];
+const lightLogoFallback = lightLogoImages[0];
+
+const darkLogoSrcSet = darkLogoImages
+  .map((image, index) => `${image.src} ${logoWidths[index]}w`)
+  .join(", ");
+const darkLogoFallback = darkLogoImages[0];
+
 const logoSizes = `${logoWidths[0]}px`;
-const logoUrl = new URL(logoFallback.src, siteUrl).href;
+const logoUrl = new URL(lightLogoFallback.src, siteUrl).href;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -104,15 +122,26 @@ const externalHint = locale === "ar" ? " (يفتح في نافذة جديدة)" 
           aria-label={t.nav.logoAriaLabel}
         >
           <img
-            src={logoFallback.src}
-            srcset={logoSrcSet}
+            src={lightLogoFallback.src}
+            srcset={lightLogoSrcSet}
             sizes={logoSizes}
             alt={t.nav.logoAlt}
-            width={logoFallback.attributes.width}
-            height={logoFallback.attributes.height}
+            width={lightLogoFallback.attributes.width}
+            height={lightLogoFallback.attributes.height}
             loading="lazy"
             decoding="async"
-            class="footer-section__logo-image"
+            class="footer-section__logo-image footer-section__logo-image--light"
+          />
+          <img
+            src={darkLogoFallback.src}
+            srcset={darkLogoSrcSet}
+            sizes={logoSizes}
+            alt={t.nav.logoAlt}
+            width={darkLogoFallback.attributes.width}
+            height={darkLogoFallback.attributes.height}
+            loading="lazy"
+            decoding="async"
+            class="footer-section__logo-image footer-section__logo-image--dark"
           />
         </a>
         <p class="footer-section__tagline">{f.tagline}</p>
@@ -498,6 +527,23 @@ const externalHint = locale === "ar" ? " (يفتح في نافذة جديدة)" 
     width: auto;
     height: 2.25rem;
     object-fit: contain;
+  }
+
+  .footer-section__logo-image--dark {
+    display: none;
+  }
+
+  [data-theme="dark"] .footer-section__logo-image--light {
+    display: none;
+  }
+
+  [data-theme="dark"] .footer-section__logo-image--dark {
+    display: block;
+  }
+
+  [data-theme="dark"] .footer-section__logo-link {
+    background: color-mix(in srgb, var(--color-white) 8%, transparent);
+    border-color: color-mix(in srgb, var(--color-white) 12%, transparent);
   }
 
   .footer-section__tagline {

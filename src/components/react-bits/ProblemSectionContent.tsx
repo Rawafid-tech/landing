@@ -11,12 +11,20 @@ export interface Problem {
   image: ProblemImage;
 }
 
+export interface OptimizedImage {
+  avifSrcSet: string;
+  webpSrcSet: string;
+  src: string;
+  width: number;
+  height: number;
+}
+
 export interface ProblemSectionContentProps {
   eyebrow: string;
   headline: string;
   subheadline: string;
   problems: readonly Problem[];
-  images: Record<ProblemImage, ImageMetadata>;
+  images: Record<ProblemImage, OptimizedImage>;
 }
 
 const cardVariants = {
@@ -27,7 +35,7 @@ const cardVariants = {
     transition: {
       delay: i * 0.08,
       duration: 0.5,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   }),
 };
@@ -66,15 +74,19 @@ const ProblemSectionContent: FC<ProblemSectionContentProps> = ({
               variants={reduceMotion ? {} : cardVariants}
             >
               <div className="problem-card__image-wrapper">
-                <img
-                  src={imageSrc.src}
-                  alt=""
-                  width={imageSrc.width}
-                  height={imageSrc.height}
-                  loading="lazy"
-                  decoding="async"
-                  className="problem-card__image"
-                />
+                <picture>
+                  <source type="image/avif" srcSet={imageSrc.avifSrcSet} />
+                  <source type="image/webp" srcSet={imageSrc.webpSrcSet} />
+                  <img
+                    src={imageSrc.src}
+                    alt=""
+                    width={imageSrc.width}
+                    height={imageSrc.height}
+                    loading="lazy"
+                    decoding="async"
+                    className="problem-card__image"
+                  />
+                </picture>
                 <div className="problem-card__image-overlay" aria-hidden="true" />
               </div>
 
