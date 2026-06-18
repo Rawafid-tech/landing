@@ -9,6 +9,7 @@ import {
   localeConfig,
   type Locale,
 } from "../i18n";
+import faviconSrc from "../assets/icon-logo.jpg?url";
 
 interface Props {
   locale?: Locale;
@@ -37,6 +38,7 @@ const alternateUrl = new URL(getLocalePath(alternateLocale), siteUrl).href;
     <LocaleScript />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={faviconSrc} />
     <title>{t.meta.title}</title>
     <meta name="description" content={t.meta.description} />
     <meta name="application-name" content="Rawafid" />

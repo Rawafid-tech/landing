@@ -1,11 +1,13 @@
 export type Locale = "ar" | "en";
 
 export interface NavLinkTranslation {
+  home: string;
+  problems: string;
   features: string;
+  howItWorks: string;
   integrations: string;
   pricing: string;
   faq: string;
-  contact: string;
 }
 
 export interface Translations {
