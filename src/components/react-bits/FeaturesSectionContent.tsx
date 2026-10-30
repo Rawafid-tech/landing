@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import { useCallback, type FC, type JSX, type PointerEvent } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -239,7 +240,7 @@ const FeatureCard: FC<FeatureCardProps> = ({ feature, reduceMotion }) => {
   return (
     <motion.li
       className={`feature-card feature-card--${feature.icon}`}
-      variants={reduceMotion ? {} : cardVariants}
+      variants={reduceMotion ? instantVariants(cardVariants) : cardVariants}
       onPointerMove={reduceMotion ? undefined : handlePointerMove}
       onPointerEnter={reduceMotion ? undefined : handlePointerEnter}
       onPointerLeave={reduceMotion ? undefined : handlePointerLeave}
@@ -303,7 +304,7 @@ const FeaturesSectionContent: FC<FeaturesSectionContentProps> = ({
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-5% 0px" }}
-        variants={reduceMotion ? {} : containerVariants}
+        variants={reduceMotion ? instantVariants(containerVariants) : containerVariants}
       >
         {features.map((feature) => (
           <FeatureCard

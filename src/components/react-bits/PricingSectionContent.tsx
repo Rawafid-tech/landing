@@ -1,4 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion, useInView } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import { useCallback, useId, useMemo, useRef, useState, type FC, type KeyboardEvent } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -290,7 +291,7 @@ const PricingCard: FC<PricingCardProps> = ({
     <motion.li
       className={`pricing-grid__item pricing-grid__item--${plan.id} min-w-0`}
       custom={index}
-      variants={reduceMotion ? {} : cardVariants}
+      variants={reduceMotion ? instantVariants(cardVariants) : cardVariants}
       initial={reduceMotion ? false : "hidden"}
       animate={isInView ? "visible" : "hidden"}
     >
@@ -412,7 +413,7 @@ const PricingSectionContent: FC<PricingSectionContentProps> = ({
         aria-label={headline}
         initial={reduceMotion ? false : "hidden"}
         animate={isInView ? "visible" : "hidden"}
-        variants={reduceMotion ? {} : { visible: { transition: { staggerChildren: 0 } } }}
+        variants={{ visible: { transition: { staggerChildren: 0 } } }}
       >
         {plans.map((plan, index) => (
           <PricingCard

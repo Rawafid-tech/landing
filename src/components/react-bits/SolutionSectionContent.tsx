@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import type { FC } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -114,7 +115,7 @@ const SolutionSectionContent: FC<SolutionSectionContentProps> = ({
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-5% 0px" }}
-        variants={reduceMotion ? {} : containerVariants}
+        variants={reduceMotion ? instantVariants(containerVariants) : containerVariants}
         role="region"
         aria-label={headline}
       >
@@ -122,7 +123,7 @@ const SolutionSectionContent: FC<SolutionSectionContentProps> = ({
         <motion.div
           className="solution-panel__labels"
           aria-hidden="true"
-          variants={reduceMotion ? {} : labelVariants}
+          variants={reduceMotion ? instantVariants(labelVariants) : labelVariants}
         >
           <div className="solution-panel__label solution-panel__label--before">
             <span className="solution-panel__label-dot solution-panel__label-dot--before" />
@@ -146,7 +147,7 @@ const SolutionSectionContent: FC<SolutionSectionContentProps> = ({
               role="listitem"
               /* Each row has a complete screen-reader description */
               aria-label={`${beforeLabel}: ${pair.before} — ${afterLabel}: ${pair.after}`}
-              variants={reduceMotion ? {} : rowVariants}
+              variants={reduceMotion ? instantVariants(rowVariants) : rowVariants}
             >
               {/* Before — aria-hidden: the li's aria-label covers this */}
               <div

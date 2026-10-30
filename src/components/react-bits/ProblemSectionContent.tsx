@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import type { FC } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -71,7 +72,7 @@ const ProblemSectionContent: FC<ProblemSectionContentProps> = ({
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-5% 0px" }}
-              variants={reduceMotion ? {} : cardVariants}
+              variants={reduceMotion ? instantVariants(cardVariants) : cardVariants}
             >
               <div className="problem-card__image-wrapper">
                 <picture>

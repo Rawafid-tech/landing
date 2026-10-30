@@ -1,4 +1,5 @@
 import { motion, useReducedMotion, useInView } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import { useRef, type CSSProperties, type FC } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -170,7 +171,7 @@ const FlowNodeIcon: FC<FlowNodeProps> = ({ step, index, isInView, reduceMotion }
     <motion.div
       className="hiw-flow-node flex shrink-0 flex-col items-center justify-center"
       custom={index}
-      variants={reduceMotion ? {} : nodeMotion}
+      variants={reduceMotion ? instantVariants(nodeMotion) : nodeMotion}
       initial={reduceMotion ? false : "hidden"}
       animate={isInView ? "visible" : "hidden"}
     >
@@ -208,7 +209,7 @@ const StepCard: FC<StepCardProps> = ({
     <motion.li
       className={`hiw-step hiw-step--${step.icon} flex min-w-0 flex-row items-stretch gap-5 md:flex-col`}
       custom={index}
-      variants={reduceMotion ? {} : cardMotion}
+      variants={reduceMotion ? instantVariants(cardMotion) : cardMotion}
     >
       {/* Mobile vertical timeline */}
       <div className="flex w-14 shrink-0 flex-col items-center md:hidden" aria-hidden="true">
@@ -331,7 +332,7 @@ const HowItWorksSectionContent: FC<HowItWorksSectionContentProps> = ({
         aria-label={headline}
         initial={reduceMotion ? false : "hidden"}
         animate={isInView ? "visible" : "hidden"}
-        variants={reduceMotion ? {} : { visible: { transition: { staggerChildren: 0 } } }}
+        variants={{ visible: { transition: { staggerChildren: 0 } } }}
       >
         {steps.map((step, i) => (
           <StepCard

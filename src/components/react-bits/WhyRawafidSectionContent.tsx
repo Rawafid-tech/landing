@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import { useCallback, type FC, type JSX, type PointerEvent } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -186,7 +187,7 @@ const WhyPointCard: FC<WhyPointCardProps> = ({ point, reduceMotion }) => {
   return (
     <motion.li
       className={`why-card why-card--${point.icon}`}
-      variants={reduceMotion ? {} : cardVariants}
+      variants={reduceMotion ? instantVariants(cardVariants) : cardVariants}
       onPointerMove={reduceMotion ? undefined : handlePointerMove}
       onPointerEnter={reduceMotion ? undefined : handlePointerEnter}
       onPointerLeave={reduceMotion ? undefined : handlePointerLeave}
@@ -300,7 +301,7 @@ const WhyRawafidSectionContent: FC<WhyRawafidSectionContentProps> = ({
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-5% 0px" }}
-        variants={reduceMotion ? {} : containerVariants}
+        variants={reduceMotion ? instantVariants(containerVariants) : containerVariants}
       >
         {points.map((point) => (
           <WhyPointCard key={point.id} point={point} reduceMotion={reduceMotion} />

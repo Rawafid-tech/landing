@@ -1,4 +1,5 @@
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import {
   useCallback,
   useRef,
@@ -119,7 +120,7 @@ const FaqAccordionItem: FC<FaqAccordionItemProps> = ({
   return (
     <motion.li
       className="faq-item"
-      variants={reduceMotion ? {} : itemVariants}
+      variants={reduceMotion ? instantVariants(itemVariants) : itemVariants}
     >
       <div className={`faq-item__shell${isOpen ? " faq-item__shell--open" : ""}`}>
         <h3 className="faq-item__heading">
@@ -237,7 +238,7 @@ const FaqSectionContent: FC<FaqSectionContentProps> = ({
           aria-label={headline}
           initial={reduceMotion ? false : "hidden"}
           animate={isInView ? "visible" : "hidden"}
-          variants={reduceMotion ? {} : listVariants}
+          variants={reduceMotion ? instantVariants(listVariants) : listVariants}
         >
           {items.map((item, index) => (
             <FaqAccordionItem

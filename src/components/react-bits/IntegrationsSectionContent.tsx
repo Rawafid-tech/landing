@@ -1,4 +1,5 @@
 import { motion, useReducedMotion, useInView } from "motion/react";
+import { instantVariants } from "./instantVariants";
 import { useRef, type FC } from "react";
 import SectionHeader from "./SectionHeader";
 
@@ -249,7 +250,7 @@ interface HubNodeProps {
 const HubNode: FC<HubNodeProps> = ({ hubLabel, hubTagline, isInView, reduceMotion }) => (
   <motion.div
     className="int-hub-wrap flex flex-col items-center gap-4"
-    variants={reduceMotion ? {} : hubVariants}
+    variants={reduceMotion ? instantVariants(hubVariants) : hubVariants}
     initial={reduceMotion ? false : "hidden"}
     animate={isInView ? "visible" : "hidden"}
     aria-label={`${hubLabel} — ${hubTagline}`}
@@ -378,7 +379,7 @@ const DesktopDiagram: FC<DesktopDiagramProps> = ({
         className="contents"
         initial={reduceMotion ? false : "hidden"}
         animate={isInView ? "visible" : "hidden"}
-        variants={reduceMotion ? {} : listVariants}
+        variants={reduceMotion ? instantVariants(listVariants) : listVariants}
       >
         {Array.from({ length: rowCount }, (_, i) => {
           const store = stores[i];
@@ -486,7 +487,7 @@ const IntegrationsSectionContent: FC<IntegrationsSectionContentProps> = ({
             className="flex flex-col gap-3"
             initial={reduceMotion ? false : "hidden"}
             animate={isInView ? "visible" : "hidden"}
-            variants={reduceMotion ? {} : listVariants}
+            variants={reduceMotion ? instantVariants(listVariants) : listVariants}
             role="list"
             aria-label={labels.stores}
           >
@@ -508,7 +509,7 @@ const IntegrationsSectionContent: FC<IntegrationsSectionContentProps> = ({
             className="flex flex-col gap-3"
             initial={reduceMotion ? false : "hidden"}
             animate={isInView ? "visible" : "hidden"}
-            variants={reduceMotion ? {} : listVariants}
+            variants={reduceMotion ? instantVariants(listVariants) : listVariants}
             role="list"
             aria-label={labels.couriers}
           >
@@ -542,7 +543,7 @@ const IntegrationsSectionContent: FC<IntegrationsSectionContentProps> = ({
             className="flex flex-col gap-3"
             initial={reduceMotion ? false : "hidden"}
             animate={isInView ? "visible" : "hidden"}
-            variants={reduceMotion ? {} : listVariants}
+            variants={reduceMotion ? instantVariants(listVariants) : listVariants}
             role="list"
             aria-label={labels.stores}
           >
@@ -564,7 +565,7 @@ const IntegrationsSectionContent: FC<IntegrationsSectionContentProps> = ({
             className="flex flex-col gap-3"
             initial={reduceMotion ? false : "hidden"}
             animate={isInView ? "visible" : "hidden"}
-            variants={reduceMotion ? {} : listVariants}
+            variants={reduceMotion ? instantVariants(listVariants) : listVariants}
             role="list"
             aria-label={labels.couriers}
           >
