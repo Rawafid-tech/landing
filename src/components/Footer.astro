@@ -1,7 +1,5 @@
 ---
-import { getImage } from "astro:assets";
-import lightLogoSrc from "../assets/main-logo-light.webp";
-import darkLogoSrc from "../assets/main-logo-dark.webp";
+import Logo from "./Logo.astro";
 import { getLocalePath, getTranslations, type Locale } from "../i18n";
 
 interface Props {
@@ -15,44 +13,7 @@ const homeHref = getLocalePath(locale);
 const siteUrl = Astro.site ?? "https://rawafid.app";
 const copyrightText = f.legal.copyright.replace("{year}", String(new Date().getFullYear()));
 
-const logoWidths = [110, 220] as const;
-
-const lightLogoImages = await Promise.all(
-  logoWidths.map((width) =>
-    getImage({
-      src: lightLogoSrc,
-      width,
-      height: Math.round(width / (lightLogoSrc.width / lightLogoSrc.height)),
-      format: "webp",
-      quality: 82,
-    }),
-  ),
-);
-
-const darkLogoImages = await Promise.all(
-  logoWidths.map((width) =>
-    getImage({
-      src: darkLogoSrc,
-      width,
-      height: Math.round(width / (darkLogoSrc.width / darkLogoSrc.height)),
-      format: "webp",
-      quality: 82,
-    }),
-  ),
-);
-
-const lightLogoSrcSet = lightLogoImages
-  .map((image, index) => `${image.src} ${logoWidths[index]}w`)
-  .join(", ");
-const lightLogoFallback = lightLogoImages[0];
-
-const darkLogoSrcSet = darkLogoImages
-  .map((image, index) => `${image.src} ${logoWidths[index]}w`)
-  .join(", ");
-const darkLogoFallback = darkLogoImages[0];
-
-const logoSizes = `${logoWidths[0]}px`;
-const logoUrl = new URL(lightLogoFallback.src, siteUrl).href;
+const logoUrl = new URL("/icon-512.png", siteUrl).href;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -121,28 +82,7 @@ const externalHint = locale === "ar" ? " (يفتح في نافذة جديدة)" 
           class="footer-section__logo-link"
           aria-label={t.nav.logoAriaLabel}
         >
-          <img
-            src={lightLogoFallback.src}
-            srcset={lightLogoSrcSet}
-            sizes={logoSizes}
-            alt={t.nav.logoAlt}
-            width={lightLogoFallback.attributes.width}
-            height={lightLogoFallback.attributes.height}
-            loading="lazy"
-            decoding="async"
-            class="footer-section__logo-image footer-section__logo-image--light"
-          />
-          <img
-            src={darkLogoFallback.src}
-            srcset={darkLogoSrcSet}
-            sizes={logoSizes}
-            alt={t.nav.logoAlt}
-            width={darkLogoFallback.attributes.width}
-            height={darkLogoFallback.attributes.height}
-            loading="lazy"
-            decoding="async"
-            class="footer-section__logo-image footer-section__logo-image--dark"
-          />
+          <Logo class="footer-section__logo-image" />
         </a>
         <p class="footer-section__tagline">{f.tagline}</p>
       </div>
@@ -523,22 +463,8 @@ const externalHint = locale === "ar" ? " (يفتح في نافذة جديدة)" 
     outline-offset: 4px;
   }
 
-  .footer-section__logo-image {
-    width: auto;
+  .footer-section__logo-link .footer-section__logo-image {
     height: 2.25rem;
-    object-fit: contain;
-  }
-
-  .footer-section__logo-image--dark {
-    display: none;
-  }
-
-  [data-theme="dark"] .footer-section__logo-image--light {
-    display: none;
-  }
-
-  [data-theme="dark"] .footer-section__logo-image--dark {
-    display: block;
   }
 
   [data-theme="dark"] .footer-section__logo-link {

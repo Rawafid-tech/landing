@@ -9,7 +9,6 @@ import {
   localeConfig,
   type Locale,
 } from "../i18n";
-import faviconSrc from "../assets/icon-logo.jpg?url";
 
 interface Props {
   locale?: Locale;
@@ -30,6 +29,7 @@ const siteUrl = Astro.site ?? "https://rawafid.app";
 const canonicalPath = getLocalePath(locale);
 const canonicalUrl = new URL(canonicalPath, siteUrl).href;
 const alternateUrl = new URL(getLocalePath(alternateLocale), siteUrl).href;
+const ogImageUrl = new URL("/og-image.png", siteUrl).href;
 ---
 
 <html lang={htmlLang} dir={dir}>
@@ -38,7 +38,12 @@ const alternateUrl = new URL(getLocalePath(alternateLocale), siteUrl).href;
     <LocaleScript />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href={faviconSrc} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
     <title>{t.meta.title}</title>
     <meta name="description" content={t.meta.description} />
     <meta name="application-name" content="Rawafid" />
@@ -52,6 +57,12 @@ const alternateUrl = new URL(getLocalePath(alternateLocale), siteUrl).href;
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={locale === "ar" ? "ar_EG" : "en_US"} />
     <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.nav.logoAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageUrl} />
   </head>
 
   <body>

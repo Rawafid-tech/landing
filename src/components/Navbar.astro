@@ -1,7 +1,5 @@
 ---
-import { getImage } from "astro:assets";
-import lightLogoSrc from "../assets/main-logo-light.webp";
-import darkLogoSrc from "../assets/main-logo-dark.webp";
+import Logo from "./Logo.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import { getTranslations, getLocalePath, type Locale } from "../i18n";
@@ -12,44 +10,6 @@ interface Props {
 
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
-
-const logoWidths = [110, 220] as const;
-
-const lightLogoImages = await Promise.all(
-  logoWidths.map((width) =>
-    getImage({
-      src: lightLogoSrc,
-      width,
-      height: Math.round(width / (lightLogoSrc.width / lightLogoSrc.height)),
-      format: "webp",
-      quality: 82,
-    }),
-  ),
-);
-
-const darkLogoImages = await Promise.all(
-  logoWidths.map((width) =>
-    getImage({
-      src: darkLogoSrc,
-      width,
-      height: Math.round(width / (darkLogoSrc.width / darkLogoSrc.height)),
-      format: "webp",
-      quality: 82,
-    }),
-  ),
-);
-
-const lightLogoSrcSet = lightLogoImages
-  .map((image, index) => `${image.src} ${logoWidths[index]}w`)
-  .join(", ");
-const lightLogoFallback = lightLogoImages[0];
-
-const darkLogoSrcSet = darkLogoImages
-  .map((image, index) => `${image.src} ${logoWidths[index]}w`)
-  .join(", ");
-const darkLogoFallback = darkLogoImages[0];
-
-const logoSizes = `${logoWidths[0]}px`;
 
 const navLinks = [
   { href: "#hero", label: t.nav.links.home },
@@ -86,28 +46,7 @@ const homeHref = getLocalePath(locale);
         class="navbar__logo"
         aria-label={t.nav.logoAriaLabel}
       >
-        <img
-          src={lightLogoFallback.src}
-          srcset={lightLogoSrcSet}
-          sizes={logoSizes}
-          alt={t.nav.logoAlt}
-          width={lightLogoFallback.attributes.width}
-          height={lightLogoFallback.attributes.height}
-          loading="eager"
-          decoding="async"
-          class="navbar__logo-image navbar__logo-image--light"
-        />
-        <img
-          src={darkLogoFallback.src}
-          srcset={darkLogoSrcSet}
-          sizes={logoSizes}
-          alt={t.nav.logoAlt}
-          width={darkLogoFallback.attributes.width}
-          height={darkLogoFallback.attributes.height}
-          loading="eager"
-          decoding="async"
-          class="navbar__logo-image navbar__logo-image--dark"
-        />
+        <Logo class="navbar__logo-image" />
       </a>
 
       <ul class="navbar__links" role="list">
@@ -167,28 +106,7 @@ const homeHref = getLocalePath(locale);
     <div class="navbar__mobile-drawer" role="dialog" aria-modal="true" aria-label={t.nav.mobileMenuLabel}>
       <div class="navbar__mobile-header">
         <a href={homeHref} class="navbar__mobile-logo" data-mobile-link aria-label={t.nav.logoAriaLabel}>
-          <img
-            src={lightLogoFallback.src}
-            srcset={lightLogoSrcSet}
-            sizes={logoSizes}
-            alt=""
-            width={lightLogoFallback.attributes.width}
-            height={lightLogoFallback.attributes.height}
-            loading="eager"
-            decoding="async"
-            class="navbar__logo-image navbar__logo-image--light"
-          />
-          <img
-            src={darkLogoFallback.src}
-            srcset={darkLogoSrcSet}
-            sizes={logoSizes}
-            alt=""
-            width={darkLogoFallback.attributes.width}
-            height={darkLogoFallback.attributes.height}
-            loading="eager"
-            decoding="async"
-            class="navbar__logo-image navbar__logo-image--dark"
-          />
+          <Logo class="navbar__logo-image" />
         </a>
         <button
           type="button"
@@ -442,22 +360,8 @@ const homeHref = getLocalePath(locale);
     border-radius: var(--radius-sm);
   }
 
-  .navbar__logo-image {
-    width: auto;
+  .navbar__logo .navbar__logo-image {
     height: 2.25rem;
-    object-fit: contain;
-  }
-
-  .navbar__logo-image--dark {
-    display: none;
-  }
-
-  [data-theme="dark"] .navbar__logo-image--light {
-    display: none;
-  }
-
-  [data-theme="dark"] .navbar__logo-image--dark {
-    display: block;
   }
 
   .navbar__links {

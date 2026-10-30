@@ -1,0 +1,109 @@
+---
+import {
+  LOCKUP_VIEWBOX,
+  MARK_ARROW,
+  MARK_GRADIENT,
+  MARK_NODES,
+  MARK_STROKES,
+  MARK_STROKE_WIDTH,
+  MARK_VIEWBOX,
+  WORDMARK_AR,
+  WORDMARK_EN,
+} from "../lib/brand-logo";
+
+interface Props {
+  /** "full" = mark + روافد / RAWAFID wordmark, "mark" = icon only. */
+  variant?: "full" | "mark";
+  /** Accessible name. Omit when the parent link already carries a label. */
+  label?: string;
+  class?: string;
+}
+
+const { variant = "full", label, class: className } = Astro.props;
+
+// The logo renders several times per page (navbar, mobile menu, footer), so
+// gradient ids must be unique or hidden instances break the visible ones.
+const gradientId = `rw-logo-${crypto.randomUUID().slice(0, 8)}`;
+const viewBox = variant === "full" ? LOCKUP_VIEWBOX : MARK_VIEWBOX;
+const [, , vbWidth, vbHeight] = viewBox.split(" ").map(Number);
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={viewBox}
+  width={vbWidth}
+  height={vbHeight}
+  class:list={["rw-logo", className]}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+>
+  <defs>
+    <linearGradient
+      id={gradientId}
+      gradientUnits="userSpaceOnUse"
+      x1={MARK_GRADIENT.x1}
+      y1={MARK_GRADIENT.y1}
+      x2={MARK_GRADIENT.x2}
+      y2={MARK_GRADIENT.y2}
+    >
+      {MARK_GRADIENT.offsets.map((offset, index) => (
+        <stop offset={offset} style={`stop-color: var(--rw-logo-stop-${index})`} />
+      ))}
+    </linearGradient>
+  </defs>
+  <g
+    fill="none"
+    stroke={`url(#${gradientId})`}
+    stroke-width={MARK_STROKE_WIDTH}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    {MARK_STROKES.map((d) => <path d={d} />)}
+  </g>
+  <g fill={`url(#${gradientId})`}>
+    {MARK_NODES.map(([cx, cy, r]) => <circle cx={cx} cy={cy} r={r} />)}
+    <path d={MARK_ARROW} stroke={`url(#${gradientId})`} stroke-width="6" stroke-linejoin="round" />
+  </g>
+  {variant === "full" && (
+    <g class="rw-logo__wordmark">
+      <path d={WORDMARK_AR} />
+      <path d={WORDMARK_EN} />
+    </g>
+  )}
+</svg>
+
+<style>
+  /* Stop colors mirror MARK_GRADIENT.light / .dark in lib/brand-logo.ts. */
+  .rw-logo {
+    --rw-logo-stop-0: #0b2a6b;
+    --rw-logo-stop-1: #1d63e0;
+    --rw-logo-stop-2: #0e9bd8;
+    --rw-logo-stop-3: #22c55e;
+    --rw-logo-wordmark: #0f172a;
+    display: block;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .rw-logo__wordmark {
+    fill: var(--rw-logo-wordmark);
+  }
+
+  :global([data-theme="dark"]) .rw-logo {
+    --rw-logo-stop-0: #2563eb;
+    --rw-logo-stop-1: #1d8fe6;
+    --rw-logo-stop-2: #10b3c9;
+    --rw-logo-wordmark: #ffffff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .rw-logo {
+      --rw-logo-stop-0: #2563eb;
+      --rw-logo-stop-1: #1d8fe6;
+      --rw-logo-stop-2: #10b3c9;
+      --rw-logo-wordmark: #ffffff;
+    }
+  }
+</style>
