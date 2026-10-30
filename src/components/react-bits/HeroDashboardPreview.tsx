@@ -18,13 +18,13 @@ export interface FloatingIcon {
 }
 
 interface HeroDashboardPreviewProps {
-  image: HeroImageSource;
+  images: Record<"light" | "dark", HeroImageSource>;
   imageAlt: string;
   floatingIcons: readonly FloatingIcon[];
 }
 
 const HeroDashboardPreview: FC<HeroDashboardPreviewProps> = ({
-  image,
+  images,
   imageAlt,
   floatingIcons,
 }) => {
@@ -61,22 +61,28 @@ const HeroDashboardPreview: FC<HeroDashboardPreviewProps> = ({
             <span />
           </div>
 
-          <picture>
-            <source type="image/avif" srcSet={image.avifSrcSet} sizes={image.sizes} />
-            <source type="image/webp" srcSet={image.webpSrcSet} sizes={image.sizes} />
-            <img
-              src={image.fallbackSrc}
-              srcSet={image.webpSrcSet}
-              sizes={image.sizes}
-              alt={imageAlt}
-              width={image.fallbackWidth}
-              height={image.fallbackHeight}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className="hero-dashboard__image"
-            />
-          </picture>
+          {/* One picture per theme; CSS hides the inactive one and lazy loading skips its download. */}
+          {(["light", "dark"] as const).map((theme) => {
+            const image = images[theme];
+            return (
+              <picture key={theme} className={`hero-dashboard__picture--${theme}`}>
+                <source type="image/avif" srcSet={image.avifSrcSet} sizes={image.sizes} />
+                <source type="image/webp" srcSet={image.webpSrcSet} sizes={image.sizes} />
+                <img
+                  src={image.fallbackSrc}
+                  srcSet={image.webpSrcSet}
+                  sizes={image.sizes}
+                  alt={imageAlt}
+                  width={image.fallbackWidth}
+                  height={image.fallbackHeight}
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="high"
+                  className="hero-dashboard__image"
+                />
+              </picture>
+            );
+          })}
         </motion.div>
 
         {floatingIcons.map((icon) => (

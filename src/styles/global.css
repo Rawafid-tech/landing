@@ -141,6 +141,13 @@ a.final-cta-section__btn--secondary:focus-visible {
   color: #ffffff;
 }
 
+/* Hero renders a light and a dark dashboard mock-up; show the one for the
+   active theme. The hidden one is lazy, so it never downloads. */
+[data-theme="dark"] .hero-dashboard__picture--light,
+:root:not([data-theme="dark"]) .hero-dashboard__picture--dark {
+  display: none;
+}
+
 /* ============================================
    🖼️ IMAGE OPTIMIZATION
    ============================================ */

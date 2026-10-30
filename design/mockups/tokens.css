@@ -1,0 +1,102 @@
+/* Dashboard tokens mirrored from r-dashboard/src/styles/global.css so mock-ups match the real app. */
+
+@font-face {
+  font-family: "Cairo";
+  src: url("../../node_modules/@fontsource-variable/cairo/files/cairo-arabic-wght-normal.woff2") format("woff2");
+  font-weight: 200 1000;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+@font-face {
+  font-family: "Cairo";
+  src: url("../../node_modules/@fontsource-variable/cairo/files/cairo-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 1000;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+}
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --primary: #1d4ed8;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --destructive: #dc2626;
+  --success: #16a34a;
+  --warning: #d97706;
+  --warning-text: #92400e; /* badge text on tinted surfaces, AA contrast */
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --radius: 0.5rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #1d4ed8;
+  --sidebar-accent: #e6efff;
+  --sidebar-accent-foreground: #1d4ed8;
+  --sidebar-border: #e2e8f0;
+  --logo-1: #0b2a6b;
+  --logo-2: #1d63e0;
+  --logo-3: #0e9bd8;
+  --logo-4: #22c55e;
+}
+
+[data-theme="dark"] {
+  --background: #050810;
+  --foreground: #f1f5f9;
+  --card: #0c1220;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #111827;
+  --secondary-foreground: #f1f5f9;
+  --muted: #111827;
+  --muted-foreground: #94a3b8;
+  --accent: #151d33;
+  --destructive: #f87171;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --warning-text: var(--warning);
+  --border: #1e293b;
+  --input: #1e293b;
+  --sidebar: #050810;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #3b82f6;
+  --sidebar-accent: #131c31;
+  --sidebar-accent-foreground: #93c5fd;
+  --sidebar-border: #1e293b;
+  --logo-1: #2563eb;
+  --logo-2: #1d8fe6;
+  --logo-3: #10b3c9;
+  --logo-4: #22c55e;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", "Cairo", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[lang="ar"] body {
+  font-family: "Cairo", "Inter", system-ui, sans-serif;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
