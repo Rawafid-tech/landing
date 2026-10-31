@@ -3,15 +3,13 @@ import Navbar from "../../components/Navbar.astro";
 import Hero from "../../components/Hero.astro";
 import MarketProblemStats from "../../components/MarketProblemStats.astro";
 import ProblemSection from "../../components/ProblemSection.astro";
-import SolutionSection from "../../components/SolutionSection.astro";
 import FeaturesSection from "../../components/FeaturesSection.astro";
+import DashboardPreviewSection from "../../components/DashboardPreviewSection.astro";
 import HowItWorksSection from "../../components/HowItWorksSection.astro";
-// import DashboardPreviewSection from "../../components/DashboardPreviewSection.astro"; // temporarily hidden
 import IntegrationsSection from "../../components/IntegrationsSection.astro";
 import PricingSection from "../../components/PricingSection.astro";
 import FaqSection from "../../components/FaqSection.astro";
-// import FinalCtaSection from "../../components/FinalCtaSection.astro"; // temporarily hidden
-// import WhyRawafidSection from "../../components/WhyRawafidSection.astro"; // temporarily hidden
+import FinalCtaSection from "../../components/FinalCtaSection.astro";
 import Footer from "../../components/Footer.astro";
 import Layout from "../../layouts/Layout.astro";
 ---
@@ -19,19 +17,17 @@ import Layout from "../../layouts/Layout.astro";
 <Layout locale="en">
   <Navbar locale="en" />
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <Hero locale="en" />
     <MarketProblemStats locale="en" />
     <ProblemSection locale="en" />
-    <SolutionSection locale="en" />
     <FeaturesSection locale="en" />
+    <DashboardPreviewSection locale="en" />
     <HowItWorksSection locale="en" />
-    <!-- <DashboardPreviewSection locale="en" /> temporarily hidden -->
     <IntegrationsSection locale="en" />
     <PricingSection locale="en" />
     <FaqSection locale="en" />
-    <!-- <FinalCtaSection locale="en" /> temporarily hidden -->
-    <!-- <WhyRawafidSection locale="en" /> temporarily hidden -->
+    <FinalCtaSection locale="en" />
   </main>
 
   <Footer locale="en" />

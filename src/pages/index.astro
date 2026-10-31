@@ -3,15 +3,13 @@ import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import MarketProblemStats from "../components/MarketProblemStats.astro";
 import ProblemSection from "../components/ProblemSection.astro";
-import SolutionSection from "../components/SolutionSection.astro";
 import FeaturesSection from "../components/FeaturesSection.astro";
+import DashboardPreviewSection from "../components/DashboardPreviewSection.astro";
 import HowItWorksSection from "../components/HowItWorksSection.astro";
-// import DashboardPreviewSection from "../components/DashboardPreviewSection.astro"; // temporarily hidden
 import IntegrationsSection from "../components/IntegrationsSection.astro";
 import PricingSection from "../components/PricingSection.astro";
 import FaqSection from "../components/FaqSection.astro";
-// import FinalCtaSection from "../components/FinalCtaSection.astro"; // temporarily hidden
-// import WhyRawafidSection from "../components/WhyRawafidSection.astro"; // temporarily hidden
+import FinalCtaSection from "../components/FinalCtaSection.astro";
 import Footer from "../components/Footer.astro";
 import Layout from "../layouts/Layout.astro";
 ---
@@ -19,19 +17,17 @@ import Layout from "../layouts/Layout.astro";
 <Layout locale="ar">
   <Navbar locale="ar" />
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <Hero locale="ar" />
     <MarketProblemStats locale="ar" />
     <ProblemSection locale="ar" />
-    <SolutionSection locale="ar" />
     <FeaturesSection locale="ar" />
+    <DashboardPreviewSection locale="ar" />
     <HowItWorksSection locale="ar" />
-    <!-- <DashboardPreviewSection locale="ar" /> temporarily hidden -->
     <IntegrationsSection locale="ar" />
     <PricingSection locale="ar" />
     <FaqSection locale="ar" />
-    <!-- <FinalCtaSection locale="ar" /> temporarily hidden -->
-    <!-- <WhyRawafidSection locale="ar" /> temporarily hidden -->
+    <FinalCtaSection locale="ar" />
   </main>
 
   <Footer locale="ar" />

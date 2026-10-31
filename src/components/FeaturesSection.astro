@@ -1,5 +1,5 @@
 ---
-import FeaturesSectionContent from "./react-bits/FeaturesSectionContent";
+import SectionHeader from "./SectionHeader.astro";
 import { getTranslations, type Locale } from "../i18n";
 
 interface Props {
@@ -8,28 +8,127 @@ interface Props {
 
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
-const { featuresSection } = t;
+const { featuresSection: s } = t;
+
+type FeatureIcon = (typeof s.features)[number]["icon"];
+
+const ICONS: Record<FeatureIcon, string> = {
+  shipments:
+    '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+  returns: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+  integrations:
+    '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  couriers:
+    '<path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect width="9" height="11" x="12" y="6" rx="2"/><circle cx="7" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>',
+  pricing:
+    '<rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="8" x2="10" y1="11" y2="11"/><line x1="12" x2="16" y1="11" y2="11"/><line x1="8" x2="10" y1="15" y2="15"/><line x1="12" x2="16" y1="15" y2="15"/><line x1="8" x2="10" y1="19" y2="19"/><line x1="12" x2="16" y1="19" y2="19"/>',
+  analytics:
+    '<line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/><line x1="2" x2="22" y1="20" y2="20"/>',
+};
 ---
 
-<section
-  id="features"
-  class="features-section"
-  aria-label={featuresSection.ariaLabel}
->
-  <!-- Decorative ambient glows -->
+<section id="features" class="features-section" aria-labelledby="features-heading">
   <div class="features-section__glow features-section__glow--start" aria-hidden="true"></div>
   <div class="features-section__glow features-section__glow--end" aria-hidden="true"></div>
 
-  <div class="container features-section__container">
-    <FeaturesSectionContent
-      client:visible
-      eyebrow={featuresSection.eyebrow}
-      headline={featuresSection.headline}
-      subheadline={featuresSection.subheadline}
-      features={featuresSection.features}
+  <div class="container features-section__container flex flex-col gap-12 lg:gap-16">
+    <SectionHeader
+      id="features-heading"
+      eyebrow={s.eyebrow}
+      headline={s.headline}
+      subheadline={s.subheadline}
     />
+
+    <ul class="features-grid" role="list" data-features-grid>
+      {
+        s.features.map((feature, index) => (
+          <li
+            class={`feature-card feature-card--${feature.icon}`}
+            data-reveal
+            style={`--reveal-delay: ${(index % 3) * 90}ms`}
+          >
+            <div class="feature-card__spotlight" aria-hidden="true"></div>
+
+            <div class="feature-card__body">
+              <div class={`feature-card__icon-wrap feature-card__icon-wrap--${feature.icon}`} aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feature-icon__svg"
+                  set:html={ICONS[feature.icon]}
+                />
+              </div>
+
+              <h3 class="feature-card__title">{feature.title}</h3>
+              <p class="feature-card__description">{feature.description}</p>
+
+              <ul class="feature-card__benefits" role="list">
+                {
+                  feature.benefits.map((benefit) => (
+                    <li class="feature-card__benefit">
+                      <span class="feature-card__benefit-icon" aria-hidden="true">
+                        <svg
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="feature-benefit__check-svg"
+                        >
+                          <circle cx="8" cy="8" r="6.5" />
+                          <path d="M5 8.5l2 2 4-4.5" />
+                        </svg>
+                      </span>
+                      <span>{benefit}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
+
+<script>
+  // Cursor-following spotlight on feature cards (fine pointers, motion allowed).
+  const grid = document.querySelector<HTMLElement>("[data-features-grid]");
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (grid && canHover && !reducedMotion) {
+    let active: HTMLElement | null = null;
+
+    grid.addEventListener(
+      "pointermove",
+      (event) => {
+        const card = (event.target as Element).closest<HTMLElement>(".feature-card");
+        if (card !== active) {
+          active?.style.setProperty("--spotlight-visible", "0");
+          card?.style.setProperty("--spotlight-visible", "1");
+          active = card;
+        }
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--spotlight-x", `${event.clientX - rect.left}px`);
+        card.style.setProperty("--spotlight-y", `${event.clientY - rect.top}px`);
+      },
+      { passive: true },
+    );
+
+    grid.addEventListener("pointerleave", () => {
+      active?.style.setProperty("--spotlight-visible", "0");
+      active = null;
+    });
+  }
+</script>
 
 <style is:global>
   /* ─── Section shell ──────────────────────────────────────── */

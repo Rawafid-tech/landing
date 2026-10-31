@@ -1,0 +1,553 @@
+---
+import Icon from "./Icon.astro";
+import TopBar from "./TopBar.astro";
+import { CHART_DATA, areaPath, initials, smoothPath, type DemoLocaleData } from "../../data/dashboard-demo";
+
+interface Props {
+  data: DemoLocaleData;
+  panelId: string;
+  tabId: string;
+  hidden?: boolean;
+}
+
+const { data, panelId, tabId, hidden = false } = Astro.props;
+
+const STAT_ICON = { total: "package", delivered: "check", cod: "coins" } as const;
+
+// Sparklines: static SVG paths computed at build time.
+const SPARK_W = 84;
+const SPARK_H = 34;
+
+// Area chart.
+const CHART_W = 600;
+const CHART_H = 96;
+const CHART_PAD = 8;
+// Both series share one y-scale so "delivered" sits visibly below "created".
+const allValues = [...CHART_DATA.primary, ...CHART_DATA.secondary];
+const bounds: [number, number] = [Math.min(...allValues), Math.max(...allValues)];
+const chart = {
+  primaryLine: smoothPath(CHART_DATA.primary, CHART_W, CHART_H, CHART_PAD, bounds),
+  primaryArea: areaPath(CHART_DATA.primary, CHART_W, CHART_H, CHART_PAD, bounds),
+  secondaryLine: smoothPath(CHART_DATA.secondary, CHART_W, CHART_H, CHART_PAD, bounds),
+  secondaryArea: areaPath(CHART_DATA.secondary, CHART_W, CHART_H, CHART_PAD, bounds),
+  gridYs: [0.2, 0.5, 0.8].map((f) => CHART_H * f),
+};
+---
+
+<div
+  id={panelId}
+  class="demo-view demo-view--overview"
+  role="tabpanel"
+  aria-labelledby={tabId}
+  tabindex="0"
+  data-demo-panel="overview"
+  hidden={hidden}
+>
+  <TopBar title={data.greeting} subtitle={data.date} createBtn={data.createBtn} />
+
+  <div class="demo-view__body">
+    <ul class="demo-ov-stats" role="list">
+      {
+        data.overviewStats.map((s) => (
+          <li class={`demo-card demo-ov-stat demo-tone--${s.tone}`} data-demo-target={`stat-${s.id}`}>
+            <div class="demo-ov-stat__top">
+              <span class="demo-ov-stat__icon">
+                <Icon name={STAT_ICON[s.id]} size={18} strokeWidth={2.25} />
+              </span>
+              <svg
+                class="demo-spark"
+                width={SPARK_W}
+                height={SPARK_H}
+                viewBox={`0 0 ${SPARK_W} ${SPARK_H}`}
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path class="demo-spark__area" d={areaPath(s.spark, SPARK_W, SPARK_H, 2)} />
+                <path class="demo-spark__line" d={smoothPath(s.spark, SPARK_W, SPARK_H, 2)} />
+              </svg>
+            </div>
+            <span class="demo-ov-stat__value" dir="ltr">{s.value}</span>
+            <span class="demo-ov-stat__meta">
+              <span class="demo-ov-stat__label">{s.label}</span>
+              <span class:list={["demo-ov-stat__change", !s.positive && "is-negative"]} dir="ltr">
+                {s.positive ? "↑" : "↓"} {s.change}
+              </span>
+            </span>
+            <span class="demo-ov-stat__sub">{s.sub}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="demo-ov-row demo-ov-row--chart">
+      <div class="demo-card demo-chart">
+        <div class="demo-chart__head">
+          <span class="demo-card__title">{data.chartLabel}</span>
+          <span class="demo-chart__legend" aria-hidden="true">
+            <span class="demo-chart__key demo-chart__key--primary">{data.chartLegend[0]}</span>
+            <span class="demo-chart__key demo-chart__key--secondary">{data.chartLegend[1]}</span>
+          </span>
+        </div>
+        <svg
+          class="demo-chart__svg"
+          viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <linearGradient id="demo-grad-primary" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2563eb" stop-opacity="0.2" />
+              <stop offset="100%" stop-color="#2563eb" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient id="demo-grad-secondary" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#22c55e" stop-opacity="0.16" />
+              <stop offset="100%" stop-color="#22c55e" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          {
+            chart.gridYs.map((y) => (
+              <line
+                class="demo-chart__grid"
+                x1={CHART_PAD}
+                y1={y}
+                x2={CHART_W - CHART_PAD}
+                y2={y}
+                vector-effect="non-scaling-stroke"
+              />
+            ))
+          }
+          <path d={chart.primaryArea} fill="url(#demo-grad-primary)" />
+          <path d={chart.secondaryArea} fill="url(#demo-grad-secondary)" />
+          <path class="demo-chart__line demo-chart__line--primary" d={chart.primaryLine} vector-effect="non-scaling-stroke" />
+          <path class="demo-chart__line demo-chart__line--secondary" d={chart.secondaryLine} vector-effect="non-scaling-stroke" />
+        </svg>
+        <div class="demo-chart__labels" aria-hidden="true">
+          {data.chartLabels.map((label) => <span>{label}</span>)}
+        </div>
+      </div>
+
+      <ul class="demo-card demo-today" role="list">
+        {
+          data.todayStats.map((ts) => (
+            <li class={`demo-today__item demo-today__item--${ts.icon}`}>
+              <span class="demo-today__icon">
+                <Icon name={ts.icon} size={14} strokeWidth={2.25} />
+              </span>
+              <span class="demo-today__value">{ts.value}</span>
+              <span class="demo-today__label">{ts.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="demo-ov-row demo-ov-row--recent">
+      <div class="demo-card demo-recent">
+        <div class="demo-card__head">
+          <span class="demo-card__title">{data.recentTitle}</span>
+          <button type="button" class="demo-link" data-demo-view="shipments">{data.viewAll}</button>
+        </div>
+        <ul class="demo-recent__list" role="list">
+          {
+            data.shipRows.slice(0, 4).map((row, i) => (
+              <li class="demo-recent__row">
+                <span class="demo-recent__who">
+                  <span class={`demo-avatar demo-avatar--${i % 6}`} aria-hidden="true">
+                    {initials(row.customer)}
+                  </span>
+                  <span class="demo-recent__names">
+                    <span class="demo-recent__name">{row.customer}</span>
+                    <span class="demo-ref" dir="ltr">{row.ref}</span>
+                  </span>
+                </span>
+                <span class="demo-courier">{row.courier}</span>
+                <span class={`demo-pill demo-pill--${row.status}`}>{data.statusLabel[row.status]}</span>
+                <span class="demo-amount">{row.amount}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="demo-card demo-couriers">
+        <span class="demo-card__title">{data.courierTitle}</span>
+        <ul class="demo-couriers__list" role="list">
+          {
+            data.couriers.map((c) => (
+              <li class="demo-couriers__item">
+                <span class="demo-couriers__row">
+                  <span class="demo-couriers__name">{c.name}</span>
+                  <span class="demo-couriers__pct" dir="ltr">{c.pct}%</span>
+                </span>
+                <span class="demo-couriers__track" aria-hidden="true">
+                  <span class="demo-couriers__bar" style={`inline-size: ${c.pct}%`} />
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  /* ─── Stat cards ─────────────────────────────────────── */
+  .demo-ov-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    list-style: none;
+  }
+
+  .demo-ov-stat {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+  }
+
+  .demo-ov-stat__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-block-end: 8px;
+  }
+
+  .demo-ov-stat__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--dp-tone-soft);
+    color: var(--dp-tone);
+  }
+
+  .demo-tone--blue  { --dp-tone: #2563eb; --dp-tone-soft: #eff6ff; }
+  .demo-tone--green { --dp-tone: #16a34a; --dp-tone-soft: #f0fdf4; }
+  .demo-tone--navy  { --dp-tone: #0f172a; --dp-tone-soft: #f1f5f9; }
+
+  [data-theme="dark"] .demo-tone--blue  { --dp-tone: #60a5fa; --dp-tone-soft: rgb(37 99 235 / 0.18); }
+  [data-theme="dark"] .demo-tone--green { --dp-tone: #4ade80; --dp-tone-soft: rgb(34 197 94 / 0.14); }
+  [data-theme="dark"] .demo-tone--navy  { --dp-tone: #cbd5e1; --dp-tone-soft: rgb(148 163 184 / 0.16); }
+
+  .demo-spark__area {
+    fill: var(--dp-tone);
+    fill-opacity: 0.12;
+  }
+
+  .demo-spark__line {
+    fill: none;
+    stroke: var(--dp-tone);
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .demo-ov-stat__value {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--dp-text);
+    text-align: start;
+    unicode-bidi: plaintext;
+  }
+
+  .demo-ov-stat__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-block-start: 4px;
+  }
+
+  .demo-ov-stat__label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dp-text-2);
+  }
+
+  .demo-ov-stat__change {
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: #dcfce7;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #15803d;
+  }
+
+  .demo-ov-stat__change.is-negative {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+
+  [data-theme="dark"] .demo-ov-stat__change {
+    background: rgb(34 197 94 / 0.14);
+    color: #4ade80;
+  }
+
+  .demo-ov-stat__sub {
+    margin-block-start: 2px;
+    font-size: 12px;
+    color: var(--dp-muted);
+  }
+
+  /* ─── Rows ───────────────────────────────────────────── */
+  .demo-ov-row {
+    display: grid;
+    gap: 14px;
+    min-height: 0;
+  }
+
+  .demo-ov-row--chart {
+    grid-template-columns: minmax(0, 1fr) 132px;
+  }
+
+  .demo-ov-row--recent {
+    flex: 1;
+    grid-template-columns: minmax(0, 1fr) 232px;
+  }
+
+  /* ─── Area chart ─────────────────────────────────────── */
+  .demo-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px 10px;
+  }
+
+  .demo-chart__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .demo-chart__legend {
+    display: flex;
+    gap: 14px;
+  }
+
+  .demo-chart__key {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--dp-muted);
+  }
+
+  .demo-chart__key::before {
+    content: "";
+    width: 14px;
+    height: 4px;
+    border-radius: 999px;
+  }
+
+  .demo-chart__key--primary::before   { background: #2563eb; }
+  .demo-chart__key--secondary::before { background: #22c55e; }
+
+  .demo-chart__svg {
+    display: block;
+    width: 100%;
+    height: 96px;
+    overflow: visible;
+  }
+
+  /* Time runs from the inline-start edge, so mirror the plot in RTL. */
+  [dir="rtl"] .demo-chart__svg,
+  [dir="rtl"] .demo-spark {
+    transform: scaleX(-1);
+  }
+
+  .demo-chart__grid {
+    stroke: var(--dp-text);
+    stroke-opacity: 0.08;
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+
+  .demo-chart__line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .demo-chart__line--primary   { stroke: #2563eb; }
+  .demo-chart__line--secondary { stroke: #22c55e; }
+
+  [data-theme="dark"] .demo-chart__line--primary { stroke: #60a5fa; }
+
+  .demo-chart__labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--dp-muted);
+  }
+
+  /* ─── Today column ───────────────────────────────────── */
+  .demo-today {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 12px 14px;
+    list-style: none;
+  }
+
+  .demo-today__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    align-items: center;
+  }
+
+  .demo-today__icon {
+    grid-row: span 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+
+  .demo-today__item--package .demo-today__icon { background: #eff6ff; color: #2563eb; }
+  .demo-today__item--check   .demo-today__icon { background: #f0fdf4; color: #16a34a; }
+  .demo-today__item--truck   .demo-today__icon { background: #eff6ff; color: #1d4ed8; }
+  .demo-today__item--alert   .demo-today__icon { background: #fef2f2; color: #dc2626; }
+
+  [data-theme="dark"] .demo-today__item--package .demo-today__icon,
+  [data-theme="dark"] .demo-today__item--truck .demo-today__icon { background: rgb(37 99 235 / 0.18); color: #60a5fa; }
+  [data-theme="dark"] .demo-today__item--check .demo-today__icon { background: rgb(34 197 94 / 0.14); color: #4ade80; }
+  [data-theme="dark"] .demo-today__item--alert .demo-today__icon { background: rgb(220 38 38 / 0.18); color: #fca5a5; }
+
+  .demo-today__value {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--dp-text);
+  }
+
+  .demo-today__label {
+    font-size: 11.5px;
+    line-height: 1.2;
+    color: var(--dp-muted);
+  }
+
+  /* ─── Recent shipments ───────────────────────────────── */
+  .demo-recent {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .demo-recent__list {
+    list-style: none;
+  }
+
+  .demo-recent__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 110px 110px 80px;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 16px;
+    border-block-end: 1px solid var(--dp-border-soft);
+  }
+
+  .demo-recent__row:last-child {
+    border-block-end: 0;
+  }
+
+  .demo-recent__who {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .demo-recent__names {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .demo-recent__name {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dp-text);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .demo-recent__row .demo-courier,
+  .demo-recent__row .demo-pill {
+    justify-self: start;
+  }
+
+  .demo-recent__row .demo-ref {
+    text-align: start;
+    unicode-bidi: plaintext;
+  }
+
+  .demo-recent__row .demo-amount {
+    text-align: end;
+  }
+
+  /* ─── Courier performance ────────────────────────────── */
+  .demo-couriers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .demo-couriers__list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    list-style: none;
+  }
+
+  .demo-couriers__item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .demo-couriers__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+
+  .demo-couriers__name {
+    font-weight: 500;
+    color: var(--dp-text-2);
+  }
+
+  .demo-couriers__pct {
+    font-weight: 700;
+    color: var(--dp-text);
+  }
+
+  .demo-couriers__track {
+    display: block;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--dp-bg);
+  }
+
+  .demo-couriers__bar {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+  }
+</style>

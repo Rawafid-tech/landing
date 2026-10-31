@@ -1,0 +1,143 @@
+---
+import TopBar from "./TopBar.astro";
+import { initials, type DemoLocaleData } from "../../data/dashboard-demo";
+
+interface Props {
+  data: DemoLocaleData;
+  panelId: string;
+  tabId: string;
+  hidden?: boolean;
+}
+
+const { data, panelId, tabId, hidden = false } = Astro.props;
+---
+
+<div
+  id={panelId}
+  class="demo-view demo-view--shipments"
+  role="tabpanel"
+  aria-labelledby={tabId}
+  tabindex="0"
+  data-demo-panel="shipments"
+  hidden={hidden}
+>
+  <TopBar
+    title={data.shipmentsTitle}
+    searchPlaceholder={data.searchPlaceholder}
+    createBtn={data.createBtn}
+  />
+
+  <div class="demo-filters" role="group" aria-label={data.shipColHeaders[4]}>
+    {
+      data.shipmentFilters.map((f) => (
+        <button type="button" class="demo-chip" data-demo-filter={f.id} aria-pressed={f.id === "all" ? "true" : "false"}>
+          {f.label}
+          <span class="demo-chip__count">{f.count}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="demo-view__body">
+    <div class="demo-card demo-table-card">
+      <table class="demo-table">
+        <thead>
+          <tr>
+            {data.shipColHeaders.map((h) => <th scope="col">{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.shipRows.map((row, i) => (
+              <tr data-status={row.status}>
+                <td>
+                  <span class="demo-ref" dir="ltr">{row.ref}</span>
+                </td>
+                <td>
+                  <span class="demo-person">
+                    <span class={`demo-avatar demo-avatar--${i % 6}`} aria-hidden="true">
+                      {initials(row.customer)}
+                    </span>
+                    {row.customer}
+                  </span>
+                </td>
+                <td class="demo-table__muted">{row.city}</td>
+                <td>
+                  <span class="demo-courier">{row.courier}</span>
+                </td>
+                <td>
+                  <span class={`demo-pill demo-pill--${row.status}`}>{data.statusLabel[row.status]}</span>
+                </td>
+                <td>
+                  <span class="demo-amount">{row.amount}</span>
+                </td>
+                <td class="demo-table__muted">{row.date}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .demo-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-block-end: 1px solid var(--dp-border);
+    background: var(--dp-surface);
+  }
+
+  .demo-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--dp-border);
+    border-radius: 999px;
+    background: var(--dp-surface);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dp-text-2);
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .demo-chip:hover {
+    border-color: #93c5fd;
+    color: var(--dp-text);
+  }
+
+  .demo-chip:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+
+  .demo-chip[aria-pressed="true"] {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .demo-chip__count {
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--dp-bg);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dp-text-2);
+  }
+
+  .demo-chip[aria-pressed="true"] .demo-chip__count {
+    background: rgb(15 23 42 / 0.22);
+    color: #fff;
+  }
+
+  [data-theme="dark"] .demo-chip:hover {
+    border-color: #3b82f6;
+  }
+</style>

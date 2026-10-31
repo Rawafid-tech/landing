@@ -1,5 +1,6 @@
 ---
-import IntegrationsSectionContent from "./react-bits/IntegrationsSectionContent";
+import { Image } from "astro:assets";
+import SectionHeader from "./SectionHeader.astro";
 import { getTranslations, type Locale } from "../i18n";
 
 interface Props {
@@ -9,30 +10,148 @@ interface Props {
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
 const { integrationsSection: s } = t;
+
+import shopifyLogo from "../assets/logos/shopify.svg";
+import easyordersLogo from "../assets/logos/easyorders.png";
+import bostaLogo from "../assets/logos/bosta.png";
+import jtLogo from "../assets/logos/jt-express.svg";
+import aramexLogo from "../assets/logos/aramex.svg";
+import rawafidMark from "../assets/brand/rawafid-mark.svg";
+
+type IntegrationIcon =
+  | (typeof s.stores)[number]["icon"]
+  | (typeof s.couriers)[number]["icon"];
+
+// Brand logos. "mark" = square app icon, "wordmark" = wide text logo (sized differently on the plate).
+// Custom API has no third-party logo: it's Rawafid's own API, so it gets a "Rawafid mark + API" lockup.
+const LOGOS: Partial<Record<IntegrationIcon, { src: ImageMetadata; kind: "mark" | "wordmark" }>> = {
+  shopify: { src: shopifyLogo, kind: "wordmark" },
+  easyorders: { src: easyordersLogo, kind: "mark" },
+  bosta: { src: bostaLogo, kind: "mark" },
+  jt: { src: jtLogo, kind: "wordmark" },
+  aramex: { src: aramexLogo, kind: "wordmark" },
+};
+
+const groups = [
+  { side: "store" as const, label: s.labels.stores, items: s.stores },
+  { side: "courier" as const, label: s.labels.couriers, items: s.couriers },
+];
+
+// Rows shared by both columns so cards line up across the hub (see .int-layout subgrid).
+const rowCount = Math.max(s.stores.length, s.couriers.length);
 ---
 
-<section
-  id="integrations"
-  class="int-section"
-  aria-label={s.ariaLabel}
->
+<section id="integrations" class="int-section" aria-labelledby="integrations-heading">
   <div class="int-section__glow int-section__glow--start" aria-hidden="true"></div>
-  <div class="int-section__glow int-section__glow--end"   aria-hidden="true"></div>
+  <div class="int-section__glow int-section__glow--end" aria-hidden="true"></div>
 
   <div class="container int-section__container">
-    <IntegrationsSectionContent
-      client:visible
-      locale={locale}
-      eyebrow={s.eyebrow}
-      headline={s.headline}
-      subheadline={s.subheadline}
-      hubLabel={s.hubLabel}
-      hubTagline={s.hubTagline}
-      stores={s.stores}
-      couriers={s.couriers}
-      comingSoon={s.comingSoon}
-      labels={s.labels}
-    />
+    <div class="flex w-full flex-col gap-12 lg:gap-16">
+      <SectionHeader
+        id="integrations-heading"
+        eyebrow={s.eyebrow}
+        headline={s.headline}
+        subheadline={s.subheadline}
+      />
+
+      <!-- One layout for every breakpoint: stores · hub · couriers on desktop, stacked below. -->
+      <div class="int-layout" style={`--int-rows: ${rowCount}`}>
+        <div class="int-layout__hub" aria-hidden="true" data-reveal>
+          <div class="int-hub-wrap flex flex-col items-center gap-4">
+            <div class="int-hub relative flex items-center justify-center">
+              <div class="int-hub__ring int-hub__ring--outer absolute rounded-full"></div>
+              <div class="int-hub__ring int-hub__ring--inner absolute rounded-full"></div>
+              <div class="int-hub__core relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full text-white">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                  <path d="m3.3 7 8.7 5 8.7-5" />
+                  <path d="M12 22V12" />
+                </svg>
+              </div>
+            </div>
+            <div class="int-hub__text text-center">
+              <p class="int-hub__label text-base font-bold leading-none">{s.hubLabel}</p>
+              <p class="int-hub__tagline mt-1.5 text-xs">{s.hubTagline}</p>
+            </div>
+          </div>
+        </div>
+
+        {
+          groups.map((group) => (
+            <div class={`int-layout__group int-layout__group--${group.side}`}>
+              <h3 class="int-group-label text-center text-[11px] font-semibold uppercase tracking-[0.14em]" id={`integrations-${group.side}-label`}>
+                {group.label}
+              </h3>
+              <ul class="int-list" role="list" aria-labelledby={`integrations-${group.side}-label`}>
+                {group.items.map((item, i) => (
+                  <li class={`int-row int-row--${group.side}`} data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+                    <article class={`int-card int-card--${group.side}`}>
+                      <div class={`int-card__logo ${LOGOS[item.icon] ? `int-card__logo--${LOGOS[item.icon]!.kind}` : "int-card__logo--api"}`}>
+                        {LOGOS[item.icon] ? (
+                          <Image
+                            src={LOGOS[item.icon]!.src}
+                            alt=""
+                            width={LOGOS[item.icon]!.kind === "mark" ? 80 : 240}
+                            loading="lazy"
+                            decoding="async"
+                            class="int-card__logo-img"
+                          />
+                        ) : (
+                          <span class="int-card__api" dir="ltr">
+                            <Image src={rawafidMark} alt="" width={48} loading="lazy" decoding="async" class="int-card__api-mark" />
+                            <span class="int-card__api-text">API</span>
+                          </span>
+                        )}
+                      </div>
+                      <div class="int-card__content">
+                        <div class="int-card__header">
+                          <h4 class="int-card__name" dir="ltr">{item.name}</h4>
+                        </div>
+                        <p class="int-card__desc">{item.description}</p>
+                      </div>
+                      <span class="int-available-badge int-available-badge--end">{s.labels.available}</span>
+                    </article>
+                    <div class="int-beam" aria-hidden="true">
+                      <div class="int-beam__track"></div>
+                      <div class="int-beam__shimmer" style={`animation-delay: ${i * 0.4}s`}></div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="int-coming-soon">
+        <div class="int-coming-soon__label-wrap">
+          <span class="int-coming-soon__icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
+              <path
+                d="M10 2L12.09 7.26L17.66 7.64L13.45 11.27L14.82 16.74L10 13.77L5.18 16.74L6.55 11.27L2.34 7.64L7.91 7.26L10 2Z"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <h3 class="int-coming-soon__prefix" id="integrations-coming-soon-label">{s.labels.comingSoon}</h3>
+        </div>
+        <div class="int-coming-soon__divider" aria-hidden="true"></div>
+        <ul class="int-coming-soon__list" role="list" aria-labelledby="integrations-coming-soon-label">
+          {
+            s.comingSoon.map((item) => (
+              <li class="int-coming-soon__badge" dir="ltr">
+                <span class="int-coming-soon__dot" aria-hidden="true"></span>
+                {item.name}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -154,13 +273,154 @@ const { integrationsSection: s } = t;
     color: var(--color-gray-400);
   }
 
-  /* ── Beams ─────────────────────────────────────────────────── */
-  .int-diagram__beam {
+  /* ── Layout ────────────────────────────────────────────────── */
+  /* Mobile: hub, then stores, then couriers stacked. */
+  .int-layout {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .int-layout__hub {
     display: flex;
-    align-items: center;
-    width: 100%;
-    min-width: 0;
-    padding-inline: 0.25rem;
+    justify-content: center;
+  }
+
+  .int-group-label {
+    margin-bottom: var(--space-4);
+  }
+
+  .int-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .int-row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .int-row .int-beam {
+    display: none;
+  }
+
+  /* Tablet+: both columns share row tracks (subgrid), so card N on the left is
+     always the same height as card N on the right. */
+  @media (min-width: 768px) {
+    .int-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto auto repeat(var(--int-rows), auto);
+      gap: var(--space-3) var(--space-5);
+    }
+
+    .int-layout__hub {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      margin-bottom: var(--space-5);
+    }
+
+    .int-layout__group {
+      display: grid;
+      grid-row: 2 / -1;
+      grid-template-rows: subgrid;
+    }
+
+    .int-layout__group--store { grid-column: 1; }
+    .int-layout__group--courier { grid-column: 2; }
+
+    .int-group-label {
+      margin-bottom: var(--space-1);
+    }
+
+    .int-list {
+      display: grid;
+      grid-row: 2 / -1;
+      grid-template-rows: subgrid;
+    }
+  }
+
+  /* Desktop: stores · hub · couriers, beams running from each card into the hub. */
+  @media (min-width: 1024px) {
+    .int-layout {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      grid-template-rows: auto repeat(var(--int-rows), auto);
+      gap: var(--space-5) 0;
+    }
+
+    .int-layout__group {
+      grid-row: 1 / -1;
+    }
+
+    .int-layout__group--courier { grid-column: 3; }
+
+    /* Labels sit on the outer edge, above where the cards start. */
+    .int-group-label {
+      margin-bottom: 0;
+      padding-inline: var(--space-1);
+      text-align: start;
+    }
+
+    .int-layout__group--courier .int-group-label {
+      text-align: end;
+    }
+
+    .int-layout__hub {
+      grid-column: 2;
+      grid-row: 2 / -1;
+      align-self: center;
+      margin-bottom: 0;
+    }
+
+    /* Take the label out of flow so the hub core sits exactly on the middle row's beam. */
+    .int-hub-wrap {
+      position: relative;
+    }
+
+    .int-hub__text {
+      position: absolute;
+      top: 100%;
+      inset-inline-start: 50%;
+      width: 10rem;
+      margin-top: var(--space-3);
+      translate: -50% 0;
+    }
+
+    [dir="rtl"] .int-hub__text {
+      translate: 50% 0;
+    }
+
+    .int-row--courier {
+      flex-direction: row-reverse;
+    }
+
+    /* Cards take the room; beams are short connectors into the hub. */
+    .int-row .int-card {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .int-row .int-beam {
+      display: block;
+      flex: 0 0 4rem;
+      width: auto;
+      align-self: center;
+      margin-inline: var(--space-3);
+    }
+
+    /* Beams flow stores → hub → couriers; mirror them so that holds in RTL too. */
+    [dir="rtl"] .int-row .int-beam {
+      transform: scaleX(-1);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .int-row .int-beam {
+      flex-basis: 6.5rem;
+      margin-inline: var(--space-4);
+    }
   }
 
   .int-beam {
@@ -215,26 +475,13 @@ const { integrationsSection: s } = t;
     );
   }
 
-  /* ── Diagram cells ───────────────────────────────────────── */
-  .int-diagram__cell {
-    min-width: 0;
-    width: 100%;
-    max-width: 22rem;
-  }
-
-  .int-diagram__cell--store {
-    justify-self: end;
-  }
-
-  .int-diagram__cell--courier {
-    justify-self: start;
-  }
-
   /* ── Integration card ──────────────────────────────────────── */
   .int-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
     width: 100%;
-    max-width: 22rem;
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-4);
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-xl);
     background: var(--bg-primary);
@@ -245,30 +492,61 @@ const { integrationsSection: s } = t;
       transform    var(--transition-base);
   }
 
-  .int-card__inner {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-4);
-  }
-
-  .int-card__inner--store {
-    flex-direction: row-reverse;
-  }
-
-  .int-card__inner--courier {
-    flex-direction: row;
-  }
-
-  .int-card__icon {
+  /* White logo plate in both themes so brand colours (and Shopify's dark wordmark) stay legible. */
+  .int-card__logo {
     display: flex;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 6.5rem;
+    height: 4rem;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border-primary);
     border-radius: var(--radius-lg);
-    background: var(--int-icon-bg);
-    color: var(--int-icon-color);
+    background: #fff;
+  }
+
+  .int-card__logo-img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .int-card__logo--mark .int-card__logo-img {
+    max-height: 2.5rem;
+  }
+
+  .int-card__logo--wordmark .int-card__logo-img {
+    max-height: 1.75rem;
+  }
+
+  /* Custom API: Rawafid mark + "API" lockup, styled to read like the brand wordmarks. */
+  .int-card__api {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .int-card__api-mark {
+    display: block;
+    width: auto;
+    height: 1.75rem;
+  }
+
+  .int-card__api-text {
+    font-family: 'Inter Variable', 'Inter', system-ui, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: #1d63e0;
+  }
+
+  [data-theme="dark"] .int-card__logo {
+    border-color: transparent;
+    background: #f8fafc;
   }
 
   .int-card__content {
@@ -284,6 +562,7 @@ const { integrationsSection: s } = t;
   }
 
   .int-card__name {
+    margin: 0;
     font-size: var(--text-base);
     font-weight: var(--font-semibold);
     line-height: var(--leading-snug);
@@ -291,7 +570,7 @@ const { integrationsSection: s } = t;
   }
 
   .int-card__desc {
-    margin-top: var(--space-2);
+    margin-top: var(--space-1);
     font-size: var(--text-sm);
     line-height: var(--leading-relaxed);
     color: var(--color-gray-500);
@@ -314,18 +593,25 @@ const { integrationsSection: s } = t;
     box-shadow: 0 8px 28px rgba(37, 99, 235, 0.18);
   }
 
+  /* Courier cards mirror store cards: logo at the end, text hugging it. */
+  .int-card--courier {
+    flex-direction: row-reverse;
+  }
+
+  .int-card--courier .int-card__content {
+    text-align: end;
+  }
+
+  .int-card--courier .int-card__header {
+    justify-content: flex-end;
+  }
+
   [data-theme="dark"] .int-card__name {
     color: var(--color-gray-50);
   }
 
   [data-theme="dark"] .int-card__desc {
     color: var(--color-gray-400);
-  }
-
-  .int-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    flex-shrink: 0;
   }
 
   /* ── Available badge ───────────────────────────────────────── */
@@ -341,22 +627,24 @@ const { integrationsSection: s } = t;
     color: var(--color-accent-dark);
   }
 
+  /* Badge sits at the far end of the card, opposite the logo. */
+  .int-available-badge--end {
+    align-self: center;
+    margin-inline-start: auto;
+  }
+
+  /* Courier cards run row-reverse, so the far end is the inline-start side. */
+  .int-card--courier .int-available-badge--end {
+    margin-inline-start: 0;
+    margin-inline-end: auto;
+  }
+
   [data-theme="dark"] .int-available-badge {
     background: rgba(74, 222, 128, 0.14);
     color: #4ade80;
   }
 
   /* ── Coming soon ───────────────────────────────────────────── */
-  .int-coming-soon-divider {
-    margin-top: -30px;
-    padding-top: var(--space-8);
-    border-top: 1px solid var(--border-primary);
-  }
-
-  [data-theme="dark"] .int-coming-soon-divider {
-    border-top-color: rgba(255, 255, 255, 0.1);
-  }
-
   .int-coming-soon {
     display: flex;
     flex-direction: column;
@@ -444,6 +732,7 @@ const { integrationsSection: s } = t;
   }
 
   .int-coming-soon__prefix {
+    margin: 0;
     font-size: var(--text-xs);
     font-weight: var(--font-bold);
     text-transform: uppercase;
@@ -515,69 +804,6 @@ const { integrationsSection: s } = t;
 
   [data-theme="dark"] .int-group-label {
     color: var(--color-gray-400);
-  }
-
-  /* ── Per-integration accent colours ────────────────────────── */
-  .int-store--0 {
-    --int-icon-bg:    rgba(149, 191, 71, 0.14);
-    --int-icon-color: #5a8c1a;
-  }
-  [data-theme="dark"] .int-store--0 {
-    --int-icon-bg:    rgba(149, 191, 71, 0.18);
-    --int-icon-color: #95bf47;
-  }
-
-  .int-store--1 {
-    --int-icon-bg:    rgba(37, 99, 235, 0.12);
-    --int-icon-color: #1d4ed8;
-  }
-  [data-theme="dark"] .int-store--1 {
-    --int-icon-bg:    rgba(37, 99, 235, 0.18);
-    --int-icon-color: #60a5fa;
-  }
-
-  .int-store--2 {
-    --int-icon-bg:    rgba(139, 92, 246, 0.12);
-    --int-icon-color: #6d28d9;
-  }
-  [data-theme="dark"] .int-store--2 {
-    --int-icon-bg:    rgba(139, 92, 246, 0.18);
-    --int-icon-color: #a78bfa;
-  }
-
-  .int-courier--0 {
-    --int-icon-bg:    rgba(249, 115, 22, 0.14);
-    --int-icon-color: #c2410c;
-  }
-  [data-theme="dark"] .int-courier--0 {
-    --int-icon-bg:    rgba(249, 115, 22, 0.18);
-    --int-icon-color: #fb923c;
-  }
-
-  .int-courier--1 {
-    --int-icon-bg:    rgba(20, 184, 166, 0.12);
-    --int-icon-color: #0f766e;
-  }
-  [data-theme="dark"] .int-courier--1 {
-    --int-icon-bg:    rgba(20, 184, 166, 0.18);
-    --int-icon-color: #2dd4bf;
-  }
-
-  .int-courier--2 {
-    --int-icon-bg:    rgba(99, 102, 241, 0.12);
-    --int-icon-color: #4338ca;
-  }
-  [data-theme="dark"] .int-courier--2 {
-    --int-icon-bg:    rgba(99, 102, 241, 0.18);
-    --int-icon-color: #818cf8;
-  }
-
-  /* Tablet / mobile cards — full width within column */
-  @media (max-width: 1023px) {
-    .int-card,
-    .int-diagram__cell {
-      max-width: none;
-    }
   }
 
   /* ── Reduced motion ────────────────────────────────────────── */

@@ -1,20 +1,17 @@
 ---
-import type { Translations } from "../i18n/types";
-
 interface Props {
-  labels: Translations["theme"];
+  /** Static name ("Dark mode"); aria-pressed carries the on/off state. */
+  label: string;
 }
 
-const { labels } = Astro.props;
+const { label } = Astro.props;
 ---
 
 <button
   type="button"
   class="theme-toggle"
   data-theme-toggle
-  data-label-light={labels.switchToLight}
-  data-label-dark={labels.switchToDark}
-  aria-label={labels.switchToDark}
+  aria-label={label}
   aria-pressed="false"
 >
   <span class="theme-toggle__track" aria-hidden="true">
@@ -47,35 +44,35 @@ const { labels } = Astro.props;
 <script>
   import { THEME_STORAGE_KEY, type Theme } from "../lib/theme";
 
+  const THEME_COLORS: Record<Theme, string> = { light: "#ffffff", dark: "#0f172a" };
+
   const getTheme = (): Theme => {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   };
 
-  const updateToggleButtons = (theme: Theme) => {
-    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
-      const labelLight = button.dataset.labelLight ?? "Switch to light mode";
-      const labelDark = button.dataset.labelDark ?? "Switch to dark mode";
+  /** Apply a theme without persisting it, so the OS preference keeps working until the user picks one. */
+  const applyTheme = (theme: Theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
 
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
       button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
-      button.setAttribute("aria-label", theme === "dark" ? labelLight : labelDark);
+    });
+
+    document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((meta) => {
+      meta.content = THEME_COLORS[theme];
     });
   };
 
-  const setTheme = (theme: Theme) => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
-    updateToggleButtons(theme);
-  };
-
   const toggleTheme = () => {
-    setTheme(getTheme() === "light" ? "dark" : "light");
+    const next: Theme = getTheme() === "light" ? "dark" : "light";
+    localStorage.setItem(THEME_STORAGE_KEY, next);
+    applyTheme(next);
   };
 
   const initThemeToggles = () => {
-    const theme = getTheme();
-    setTheme(theme);
+    applyTheme(getTheme());
 
     document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
       button.onclick = toggleTheme;
@@ -87,7 +84,7 @@ const { labels } = Astro.props;
 
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
     if (!localStorage.getItem(THEME_STORAGE_KEY)) {
-      setTheme(event.matches ? "dark" : "light");
+      applyTheme(event.matches ? "dark" : "light");
     }
   });
 </script>

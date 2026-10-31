@@ -1,0 +1,24 @@
+---
+interface Props {
+  /** Id for the <h2>; the parent <section> points aria-labelledby at it. */
+  id: string;
+  eyebrow?: string;
+  headline: string;
+  subheadline?: string;
+  align?: "center" | "start";
+}
+
+const { id, eyebrow, headline, subheadline, align = "center" } = Astro.props;
+---
+
+<header
+  class:list={[
+    "flex max-w-full flex-col gap-4",
+    align === "center" ? "mx-auto text-center" : "text-start",
+  ]}
+  data-reveal
+>
+  {eyebrow && <p class="section-header__eyebrow">{eyebrow}</p>}
+  <h2 id={id} class="section-header__headline">{headline}</h2>
+  {subheadline && <p class="section-header__subheadline">{subheadline}</p>}
+</header>

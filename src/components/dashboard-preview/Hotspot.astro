@@ -1,0 +1,61 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  id: string;
+  /** % of the canvas width from the inline-start edge. */
+  x: number;
+  /** % of the canvas height from the top. */
+  y: number;
+  label: string;
+  title: string;
+  description: string;
+  closeLabel: string;
+  navigatesTo?: string;
+  navigateLabel?: string;
+}
+
+const { id, x, y, label, title, description, closeLabel, navigatesTo, navigateLabel } = Astro.props;
+const tipId = `demo-tip-${id}`;
+// Open the card below dots in the upper half and above dots in the lower half.
+const place = y < 45 ? "below" : "above";
+---
+
+<button
+  type="button"
+  class="demo-hotspot"
+  id={`demo-hotspot-${id}`}
+  aria-expanded="false"
+  aria-controls={tipId}
+  aria-label={label}
+  data-demo-hotspot={id}
+  style={`--x: ${x}%; --y: ${y}%`}
+>
+  <span class="demo-hotspot__core" aria-hidden="true"></span>
+</button>
+
+<div
+  id={tipId}
+  class="demo-tip"
+  role="group"
+  aria-labelledby={`${tipId}-title`}
+  data-place={place}
+  style={`--x: ${x}%; --y: ${y}%`}
+  hidden
+>
+  <div class="demo-tip__head">
+    <h3 id={`${tipId}-title`} class="demo-tip__title">{title}</h3>
+    <button type="button" class="demo-tip__close" aria-label={closeLabel} data-demo-tip-close>
+      <Icon name="close" size={14} strokeWidth={2.5} />
+    </button>
+  </div>
+  <p class="demo-tip__text">{description}</p>
+  {
+    navigatesTo && navigateLabel && (
+      <button type="button" class="btn btn-primary btn-small demo-tip__action" data-demo-view={navigatesTo}>
+        {navigateLabel}
+        <Icon name="arrow" size={14} strokeWidth={2.25} class="demo-tip__arrow" />
+      </button>
+    )
+  }
+</div>

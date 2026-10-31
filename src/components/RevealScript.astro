@@ -1,0 +1,39 @@
+---
+// Scroll-reveal for elements marked [data-reveal]. Content is visible in the HTML by
+// default; only when this script runs (JS on, motion allowed, IntersectionObserver
+// available) does it opt the page into the hidden-until-in-view state. Stagger with
+// style="--reveal-delay: 120ms". Styles live in global.css.
+---
+
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    if (!("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    root.classList.add("reveal-ready");
+
+    var observe = function () {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px" }
+      );
+
+      document.querySelectorAll("[data-reveal]").forEach(function (element) {
+        observer.observe(element);
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", observe);
+    } else {
+      observe();
+    }
+  })();
+</script>

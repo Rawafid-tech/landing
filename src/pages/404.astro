@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getLocalePath, getTranslations } from "../i18n";
+
+// Static hosts serve one 404 for every path, so show both languages.
+const ar = getTranslations("ar");
+const en = getTranslations("en");
+---
+
+<Layout locale="ar" title={`${ar.notFound.title} — روافد`} description={ar.notFound.description} noindex>
+  <main id="main-content" class="not-found">
+    <section class="not-found__block" aria-labelledby="not-found-ar">
+      <p class="not-found__code" aria-hidden="true">404</p>
+      <h1 id="not-found-ar" class="section-header__headline">{ar.notFound.title}</h1>
+      <p class="section-header__subheadline">{ar.notFound.description}</p>
+      <a href={getLocalePath("ar")} class="btn btn-primary">{ar.notFound.cta}</a>
+    </section>
+
+    <section class="not-found__block" lang="en" dir="ltr" aria-labelledby="not-found-en">
+      <h2 id="not-found-en" class="section-header__headline">{en.notFound.title}</h2>
+      <p class="section-header__subheadline">{en.notFound.description}</p>
+      <a href={getLocalePath("en")} class="btn btn-secondary">{en.notFound.cta}</a>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .not-found {
+    display: grid;
+    gap: var(--space-12);
+    place-content: center;
+    min-height: 100dvh;
+    padding: var(--space-16) var(--space-4);
+    text-align: center;
+  }
+
+  .not-found__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .not-found__code {
+    font-size: var(--text-7xl);
+    font-weight: var(--font-bold);
+    line-height: 1;
+    color: var(--color-primary);
+  }
+</style>

@@ -3,6 +3,7 @@ import Logo from "./Logo.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import { getTranslations, getLocalePath, type Locale } from "../i18n";
+import { LOGIN_URL, SIGNUP_URL } from "../config/site";
 
 interface Props {
   locale?: Locale;
@@ -12,8 +13,6 @@ const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
 
 const navLinks = [
-  { href: "#hero", label: t.nav.links.home },
-  { href: "#problems", label: t.nav.links.problems },
   { href: "#features", label: t.nav.links.features },
   { href: "#how-it-works", label: t.nav.links.howItWorks },
   { href: "#integrations", label: t.nav.links.integrations },
@@ -21,99 +20,81 @@ const navLinks = [
   { href: "#faq", label: t.nav.links.faq },
 ];
 
-const ctaHref = "#cta";
-const ctaLabel = t.nav.cta;
 const homeHref = getLocalePath(locale);
 ---
 
 <div class="navbar-system" data-navbar>
-  <header
-    id="site-header"
-    class="navbar"
-    role="banner"
-  >
+  <header id="site-header" class="navbar">
     <a href="#main-content" class="navbar__skip-link">
       {t.nav.skipLink}
     </a>
 
     <div class="navbar__shell">
-      <nav
-        class="navbar__inner container"
-        aria-label={t.nav.ariaLabel}
-      >
-      <a
-        href={homeHref}
-        class="navbar__logo"
-        aria-label={t.nav.logoAriaLabel}
-      >
-        <Logo class="navbar__logo-image" />
-      </a>
-
-      <ul class="navbar__links" role="list">
-        {
-          navLinks.map((link) => (
-            <li>
-              <a href={link.href} class="navbar__link">
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-
-      <div class="navbar__actions">
-        <div class="navbar__controls">
-          <LanguageSwitcher locale={locale} />
-          <ThemeToggle labels={t.theme} />
-        </div>
-
-        <a
-          href={ctaHref}
-          class="btn btn-primary btn-small navbar__cta navbar__cta--desktop"
-        >
-          {ctaLabel}
+      <nav class="navbar__inner container" aria-label={t.nav.ariaLabel}>
+        <a href={homeHref} class="navbar__logo" aria-label={t.nav.logoAriaLabel}>
+          <Logo class="navbar__logo-image" />
         </a>
 
-        <button
-          type="button"
-          class="navbar__menu-toggle"
-          data-menu-toggle
-          aria-expanded="false"
-          aria-controls="navbar-mobile-menu"
-          aria-label={t.nav.openMenu}
-          data-menu-open-label={t.nav.openMenu}
-          data-menu-close-label={t.nav.closeMenu}
-        >
-          <span class="navbar__menu-icon" aria-hidden="true">
-            <span class="navbar__menu-bar"></span>
-            <span class="navbar__menu-bar"></span>
-            <span class="navbar__menu-bar"></span>
-          </span>
-        </button>
-      </div>
-    </nav>
-  </div>
+        <ul class="navbar__links" role="list">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a href={link.href} class="navbar__link">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="navbar__actions">
+          <div class="navbar__controls">
+            <LanguageSwitcher locale={locale} />
+            <ThemeToggle label={t.theme.toggleLabel} />
+          </div>
+
+          <a href={LOGIN_URL} class="navbar__link navbar__login">
+            {t.nav.login}
+          </a>
+
+          <a href={SIGNUP_URL} class="btn btn-primary btn-small navbar__cta navbar__cta--desktop">
+            {t.nav.cta}
+          </a>
+
+          <button
+            type="button"
+            class="navbar__menu-toggle"
+            data-menu-toggle
+            aria-expanded="false"
+            aria-controls="navbar-mobile-menu"
+            aria-label={t.nav.openMenu}
+          >
+            <span class="navbar__menu-icon" aria-hidden="true">
+              <span class="navbar__menu-bar"></span>
+              <span class="navbar__menu-bar"></span>
+              <span class="navbar__menu-bar"></span>
+            </span>
+          </button>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <div
+  <!-- Native modal dialog: focus trap, inert background and Escape handling come for free. -->
+  <dialog
     id="navbar-mobile-menu"
     class="navbar__mobile-panel"
     data-mobile-menu
-    hidden
+    aria-label={t.nav.mobileMenuLabel}
   >
     <div class="navbar__mobile-backdrop" data-menu-backdrop aria-hidden="true"></div>
 
-    <div class="navbar__mobile-drawer" role="dialog" aria-modal="true" aria-label={t.nav.mobileMenuLabel}>
+    <div class="navbar__mobile-drawer">
       <div class="navbar__mobile-header">
         <a href={homeHref} class="navbar__mobile-logo" data-mobile-link aria-label={t.nav.logoAriaLabel}>
           <Logo class="navbar__logo-image" />
         </a>
-        <button
-          type="button"
-          class="navbar__mobile-close"
-          data-menu-close
-          aria-label={t.nav.closeMenu}
-        >
+        <button type="button" class="navbar__mobile-close" data-menu-close aria-label={t.nav.closeMenu}>
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
@@ -122,10 +103,10 @@ const homeHref = getLocalePath(locale);
 
       <div class="navbar__mobile-toolbar">
         <LanguageSwitcher locale={locale} variant="full" />
-        <ThemeToggle labels={t.theme} />
+        <ThemeToggle label={t.theme.toggleLabel} />
       </div>
 
-      <nav class="navbar__mobile-nav" aria-label={t.nav.ariaLabel}>
+      <nav class="navbar__mobile-nav" aria-label={t.nav.mobileAriaLabel}>
         <ul class="navbar__mobile-links" role="list">
           {
             navLinks.map((link, index) => (
@@ -145,16 +126,15 @@ const homeHref = getLocalePath(locale);
       </nav>
 
       <div class="navbar__mobile-footer">
-        <a
-          href={ctaHref}
-          class="btn btn-primary navbar__mobile-cta"
-          data-mobile-link
-        >
-          {ctaLabel}
+        <a href={SIGNUP_URL} class="btn btn-primary navbar__mobile-cta">
+          {t.nav.cta}
+        </a>
+        <a href={LOGIN_URL} class="btn btn-secondary navbar__mobile-cta">
+          {t.nav.login}
         </a>
       </div>
     </div>
-  </div>
+  </dialog>
 </div>
 
 <script>
@@ -166,12 +146,8 @@ const homeHref = getLocalePath(locale);
 
     let ticking = false;
 
-    const mobileMenu = root.querySelector<HTMLElement>("[data-mobile-menu]");
-    if (mobileMenu && mobileMenu.parentElement !== document.body) {
-      document.body.appendChild(mobileMenu);
-    }
-
     const menuToggle = root.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    const mobileMenu = root.querySelector<HTMLDialogElement>("[data-mobile-menu]");
     const menuClose = mobileMenu?.querySelector<HTMLButtonElement>("[data-menu-close]");
     const mobileDrawer = mobileMenu?.querySelector<HTMLElement>(".navbar__mobile-drawer");
     const mobileBackdrop = mobileMenu?.querySelector<HTMLElement>("[data-menu-backdrop]");
@@ -189,64 +165,63 @@ const homeHref = getLocalePath(locale);
       window.requestAnimationFrame(updateScrollState);
     };
 
-    const setMenuOpen = (isOpen: boolean) => {
-      if (!menuToggle || !mobileMenu) return;
+    const openMenu = () => {
+      if (!menuToggle || !mobileMenu || mobileMenu.open) return;
 
-      const openLabel = menuToggle.dataset.menuOpenLabel ?? "Open navigation menu";
-      const closeLabel = menuToggle.dataset.menuCloseLabel ?? "Close navigation menu";
+      mobileMenu.showModal();
+      menuToggle.setAttribute("aria-expanded", "true");
+      // Flush the closed-state styles so the slide-in transition runs.
+      void mobileDrawer?.offsetWidth;
+      document.body.classList.add("navbar-menu-open");
+      root.classList.add("navbar--menu-open");
+      mobileMenu.querySelector<HTMLElement>(".navbar__mobile-link")?.focus();
+    };
 
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.setAttribute("aria-label", isOpen ? closeLabel : openLabel);
+    const closeMenu = () => {
+      if (!menuToggle || !mobileMenu || !mobileMenu.open) return;
 
-      if (isOpen) {
-        mobileMenu.hidden = false;
-        requestAnimationFrame(() => {
-          root.classList.add("navbar--menu-open");
-        });
-        document.body.classList.add("navbar-menu-open");
-        mobileMenu.querySelector<HTMLElement>("[data-mobile-link]")?.focus();
-        return;
-      }
-
+      menuToggle.setAttribute("aria-expanded", "false");
       root.classList.remove("navbar--menu-open");
       document.body.classList.remove("navbar-menu-open");
 
-      if (prefersReducedMotion.matches) {
-        mobileMenu.hidden = true;
+      let finished = false;
+      const finish = () => {
+        if (finished) return;
+        finished = true;
+        mobileDrawer?.removeEventListener("transitionend", onTransitionEnd);
+        mobileMenu.close();
+        menuToggle.focus();
+      };
+
+      // Let the slide-out transition play before removing the dialog from the top layer.
+      const onTransitionEnd = (event: TransitionEvent) => {
+        if (event.target === mobileDrawer && event.propertyName === "transform") finish();
+      };
+
+      if (prefersReducedMotion.matches || !mobileDrawer) {
+        finish();
         return;
       }
 
-      const finishClose = (event: TransitionEvent) => {
-        if (event.target !== mobileDrawer || event.propertyName !== "transform") return;
-        mobileDrawer.removeEventListener("transitionend", finishClose);
-        if (menuToggle.getAttribute("aria-expanded") !== "true") {
-          mobileMenu.hidden = true;
-        }
-      };
-
-      mobileDrawer?.addEventListener("transitionend", finishClose);
-    };
-
-    const closeMenu = () => setMenuOpen(false);
-
-    const onMenuToggle = () => {
-      const isOpen = menuToggle?.getAttribute("aria-expanded") === "true";
-      setMenuOpen(!isOpen);
-    };
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && menuToggle?.getAttribute("aria-expanded") === "true") {
-        closeMenu();
-        menuToggle?.focus();
-      }
+      mobileDrawer.addEventListener("transitionend", onTransitionEnd);
+      // A modal that never closes would block the page, so don't rely on transitionend alone.
+      window.setTimeout(finish, 500);
     };
 
     updateScrollState();
     window.addEventListener("scroll", onScroll, { passive: true, signal });
-    menuToggle?.addEventListener("click", onMenuToggle, { signal });
+    menuToggle?.addEventListener("click", openMenu, { signal });
     menuClose?.addEventListener("click", closeMenu, { signal });
     mobileBackdrop?.addEventListener("click", closeMenu, { signal });
-    document.addEventListener("keydown", onKeyDown, { signal });
+    // Escape fires "cancel"; route it through the animated close.
+    mobileMenu?.addEventListener(
+      "cancel",
+      (event) => {
+        event.preventDefault();
+        closeMenu();
+      },
+      { signal },
+    );
 
     mobileLinks.forEach((link) => {
       link.addEventListener("click", closeMenu, { signal });
@@ -254,6 +229,7 @@ const homeHref = getLocalePath(locale);
 
     return () => {
       abortController.abort();
+      mobileMenu?.close();
       document.body.classList.remove("navbar-menu-open");
     };
   }
@@ -501,20 +477,20 @@ const homeHref = getLocalePath(locale);
   .navbar__mobile-panel {
     position: fixed;
     inset: 0;
-    width: auto;
+    width: 100%;
+    height: 100dvh;
     max-width: none;
-    height: auto;
-    min-height: 100dvh;
+    max-height: none;
     margin: 0;
     padding: 0;
     border: none;
-    z-index: calc(var(--z-fixed) + 10);
-    pointer-events: none;
+    background: transparent;
+    color: inherit;
     overflow: hidden;
   }
 
-  .navbar__mobile-panel:not([hidden]) {
-    pointer-events: auto;
+  .navbar__mobile-panel::backdrop {
+    background: transparent;
   }
 
   .navbar__mobile-backdrop {
@@ -743,8 +719,18 @@ const homeHref = getLocalePath(locale);
     transform: translateY(0);
   }
 
+  .navbar__mobile-footer {
+    display: grid;
+    gap: var(--space-3);
+  }
+
   .navbar__mobile-cta {
     width: 100%;
+  }
+
+  .navbar__login {
+    display: none;
+    white-space: nowrap;
   }
 
   @media (min-width: 1024px) {
@@ -756,8 +742,8 @@ const homeHref = getLocalePath(locale);
       display: none;
     }
 
-    .navbar__mobile-panel {
-      display: none;
+    .navbar__login {
+      display: inline-flex;
     }
   }
 

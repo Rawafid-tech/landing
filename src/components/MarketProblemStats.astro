@@ -1,5 +1,4 @@
 ---
-import MarketProblemStatsContent from "./react-bits/MarketProblemStatsContent";
 import { getTranslations, type Locale } from "../i18n";
 
 interface Props {
@@ -8,25 +7,73 @@ interface Props {
 
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
-const marketStats = t.marketStats;
+const s = t.marketStats;
+
+type StatIcon = (typeof s.stats)[number]["icon"] | "insights";
+
+const ICONS: Record<StatIcon, string> = {
+  insights: '<path d="M3 3v18h18"/><path d="M7 16l4-5 4 3 5-7"/>',
+  merchants:
+    '<path d="M16 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3.25"/><path d="M22 19v-1a3 3 0 0 0-2.2-2.87"/><path d="M16 3.3a3.25 3.25 0 0 1 0 6.3"/>',
+  carriers:
+    '<path d="M14 18V7.2a1.2 1.2 0 0 0-1.2-1.2H3.2A1.2 1.2 0 0 0 2 7.2V16a1 1 0 0 0 1 1h1.2"/><path d="M15 18h3.3"/><path d="M19.8 18H21a1 1 0 0 0 1-1v-2.8a1 1 0 0 0-.76-.97l-1.8-.54a1.2 1.2 0 0 1-.84-1.14V10a1 1 0 0 0-1-1h-1.8"/><circle cx="6.5" cy="18" r="1.5"/><circle cx="17.5" cy="18" r="1.5"/>',
+  time: '<circle cx="12" cy="12" r="8.25"/><path d="M12 8v4.2l2.8 1.6"/>',
+  market: '<path d="M4 19V11"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M22 19V8"/>',
+};
 ---
 
-<section
-  id="market-stats"
-  class="market-stats"
-  aria-label={marketStats.ariaLabel}
->
+<section id="market-stats" class="market-stats" aria-labelledby="market-stats-heading">
   <div class="market-stats__fade" aria-hidden="true"></div>
   <div class="market-stats__glow market-stats__glow--start" aria-hidden="true"></div>
   <div class="market-stats__glow market-stats__glow--end" aria-hidden="true"></div>
 
   <div class="container market-stats__container">
     <div class="market-stats__panel">
-      <MarketProblemStatsContent
-        client:visible
-        eyebrow={marketStats.eyebrow}
-        stats={marketStats.stats}
-      />
+      <div class="relative flex flex-col gap-8 md:gap-10">
+        <div class="market-stats__header" data-reveal>
+          <h2 id="market-stats-heading" class="market-stats__eyebrow">
+            <span class="market-stats__eyebrow-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS.insights} />
+            </span>
+            <span>{s.eyebrow}</span>
+          </h2>
+        </div>
+
+        <!-- Final values are in the HTML; each item reads as one sentence ("85% of merchants struggle…"). -->
+        <ul class="market-stats__grid" role="list">
+          {
+            s.stats.map((stat, index) => (
+              <li class="market-stats__item-wrap" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
+                <div class="market-stats__item group">
+                  <div class={`market-stats__icon market-stats__icon--${stat.icon}`} aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[stat.icon]} />
+                  </div>
+
+                  <p class="market-stats__figure inline-flex flex-wrap items-baseline gap-x-1.5 text-[clamp(2.5rem,6vw,3.25rem)] font-bold leading-none tracking-tight text-[var(--color-gray-900)]">
+                    <span class="market-stats__value tabular-nums">
+                      {stat.prefix}
+                      {stat.value}
+                    </span>
+                    {stat.suffix && <span class="text-[0.72em] font-bold text-[var(--color-primary)]">{stat.suffix}</span>}
+                    {stat.unit && (
+                      <span class="text-[0.38em] font-semibold tracking-normal text-[var(--color-gray-600)]">{stat.unit}</span>
+                    )}
+                  </p>
+
+                  <p class="market-stats__labels">
+                    <span class="block text-base font-semibold leading-snug text-[var(--color-gray-800)]">
+                      {stat.labelPrimary}
+                    </span>
+                    <span class="block text-sm leading-relaxed text-[var(--color-gray-500)]">{stat.labelSecondary}</span>
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+
+        {s.source && <p class="market-stats__source">{s.source}</p>}
+      </div>
     </div>
   </div>
 </section>
@@ -214,62 +261,11 @@ const marketStats = t.marketStats;
     color: var(--color-primary);
   }
 
-  .market-stats__icon--carriers {
-    color: #0ea5e9;
-    border-color: color-mix(in srgb, #0ea5e9 24%, var(--border-primary));
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, #0ea5e9 12%, var(--bg-primary)) 0%,
-      color-mix(in srgb, var(--bg-primary) 96%, transparent) 100%
-    );
-  }
 
-  [data-theme="dark"] .market-stats__icon--carriers {
-    color: #38bdf8;
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, #0ea5e9 20%, var(--bg-secondary)) 0%,
-      color-mix(in srgb, var(--bg-primary) 92%, transparent) 100%
-    );
-  }
 
-  .market-stats__icon--time {
-    color: #d97706;
-    border-color: color-mix(in srgb, #d97706 24%, var(--border-primary));
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, #d97706 10%, var(--bg-primary)) 0%,
-      color-mix(in srgb, var(--bg-primary) 96%, transparent) 100%
-    );
-  }
 
-  [data-theme="dark"] .market-stats__icon--time {
-    color: #fbbf24;
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, #d97706 18%, var(--bg-secondary)) 0%,
-      color-mix(in srgb, var(--bg-primary) 92%, transparent) 100%
-    );
-  }
 
-  .market-stats__icon--market {
-    color: var(--color-accent-dark);
-    border-color: color-mix(in srgb, var(--color-accent) 24%, var(--border-primary));
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--color-accent) 10%, var(--bg-primary)) 0%,
-      color-mix(in srgb, var(--bg-primary) 96%, transparent) 100%
-    );
-  }
 
-  [data-theme="dark"] .market-stats__icon--market {
-    color: var(--color-accent-light);
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--color-accent) 18%, var(--bg-secondary)) 0%,
-      color-mix(in srgb, var(--bg-primary) 92%, transparent) 100%
-    );
-  }
 
   .market-stats__grid {
     display: grid;
@@ -385,5 +381,27 @@ const marketStats = t.marketStats;
     .market-stats__glow {
       display: none;
     }
+  }
+
+  .market-stats__grid {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .market-stats__figure {
+    margin-block-end: var(--space-3);
+  }
+
+  .market-stats__labels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .market-stats__source {
+    font-size: var(--text-xs);
+    text-align: center;
+    color: var(--color-gray-500);
   }
 </style>

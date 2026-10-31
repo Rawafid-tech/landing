@@ -1,0 +1,243 @@
+---
+import Icon from "./Icon.astro";
+import { initials, type DemoLocaleData } from "../../data/dashboard-demo";
+
+interface Props {
+  data: DemoLocaleData;
+}
+
+const { data } = Astro.props;
+---
+
+<!-- Decorative copy of the app sidebar. The real view switcher is the tablist above
+     the frame; these items mirror it for pointer users (tabindex -1, aria-hidden). -->
+<aside class="demo-sidebar" aria-hidden="true">
+  <div class="demo-sidebar__brand">
+    <span class="demo-sidebar__logo">
+      <Icon name="shipments" size={16} strokeWidth={2.5} />
+    </span>
+    <span class="demo-sidebar__name">{data.brand}</span>
+    <span class="demo-sidebar__version">v2</span>
+  </div>
+
+  <nav class="demo-sidebar__nav">
+    {
+      data.sidebarItems.map((item) =>
+        item.view ? (
+          <button
+            type="button"
+            tabindex="-1"
+            class:list={["demo-sidebar__item", item.view === "overview" && "is-active"]}
+            data-demo-view={item.view}
+          >
+            <Icon name={item.id} size={16} />
+            <span class="demo-sidebar__label">{item.label}</span>
+            {item.badge && (
+              <span class={`demo-sidebar__badge demo-sidebar__badge--${item.badgeTone}`}>{item.badge}</span>
+            )}
+          </button>
+        ) : (
+          <span class="demo-sidebar__item">
+            <Icon name={item.id} size={16} />
+            <span class="demo-sidebar__label">{item.label}</span>
+          </span>
+        )
+      )
+    }
+  </nav>
+
+  <div class="demo-sidebar__user">
+    <span class="demo-sidebar__avatar">
+      {initials(data.userLabel)}
+      <span class="demo-sidebar__presence"></span>
+    </span>
+    <span class="demo-sidebar__who">
+      <span class="demo-sidebar__user-name">{data.userLabel}</span>
+      <span class="demo-sidebar__user-email">{data.userEmail}</span>
+    </span>
+    <Icon name="more" size={16} class="demo-sidebar__more" />
+  </div>
+</aside>
+
+<style is:global>
+  .demo-sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 220px;
+    background: #0f172a;
+    color: #94a3b8;
+  }
+
+  [data-theme="dark"] .demo-sidebar {
+    background: #020617;
+    border-inline-end: 1px solid #1e293b;
+  }
+
+  .demo-sidebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 60px;
+    padding-inline: 18px;
+    border-block-end: 1px solid #1e293b;
+  }
+
+  .demo-sidebar__logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: #2563eb;
+    color: #fff;
+    box-shadow: 0 4px 12px -2px rgb(37 99 235 / 0.45);
+  }
+
+  .demo-sidebar__name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .demo-sidebar__version {
+    margin-inline-start: auto;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: #1e293b;
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+  }
+
+  .demo-sidebar__nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 12px;
+  }
+
+  .demo-sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #94a3b8;
+    text-align: start;
+  }
+
+  button.demo-sidebar__item {
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  button.demo-sidebar__item:hover {
+    background: #1e293b;
+    color: #e2e8f0;
+  }
+
+  .demo-sidebar__item.is-active,
+  .demo-sidebar__item.is-active:hover {
+    background: #2563eb;
+    color: #fff;
+    box-shadow: 0 4px 12px -4px rgb(37 99 235 / 0.5);
+  }
+
+  .demo-sidebar__label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .demo-sidebar__badge {
+    margin-inline-start: auto;
+    min-width: 24px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    color: #fff;
+  }
+
+  .demo-sidebar__badge--blue { background: #2563eb; }
+  .demo-sidebar__badge--red  { background: #dc2626; }
+
+  .demo-sidebar__item.is-active .demo-sidebar__badge {
+    background: rgb(15 23 42 / 0.22);
+  }
+
+  .demo-sidebar__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 12px;
+    padding: 14px 4px;
+    border-block-start: 1px solid #1e293b;
+  }
+
+  .demo-sidebar__avatar {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .demo-sidebar__presence {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #0f172a;
+    border-radius: 50%;
+    background: #22c55e;
+  }
+
+  .demo-sidebar__who {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .demo-sidebar__user-name {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 600;
+    color: #e2e8f0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .demo-sidebar__user-email {
+    overflow: hidden;
+    font-size: 11.5px;
+    color: #94a3b8;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: start;
+  }
+
+  .demo-sidebar__more {
+    flex-shrink: 0;
+    color: #64748b;
+  }
+</style>

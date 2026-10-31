@@ -3,7 +3,8 @@
  * Enterprise SaaS Design Foundation
  */
 
-@import "tailwindcss";
+/* Scan only src/ — docs and design mock-ups must not leak utilities into the bundle. */
+@import "tailwindcss" source("../");
 @import './design-system.css';
 
 /* ============================================
@@ -17,9 +18,20 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Keep anchor targets clear of the fixed navbar. */
+:target,
+section[id] {
+  scroll-margin-top: 5rem;
 }
 
 body {
@@ -37,6 +49,11 @@ html[lang="ar"] {
 
 body.navbar-menu-open {
   overflow: hidden;
+}
+
+/* Skip-link target; focus is programmatic only. */
+main:focus {
+  outline: none;
 }
 
 /* ============================================
@@ -85,27 +102,9 @@ a {
   transition: color var(--transition-base);
 }
 
-a:hover {
+/* Buttons own their hover colors; this is for text links only. */
+a:not(.btn):hover {
   color: var(--color-primary);
-}
-
-a.btn-primary:hover,
-a.btn-accent:hover {
-  color: var(--color-white);
-}
-
-a.hero__cta-secondary:hover {
-  color: #0f172a;
-}
-
-a.final-cta-section__btn--primary:hover,
-a.final-cta-section__btn--primary:focus-visible {
-  color: var(--color-primary-dark);
-}
-
-a.final-cta-section__btn--secondary:hover,
-a.final-cta-section__btn--secondary:focus-visible {
-  color: #ffffff;
 }
 
 .footer-section a:hover,
@@ -116,15 +115,6 @@ a.final-cta-section__btn--secondary:focus-visible {
 .footer-section__logo-link:hover,
 .footer-section__logo-link:focus-visible {
   color: inherit;
-}
-
-[data-theme="dark"] a.hero__cta-secondary,
-[data-theme="dark"] a.hero__cta-secondary:hover {
-  color: #f8fafc;
-}
-
-[data-theme="dark"] a.hero__cta-secondary:hover {
-  color: #ffffff;
 }
 
 .lang-switcher,
@@ -139,13 +129,6 @@ a.final-cta-section__btn--secondary:focus-visible {
 
 [data-theme="dark"] .lang-switcher:hover {
   color: #ffffff;
-}
-
-/* Hero renders a light and a dark dashboard mock-up; show the one for the
-   active theme. The hidden one is lazy, so it never downloads. */
-[data-theme="dark"] .hero-dashboard__picture--light,
-:root:not([data-theme="dark"]) .hero-dashboard__picture--dark {
-  display: none;
 }
 
 /* ============================================
@@ -176,6 +159,46 @@ img {
 
 .animate-pulse {
   animation: pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   👀 SCROLL REVEAL (see RevealScript.astro)
+   ============================================ */
+
+.reveal-ready [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+}
+
+/* `backwards` fill holds the first frame during --reveal-delay, then hands control
+   back to the element's own styles so hover transforms keep working. */
+.reveal-ready [data-reveal].is-revealed {
+  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s) backwards;
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================
+   ♿ REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ============================================

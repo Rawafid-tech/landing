@@ -1,6 +1,7 @@
 ---
-import HowItWorksSectionContent from "./react-bits/HowItWorksSectionContent";
-import { getTranslations, type Locale } from "../i18n";
+import SectionHeader from "./SectionHeader.astro";
+import { getTranslations, localeConfig, type Locale } from "../i18n";
+import { SIGNUP_URL } from "../config/site";
 
 interface Props {
   locale?: Locale;
@@ -8,29 +9,138 @@ interface Props {
 
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
-const { howItWorksSection } = t;
+const { howItWorksSection: s } = t;
+const isRtl = localeConfig[locale].dir === "rtl";
+
+type StepIcon = (typeof s.steps)[number]["icon"];
+
+const ICONS: Record<StepIcon, string> = {
+  connect:
+    '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  create:
+    '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+  track: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+};
+
+const ARROW = '<path d="M5 12h14M13 6l6 6-6 6"/>';
+// Always Western numerals regardless of page locale.
+const stepNumber = (index: number) => String(index + 1).padStart(2, "0");
+const railColumns = s.steps.flatMap((_, i) => (i < s.steps.length - 1 ? ["auto", "1fr"] : ["auto"])).join(" ");
 ---
 
-<section
-  id="how-it-works"
-  class="hiw-section"
-  aria-label={howItWorksSection.ariaLabel}
->
+<section id="how-it-works" class="hiw-section" aria-labelledby="how-it-works-heading">
   <div class="hiw-section__glow hiw-section__glow--start" aria-hidden="true"></div>
   <div class="hiw-section__glow hiw-section__glow--end" aria-hidden="true"></div>
 
   <div class="container hiw-section__container">
-    <HowItWorksSectionContent
-      client:visible
-      locale={locale}
-      eyebrow={howItWorksSection.eyebrow}
-      headline={howItWorksSection.headline}
-      subheadline={howItWorksSection.subheadline}
-      steps={howItWorksSection.steps}
-      cta={howItWorksSection.cta}
-      ctaHref={howItWorksSection.ctaHref}
-      ctaAriaLabel={howItWorksSection.ctaAriaLabel}
-    />
+    <div class="flex w-full flex-col gap-12 lg:gap-16">
+      <SectionHeader
+        id="how-it-works-heading"
+        eyebrow={s.eyebrow}
+        headline={s.headline}
+        subheadline={s.subheadline}
+      />
+
+      <!-- Desktop stepper rail (decorative) -->
+      <div
+        class="hiw-flow-rail hidden w-full md:grid"
+        aria-hidden="true"
+        data-reveal
+        style={`grid-template-columns: ${railColumns}; column-gap: 0.5rem;`}
+      >
+        {
+          s.steps.map((step, i) => (
+            <Fragment>
+              <div class="flex h-14 items-center justify-center" style={`grid-column: ${i * 2 + 1}`}>
+                <div class="hiw-flow-node flex shrink-0 flex-col items-center justify-center">
+                  <div class={`hiw-flow-node__ring hiw-flow-node__ring--${step.icon}`}>
+                    <div class={`hiw-node hiw-node--${step.icon} flex h-14 w-14 items-center justify-center rounded-full border-2`}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="block shrink-0" set:html={ICONS[step.icon]} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {i < s.steps.length - 1 && (
+                <div class="flex h-14 w-full min-w-0 items-center px-1" style={`grid-column: ${i * 2 + 2}`}>
+                  <div class="hiw-flow-bridge flex w-full min-w-0 flex-1 items-center">
+                    <div class="hiw-flow-bridge__track relative h-[3px] min-w-0 flex-1 overflow-hidden rounded-full">
+                      <div class="hiw-flow-bridge__bg absolute inset-0 rounded-full" />
+                      <div
+                        class:list={["hiw-flow-bridge__shimmer absolute inset-0 rounded-full", isRtl && "hiw-flow-bridge__shimmer--rtl"]}
+                        style={`animation-delay: ${i * 0.5}s`}
+                      />
+                    </div>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class:list={["hiw-flow-arrow block shrink-0", isRtl && "hiw-flow-arrow--rtl"]}
+                      style={`animation-delay: ${i * 0.3 + 0.2}s`}
+                      set:html={ARROW}
+                    />
+                  </div>
+                </div>
+              )}
+            </Fragment>
+          ))
+        }
+      </div>
+
+      <ol class="m-0 grid w-full list-none grid-cols-1 gap-6 p-0 md:grid-cols-3 md:gap-6 lg:gap-8" role="list">
+        {
+          s.steps.map((step, i) => (
+            <li
+              class={`hiw-step hiw-step--${step.icon} flex min-w-0 flex-row items-stretch gap-5 md:flex-col`}
+              data-reveal
+              style={`--reveal-delay: ${i * 150}ms`}
+            >
+              <!-- Mobile vertical timeline (decorative) -->
+              <div class="flex w-14 shrink-0 flex-col items-center md:hidden" aria-hidden="true">
+                <div class={`hiw-node hiw-node--${step.icon} flex h-14 w-14 items-center justify-center rounded-full border-2`}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="block shrink-0" set:html={ICONS[step.icon]} />
+                </div>
+                {i < s.steps.length - 1 && (
+                  <div class="hiw-mobile-bridge relative my-2 flex min-h-8 w-[3px] flex-1 flex-col items-center overflow-hidden rounded-full">
+                    <div class="hiw-flow-bridge__bg absolute inset-0 rounded-full" />
+                    <div class="hiw-flow-bridge__shimmer-vertical absolute inset-0 rounded-full" />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hiw-flow-arrow block shrink-0" set:html={ARROW} />
+                  </div>
+                )}
+              </div>
+
+              <article class="hiw-card flex min-h-[11rem] min-w-0 flex-1 flex-col gap-5 lg:gap-6">
+                <header class="flex items-start justify-between gap-4">
+                  <div class={`hiw-node hiw-node--${step.icon} flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border`} aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="block shrink-0" set:html={ICONS[step.icon]} />
+                  </div>
+                  <span
+                    class={`hiw-badge hiw-badge--${step.icon} inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-bold tabular-nums tracking-widest`}
+                    dir="ltr"
+                    aria-hidden="true"
+                  >
+                    {stepNumber(i)}
+                  </span>
+                </header>
+
+                <div class="flex flex-col gap-3">
+                  <h3 class="hiw-card-title text-xl font-semibold leading-snug">{step.title}</h3>
+                  <p class="hiw-card-desc text-sm leading-relaxed">{step.description}</p>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="flex justify-center pt-2" data-reveal style="--reveal-delay: 450ms">
+        <a href={SIGNUP_URL} class="btn btn-primary btn-large">{s.cta}</a>
+      </div>
+    </div>
   </div>
 </section>
 

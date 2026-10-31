@@ -2,33 +2,32 @@ import type { Translations } from "../types";
 
 const en: Translations = {
   meta: {
-    title: "Rawafid (روافد) — The Operating System for E-commerce Logistics",
+    title: "Rawafid — Shipping Management for E-commerce Stores in Egypt",
     description:
-      "Rawafid helps e-commerce businesses manage shipments, returns, courier integrations, and real-time tracking from one unified platform.",
+      "Connect your Shopify or Easy Orders store with Bosta, J&T Express, and Aramex. Manage shipments, returns, COD, and tracking from one dashboard. Start free.",
     tagline: "The Operating System for E-commerce Logistics",
+    ogImageAlt: "Rawafid — manage e-commerce shipments, returns, and couriers from one dashboard",
   },
   nav: {
     skipLink: "Skip to main content",
     ariaLabel: "Main navigation",
+    mobileAriaLabel: "Mobile navigation",
     logoAriaLabel: "Rawafid روافد — Home",
-    logoAlt: "Rawafid روافد",
     openMenu: "Open navigation menu",
     closeMenu: "Close navigation menu",
     mobileMenuLabel: "Navigation menu",
     links: {
-      home: "Home",
-      problems: "Challenges",
       features: "Features",
       howItWorks: "How it works",
       integrations: "Integrations",
       pricing: "Pricing",
       faq: "FAQ",
     },
+    login: "Log in",
     cta: "Start for free",
   },
   theme: {
-    switchToLight: "Switch to light mode",
-    switchToDark: "Switch to dark mode",
+    toggleLabel: "Dark mode",
   },
   lang: {
     switchToEn: "Switch to English",
@@ -37,32 +36,31 @@ const en: Translations = {
     shortAr: "عربي",
   },
   hero: {
-    ariaLabel: "Hero section",
-    badge: "🚀 #1 Shipping Platform for E-commerce in Egypt",
-    headlinePrefix: "Manage all your shipments from",
-    rotatingWords: ["one place", "one dashboard", "one platform", "one system"],
+    badge: "Built for e-commerce in Egypt",
+    headline: "Manage every e-commerce shipment",
+    headlineAccent: "from one place",
     subheadline:
-      "Rawafid unifies couriers, stores, and shipments in one platform. Goodbye chaos, hello efficiency.",
-    ctaPrimary: "Start your free trial",
-    ctaPrimaryHref: "#cta",
-    ctaSecondary: "Watch demo",
-    ctaSecondaryHref: "#demo",
+      "Connect your store, ship with Bosta, J&T Express, or Aramex, and track every order, return, and COD payment from one dashboard built for Egyptian merchants.",
+    ctaPrimary: "Start for free",
+    ctaSecondary: "See it in action",
+    trustListLabel: "Why it's easy to start",
     trustBadges: [
-      "14-day free trial",
+      "Free plan, forever",
       "No credit card required",
-      "Cancel anytime",
+      "Upgrade when you're ready",
     ],
+    worksWithLabel: "Works with",
     dashboardAlt: "Rawafid dashboard preview for shipment and returns management",
     floatingIcons: [
-      { emoji: "📦", label: "Shipment management", position: "top-start", delay: 0.1 },
-      { emoji: "🚚", label: "Courier integrations", position: "top-end", delay: 0.25 },
-      { emoji: "✅", label: "Real-time tracking", position: "bottom-start", delay: 0.4 },
-      { emoji: "🔁", label: "Returns management", position: "bottom-end", delay: 0.55 },
+      { emoji: "📦", position: "top-start" },
+      { emoji: "🚚", position: "top-end" },
+      { emoji: "✅", position: "bottom-start" },
+      { emoji: "🔁", position: "bottom-end" },
     ],
   },
   marketStats: {
-    ariaLabel: "Egyptian market statistics",
     eyebrow: "Egyptian market insights",
+    source: "",
     stats: [
       {
         id: "merchant-pain",
@@ -100,92 +98,56 @@ const en: Translations = {
     ],
   },
   problemSection: {
-    ariaLabel: "Problems merchants face",
     eyebrow: "Challenges",
     headline: "Problems every e-commerce merchant faces",
-    subheadline: "Rawafid solves all these problems from one place",
+    subheadline: "…and how Rawafid solves each one",
+    solutionLabel: "With Rawafid",
     problems: [
       {
         id: "multiple-dashboards",
         title: "Multiple Dashboards",
         description: "Each shipping company has a different system, wasting your time switching between dashboards",
+        solution: "One control panel for all your couriers",
         image: "dashboards",
       },
       {
         id: "no-unified-tracking",
         title: "No Unified Tracking",
         description: "Shipments are scattered and you can't track them all from one place",
+        solution: "Live tracking for every shipment in one place",
         image: "tracking",
       },
       {
         id: "returns-nightmare",
         title: "Difficult Returns Management",
         description: "Returns take too much time with no clear system to manage them",
+        solution: "A structured returns workflow, from request to closure",
         image: "returns",
       },
       {
         id: "manual-entry",
         title: "Manual Order Entry",
         description: "Entering every order manually takes significant time and effort",
+        solution: "Orders sync automatically from your store",
         image: "manual",
       },
       {
         id: "price-comparison",
         title: "Hard Price Comparison",
         description: "Difficult to compare carrier prices and choose the best option for each shipment",
+        solution: "Instant side-by-side carrier rate comparison",
         image: "pricing",
       },
       {
         id: "hidden-costs",
         title: "Hidden Costs",
         description: "Unclear fees affect your profit margins and you discover them too late",
+        solution: "See every carrier's rate before you ship",
         image: "hidden-costs",
       },
     ],
   },
-  solutionSection: {
-    ariaLabel: "How Rawafid solves your logistics challenges",
-    eyebrow: "The Solution",
-    headline: "One platform. Every problem solved.",
-    subheadline:
-      "Rawafid replaces the chaos of juggling multiple tools with a single, unified platform built for Egyptian e-commerce.",
-    beforeLabel: "Before Rawafid",
-    afterLabel: "With Rawafid",
-    pairs: [
-      {
-        id: "dashboards",
-        before: "6+ separate carrier dashboards",
-        after: "One unified control panel",
-      },
-      {
-        id: "entry",
-        before: "Manual order entry every time",
-        after: "Automatic sync from your store",
-      },
-      {
-        id: "tracking",
-        before: "No unified shipment tracking",
-        after: "Live real-time tracking in one place",
-      },
-      {
-        id: "returns",
-        before: "Returns with no clear workflow",
-        after: "Structured returns management system",
-      },
-      {
-        id: "pricing",
-        before: "Hard carrier price comparison",
-        after: "Instant side-by-side price comparison",
-      },
-      {
-        id: "manual",
-        before: "Hours of repetitive manual work",
-        after: "Fully automated operations",
-      },
-    ],
-  },
   featuresSection: {
-    ariaLabel: "Platform features",
     eyebrow: "Features",
     headline: "Everything you need to run your logistics",
     subheadline:
@@ -225,7 +187,7 @@ const en: Translations = {
           "Connect your store and import orders automatically in minutes.",
         benefits: [
           "Shopify & Easy Orders support",
-          "Custom API for bespoke stores",
+          "Custom API for bespoke stores (Enterprise)",
           "Automatic order synchronization",
           "Auto-create shipments on new orders",
         ],
@@ -235,12 +197,12 @@ const en: Translations = {
         icon: "couriers",
         title: "Multiple Couriers",
         description:
-          "Ship with any carrier from one place — compare, choose, and go.",
+          "Ship with any connected carrier from one place — compare, choose, and go.",
         benefits: [
-          "Bosta & multiple local carriers",
+          "Bosta, J&T Express & Aramex",
           "Unified API across all carriers",
           "Consolidated tracking dashboard",
-          "Estimated delivery per carrier",
+          "Compare carriers before you ship",
         ],
       },
       {
@@ -272,11 +234,10 @@ const en: Translations = {
     ],
   },
   dashboardPreviewSection: {
-    ariaLabel: "Interactive Rawafid dashboard preview",
     eyebrow: "Interactive preview",
     headline: "See Rawafid in action",
-    subheadline:
-      "Click the glowing dots to explore features. Drag to navigate and scroll to zoom.",
+    subheadline: "Switch tabs and click the glowing dots to explore the dashboard.",
+    tabsLabel: "Dashboard views",
     tabs: [
       { id: "overview", label: "Overview" },
       { id: "shipments", label: "Shipments" },
@@ -287,99 +248,74 @@ const en: Translations = {
         id: "stat-total",
         view: "overview",
         title: "Total Shipments",
-        description:
-          "See all your shipments at a glance — with a month-over-month change indicator.",
-        countUp: { value: 1247, suffix: "" },
+        description: "See all your shipments at a glance — with a month-over-month change indicator.",
       },
       {
         id: "stat-delivered",
         view: "overview",
         title: "Delivery Success Rate",
-        description:
-          "Track courier performance and see who delivers best for your customers.",
-        countUp: { value: 89, suffix: ".3%" },
+        description: "Track courier performance and see who delivers best for your customers.",
       },
       {
         id: "stat-cod",
         view: "overview",
         title: "COD Collected",
-        description:
-          "Always know how much cash has been collected — no spreadsheets needed.",
-        countUp: { value: 34820, suffix: " EGP" },
+        description: "Always know how much cash has been collected — no spreadsheets needed.",
       },
       {
         id: "sidebar-shipments",
         view: "overview",
         title: "Shipments",
-        description:
-          "Click to view all shipments with status filters and full shipment details.",
+        description: "View all shipments with status filters and full shipment details.",
         navigatesTo: "shipments",
       },
       {
         id: "sidebar-returns",
         view: "overview",
         title: "Returns",
-        description:
-          "A complete returns workflow — track every stage from request to collection and refund.",
+        description: "A complete returns workflow — track every stage from request to collection and refund.",
         navigatesTo: "returns",
       },
       {
         id: "create-shipment",
         view: "shipments",
         title: "Create New Shipment",
-        description:
-          "Create a shipment in seconds — pick a courier, enter the address, and print the label instantly.",
+        description: "Create a shipment in seconds — pick a courier, enter the address, and print the label instantly.",
       },
       {
         id: "shipment-row",
         view: "shipments",
         title: "Shipment Details",
-        description:
-          "Click any shipment to see full tracking history, delivery status, and customer data.",
+        description: "Open any shipment to see full tracking history, delivery status, and customer data.",
       },
       {
         id: "return-row",
         view: "returns",
         title: "Return Request",
-        description:
-          "Every return has a clear workflow — from request through collection to refund.",
+        description: "Every return has a clear workflow — from request through collection to refund.",
       },
       {
         id: "return-status",
         view: "returns",
         title: "Return Status",
-        description:
-          "Track every return in real time — pending, collected, or refunded.",
+        description: "Track every return in real time — pending, collected, or refunded.",
       },
     ],
-    hints: {
-      drag: "Drag to explore",
-      click: "Click the dots",
-    },
-    controls: {
-      zoomIn: "Zoom in",
-      zoomOut: "Zoom out",
-      zoomReset: "Reset zoom",
-      closeHotspot: "Close",
-    },
+    hotspotLabel: "Show details: {title}",
+    openView: "Open {view}",
+    closeHotspot: "Close",
     cta: {
-      primary: "Start your free trial",
-      primaryHref: "#cta",
-      primaryAriaLabel: "Start your free trial with Rawafid",
-      secondary: "Book a demo",
-      secondaryHref: "#contact",
-      secondaryAriaLabel: "Book a demo with the Rawafid team",
+      primary: "Start for free",
+      secondary: "Talk to us",
     },
   },
   howItWorksSection: {
-    ariaLabel: "How Rawafid works",
     eyebrow: "How it works",
     headline: "Up and running in 3 steps",
     subheadline: "From store connection to delivered shipment — all in one place.",
     steps: [
       {
         id: "connect",
-        number: "01",
         icon: "connect",
         title: "Connect your store",
         description:
@@ -387,7 +323,6 @@ const en: Translations = {
       },
       {
         id: "create",
-        number: "02",
         icon: "create",
         title: "Create the shipment",
         description:
@@ -395,7 +330,6 @@ const en: Translations = {
       },
       {
         id: "track",
-        number: "03",
         icon: "track",
         title: "Track & deliver",
         description:
@@ -403,17 +337,12 @@ const en: Translations = {
       },
     ],
     cta: "Start for free",
-    ctaHref: "#cta",
-    ctaAriaLabel: "Start your free trial with Rawafid",
   },
   integrationsSection: {
-    ariaLabel: "Rawafid integrations with stores and couriers",
     eyebrow: "Integrations",
     headline: "Connect all your tools",
     subheadline:
-      "Ready-made integrations with e-commerce platforms and local couriers — everything unified in one place",
-    hubLabel: "Rawafid",
-    hubTagline: "Unified hub",
+      "Ready-made integrations with e-commerce platforms and couriers — with more added regularly",
     stores: [
       {
         id: "shopify",
@@ -423,7 +352,7 @@ const en: Translations = {
       },
       {
         id: "easy-orders",
-        icon: "Easy Orders",
+        icon: "easyorders",
         name: "Easy Orders",
         description: "Import & real-time status updates",
       },
@@ -431,7 +360,7 @@ const en: Translations = {
         id: "api",
         icon: "api",
         name: "Custom API",
-        description: "Connect any custom store",
+        description: "Connect any custom store (Enterprise)",
       },
     ],
     couriers: [
@@ -439,21 +368,23 @@ const en: Translations = {
         id: "bosta",
         icon: "bosta",
         name: "Bosta",
-        description: "Primary delivery partner",
+        description: "Create shipments & track deliveries",
       },
       {
-        id: "courier-2",
-        icon: "local",
-        name: "Local Courier",
-        description: "Wide Egypt coverage",
+        id: "jt-express",
+        icon: "jt",
+        name: "J&T Express",
+        description: "Shipment creation & status updates",
       },
       {
-        id: "courier-3",
-        icon: "local",
-        name: "Delivery Partner",
-        description: "Fast & reliable shipping",
+        id: "aramex",
+        icon: "aramex",
+        name: "Aramex",
+        description: "Shipment creation & live tracking",
       },
     ],
+    hubLabel: "Rawafid",
+    hubTagline: "Every order and shipment in one place",
     comingSoon: [
       { id: "woocommerce", name: "WooCommerce" },
       { id: "magento", name: "Magento" },
@@ -467,127 +398,34 @@ const en: Translations = {
       comingSoon: "Coming soon",
     },
   },
-  whyRawafidSection: {
-    ariaLabel: "Why choose Rawafid",
-    eyebrow: "Why Rawafid?",
-    headline: "Why choose Rawafid?",
-    subheadline: "A shipping platform built for Egyptian merchants — real value, not empty promises",
-    points: [
-      {
-        id: "local-market",
-        icon: "local",
-        title: "Built for Egypt",
-        description: "We understand Egyptian merchants and local couriers — from COD to returns.",
-      },
-      {
-        id: "security",
-        icon: "security",
-        title: "Your data is safe",
-        description: "End-to-end encryption with industry-standard security and privacy practices.",
-      },
-      {
-        id: "support",
-        icon: "support",
-        title: "Fast support",
-        description: "A responsive team that answers within hours — not days.",
-      },
-      {
-        id: "ease",
-        icon: "ease",
-        title: "Easy to use",
-        description: "A simple, focused interface — productive from day one.",
-      },
-      {
-        id: "pricing",
-        icon: "pricing",
-        title: "No hidden fees",
-        description: "Clear, published pricing — no surprises on your invoice.",
-      },
-      {
-        id: "updates",
-        icon: "updates",
-        title: "Continuous updates",
-        description: "New features and improvements driven by merchant feedback.",
-      },
-    ],
-    comparison: {
-      ariaLabel: "Rawafid vs traditional shipping workflow",
-      headline: "Rawafid vs the traditional way",
-      columns: {
-        feature: "Feature",
-        rawafid: "Rawafid",
-        traditional: "Traditional",
-      },
-      rows: [
-        {
-          id: "dashboards",
-          feature: "Dashboards to manage",
-          rawafid: { kind: "text", value: "1" },
-          traditional: { kind: "text", value: "6+" },
-        },
-        {
-          id: "shipment-time",
-          feature: "Time to create a shipment",
-          rawafid: { kind: "text", value: "30 seconds" },
-          traditional: { kind: "text", value: "5+ minutes" },
-        },
-        {
-          id: "tracking",
-          feature: "Unified tracking",
-          rawafid: { kind: "yes" },
-          traditional: { kind: "no" },
-        },
-        {
-          id: "price-compare",
-          feature: "Price comparison",
-          rawafid: { kind: "text", value: "Instant" },
-          traditional: { kind: "text", value: "Manual" },
-        },
-        {
-          id: "returns",
-          feature: "Returns management",
-          rawafid: { kind: "text", value: "Organized" },
-          traditional: { kind: "text", value: "Chaotic" },
-        },
-      ],
-      labels: {
-        yes: "Available",
-        no: "Not available",
-      },
-    },
-  },
   pricingSection: {
-    ariaLabel: "Rawafid pricing plans",
     eyebrow: "Pricing",
     headline: "Plans for every stage",
-    subheadline: "Start free, scale as you grow — no long-term contracts",
+    subheadline: "Start on the free plan and upgrade as you grow — no long-term contracts",
     billing: {
-      toggleLabel: "Choose billing cycle",
+      toggleLabel: "Billing cycle",
       monthly: "Monthly",
       annual: "Annual",
       annualSave: "Save 20%",
-      monthlyHint: "Billed monthly",
-      annualHint: "Billed annually — 20% off",
     },
     plans: [
       {
         id: "starter",
         name: "Starter",
-        tagline: "Small stores & getting started",
+        tagline: "Try Rawafid with limited usage — free forever",
         priceType: "free",
         freeLabel: "Free",
         freeSub: "forever",
         features: [
           "Up to 50 shipments/month",
-          "1 courier",
-          "1 store",
+          "1 courier integration",
+          "1 store integration",
           "Basic dashboard",
           "Shipment tracking",
           "Email support",
         ],
         cta: "Start for free",
-        ctaHref: "#cta",
-        ctaAriaLabel: "Start the free Starter plan with Rawafid",
+        ctaTarget: "signup",
         ctaVariant: "secondary",
       },
       {
@@ -598,21 +436,21 @@ const en: Translations = {
         monthlyPrice: "299",
         annualPrice: "239",
         priceSuffix: "EGP/mo",
+        annualNote: "Billed 2,868 EGP yearly",
         popular: true,
         popularBadge: "Most popular",
         features: [
           "Up to 500 shipments/month",
-          "3 couriers",
-          "3 stores",
+          "Up to 3 courier integrations",
+          "Up to 3 store integrations",
           "Advanced dashboard",
           "Analytics & reports",
           "Returns management",
           "Priority support",
           "Webhooks",
         ],
-        cta: "Subscribe now",
-        ctaHref: "#cta",
-        ctaAriaLabel: "Subscribe to the Growth plan with Rawafid",
+        cta: "Get started",
+        ctaTarget: "signup",
         ctaVariant: "primary",
       },
       {
@@ -624,7 +462,7 @@ const en: Translations = {
         customSub: "tailored to you",
         features: [
           "Unlimited shipments",
-          "All couriers",
+          "All supported couriers",
           "Unlimited stores",
           "Full API access",
           "Dedicated account manager",
@@ -633,25 +471,52 @@ const en: Translations = {
           "24/7 support",
         ],
         cta: "Contact us",
-        ctaHref: "#contact",
-        ctaAriaLabel: "Contact the Rawafid team for Enterprise pricing",
+        ctaTarget: "contact",
         ctaVariant: "secondary",
       },
     ],
     featuresHeading: "What's included",
-    priceUpdated: "Prices updated to {period} billing",
+    priceUpdated: "Showing {period} prices",
+    trust: {
+      label: "Why merchants choose Rawafid",
+      points: [
+        {
+          id: "local-market",
+          icon: "local",
+          title: "Built for Egypt",
+          description: "Made for Egyptian merchants and local couriers — from COD to returns.",
+        },
+        {
+          id: "pricing",
+          icon: "pricing",
+          title: "No hidden fees",
+          description: "Clear, published pricing — no surprises on your invoice.",
+        },
+        {
+          id: "ease",
+          icon: "ease",
+          title: "Easy to use",
+          description: "A simple, focused interface — productive from day one.",
+        },
+      ],
+    },
   },
   faqSection: {
-    ariaLabel: "Rawafid frequently asked questions",
     eyebrow: "FAQ",
     headline: "Frequently asked questions",
     subheadline: "Quick answers to the questions merchants ask us most",
     items: [
       {
+        id: "free-plan",
+        question: "Can I try Rawafid for free?",
+        answer:
+          "Yes. Instead of a time-limited trial, Rawafid has a permanent free plan (Starter) with a limited number of monthly shipments and a limited number of courier and store integrations. Explore the platform within those limits and upgrade whenever you need more.",
+      },
+      {
         id: "supported-couriers",
         question: "Which shipping carriers are supported?",
         answer:
-          "We currently support Bosta and other local couriers. We add new carriers regularly based on merchant demand — contact us if you need a specific partner.",
+          "We currently support Bosta, J&T Express, and Aramex, and we add new carriers based on merchant demand — contact us if you need a specific partner.",
       },
       {
         id: "shopify-connect",
@@ -675,7 +540,7 @@ const en: Translations = {
         id: "pricing-plans",
         question: "What pricing plans are available?",
         answer:
-          "Three plans: Starter (free forever), Growth (299 EGP/month), and Enterprise (custom). Growth includes a 14-day free trial. See the Pricing section for full details.",
+          "Three plans: Starter (free forever, with limited shipments and integrations), Growth (299 EGP/month, or 239 EGP/month billed annually), and Enterprise (custom). See the Pricing section for full details.",
       },
       {
         id: "cancel-anytime",
@@ -683,176 +548,54 @@ const en: Translations = {
         answer:
           "Yes — no long-term contracts. Cancel or change your plan anytime from account settings with no cancellation fees.",
       },
-      {
-        id: "free-trial",
-        question: "Is there a free trial?",
-        answer:
-          "Starter is free forever — great for testing and small stores. Growth includes a full 14-day trial with no credit card required.",
-      },
     ],
   },
   finalCtaSection: {
-    ariaLabel: "Start your free Rawafid trial",
-    icon: "🚀",
     headline: "Ready to get started?",
     subheadline:
-      "Stop wasting time on manual work. Start now and we'll help you organize every shipment.",
-    ctaPrimary: "Start your free trial",
-    ctaPrimaryHref: "https://app.rawafid.com/signup",
-    ctaPrimaryAriaLabel: "Start your free trial with Rawafid",
-    ctaSecondary: "Book a demo",
-    ctaSecondaryHref: "#contact",
-    ctaSecondaryAriaLabel: "Book a demo with the Rawafid team",
+      "Stop wasting time on manual work. Create your free account and organize every shipment in one place.",
+    ctaPrimary: "Start for free",
+    ctaSecondary: "Talk to us",
     trustBadges: [
-      "14-day free trial",
+      "Free plan, forever",
       "No credit card required",
-      "Cancel anytime",
+      "Upgrade when you're ready",
     ],
-    trustListAriaLabel: "Free trial guarantees",
+    trustListAriaLabel: "Why it's easy to start",
   },
   footerSection: {
-    ariaLabel: "Site footer",
     tagline: "Logistics operating system for e-commerce",
     backToTop: "Back to top",
-    backToTopAriaLabel: "Return to the top of the page",
-    columns: [
-      {
-        id: "product",
-        title: "Product",
-        links: [
-          { id: "features", label: "Features", href: "#features" },
-          { id: "integrations", label: "Integrations", href: "#integrations" },
-          { id: "pricing", label: "Pricing", href: "#pricing" },
-          {
-            id: "changelog",
-            label: "Updates",
-            href: "https://rawafid.app/changelog",
-            external: true,
-            ariaLabel: "Product updates — opens in a new tab",
-          },
-        ],
-      },
-      {
-        id: "company",
-        title: "Company",
-        links: [
-          {
-            id: "about",
-            label: "About Rawafid",
-            href: "https://rawafid.app/about",
-            external: true,
-            ariaLabel: "About Rawafid — opens in a new tab",
-          },
-          {
-            id: "careers",
-            label: "Careers",
-            href: "https://rawafid.app/careers",
-            external: true,
-            ariaLabel: "Careers — opens in a new tab",
-          },
-          {
-            id: "blog",
-            label: "Blog",
-            href: "https://rawafid.app/blog",
-            external: true,
-            ariaLabel: "Blog — opens in a new tab",
-          },
-          { id: "contact", label: "Contact", href: "#contact" },
-        ],
-      },
-      {
-        id: "support",
-        title: "Support",
-        links: [
-          {
-            id: "help",
-            label: "Help Center",
-            href: "https://help.rawafid.app",
-            external: true,
-            ariaLabel: "Help center — opens in a new tab",
-          },
-          {
-            id: "docs",
-            label: "Documentation",
-            href: "https://docs.rawafid.app",
-            external: true,
-            ariaLabel: "Documentation — opens in a new tab",
-          },
-          {
-            id: "status",
-            label: "System Status",
-            href: "https://status.rawafid.app",
-            external: true,
-            ariaLabel: "System status — opens in a new tab",
-          },
-          {
-            id: "api",
-            label: "API Docs",
-            href: "https://docs.rawafid.app/api",
-            external: true,
-            ariaLabel: "API documentation — opens in a new tab",
-          },
-        ],
-      },
-    ],
+    externalHint: "(opens in a new tab)",
+    productTitle: "Product",
     contact: {
       title: "Contact us",
-      email: {
-        label: "Email",
-        value: "hello@rawafid.com",
-        href: "mailto:hello@rawafid.com",
-        ariaLabel: "Email hello@rawafid.com",
-      },
-      phone: {
-        label: "Phone",
-        value: "+20 100 000 0000",
-        href: "tel:+201000000000",
-        ariaLabel: "Call +20 100 000 0000",
-      },
-      address: {
-        label: "Address",
-        value: "Cairo, Egypt",
-      },
+      emailLabel: "Email",
+      phoneLabel: "Phone",
+      whatsappLabel: "WhatsApp",
+      addressLabel: "Address",
+      address: "Cairo, Egypt",
     },
     social: {
       ariaLabel: "Rawafid on social media",
-      links: [
-        {
-          id: "linkedin",
-          label: "LinkedIn",
-          href: "https://www.linkedin.com/company/rawafid",
-        },
-        {
-          id: "facebook",
-          label: "Facebook",
-          href: "https://www.facebook.com/rawafid",
-        },
-        {
-          id: "x",
-          label: "X (Twitter)",
-          href: "https://x.com/rawafid",
-        },
-        {
-          id: "instagram",
-          label: "Instagram",
-          href: "https://www.instagram.com/rawafid",
-        },
-      ],
+      labels: {
+        linkedin: "LinkedIn",
+        facebook: "Facebook",
+        x: "X (Twitter)",
+        instagram: "Instagram",
+      },
     },
     legal: {
       navAriaLabel: "Legal links",
       copyright: "© {year} Rawafid. All rights reserved.",
-      privacy: {
-        label: "Privacy Policy",
-        href: "https://rawafid.app/privacy",
-        ariaLabel: "Privacy policy — opens in a new tab",
-      },
-      terms: {
-        label: "Terms of Service",
-        href: "https://rawafid.app/terms",
-        ariaLabel: "Terms of service — opens in a new tab",
-      },
+      privacy: "Privacy Policy",
+      terms: "Terms of Service",
     },
+  },
+  notFound: {
+    title: "Page not found",
+    description: "The page you're looking for doesn't exist or has moved.",
+    cta: "Back to home",
   },
 };
 

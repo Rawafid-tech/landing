@@ -1,6 +1,6 @@
 ---
 import { getImage } from "astro:assets";
-import ProblemSectionContent from "./react-bits/ProblemSectionContent";
+import SectionHeader from "./SectionHeader.astro";
 import { getTranslations, type Locale } from "../i18n";
 
 import dashboardsImg from "../assets/problems/dashboards.png";
@@ -16,11 +16,12 @@ interface Props {
 
 const locale = Astro.props.locale ?? "ar";
 const t = getTranslations(locale);
-const problemSection = t.problemSection;
+const s = t.problemSection;
 
-// Cards are displayed at ~413px wide; generate 1x and 2x retina variants
-const CARD_W = 450;
-const CARD_H = Math.round(CARD_W * (10 / 16)); // 16:10 aspect ratio
+// Cards render at ~400px in the 3-column grid and full width on phones.
+const ASPECT = 10 / 16;
+const WIDTHS = [450, 640, 900] as const;
+const SIZES = "(min-width: 1024px) 400px, (min-width: 640px) calc(50vw - 3rem), calc(100vw - 2rem)";
 
 const rawImages = {
   dashboards: dashboardsImg,
@@ -33,46 +34,79 @@ const rawImages = {
 
 type ProblemImageKey = keyof typeof rawImages;
 
-const optimizedImages = Object.fromEntries(
+async function buildSrcSet(src: ImageMetadata, format: "avif" | "webp") {
+  const images = await Promise.all(
+    WIDTHS.map((width) =>
+      getImage({ src, width, height: Math.round(width * ASPECT), format, quality: format === "avif" ? 60 : 75 }),
+    ),
+  );
+  return {
+    srcSet: images.map((image, index) => `${image.src} ${WIDTHS[index]}w`).join(", "),
+    fallback: images[0].src,
+  };
+}
+
+const images = Object.fromEntries(
   await Promise.all(
-    (Object.entries(rawImages) as [ProblemImageKey, ImageMetadata][]).map(
-      async ([key, src]) => {
-        const [avif, avif2x, webp, webp2x] = await Promise.all([
-          getImage({ src, width: CARD_W, height: CARD_H, format: "avif", quality: 65 }),
-          getImage({ src, width: CARD_W * 2, height: CARD_H * 2, format: "avif", quality: 55 }),
-          getImage({ src, width: CARD_W, height: CARD_H, format: "webp", quality: 80 }),
-          getImage({ src, width: CARD_W * 2, height: CARD_H * 2, format: "webp", quality: 70 }),
-        ]);
-        return [
-          key,
-          {
-            avifSrcSet: `${avif.src} 1x, ${avif2x.src} 2x`,
-            webpSrcSet: `${webp.src} 1x, ${webp2x.src} 2x`,
-            src: webp.src,
-            width: CARD_W,
-            height: CARD_H,
-          },
-        ];
-      }
-    )
-  )
-) as Record<ProblemImageKey, { avifSrcSet: string; webpSrcSet: string; src: string; width: number; height: number }>;
+    (Object.entries(rawImages) as [ProblemImageKey, ImageMetadata][]).map(async ([key, src]) => {
+      const [avif, webp] = await Promise.all([buildSrcSet(src, "avif"), buildSrcSet(src, "webp")]);
+      return [key, { avifSrcSet: avif.srcSet, webpSrcSet: webp.srcSet, src: webp.fallback }];
+    }),
+  ),
+) as Record<ProblemImageKey, { avifSrcSet: string; webpSrcSet: string; src: string }>;
 ---
 
-<section
-  id="problems"
-  class="problem-section"
-  aria-label={problemSection.ariaLabel}
->
-  <div class="container">
-    <ProblemSectionContent
-      client:visible
-      eyebrow={problemSection.eyebrow}
-      headline={problemSection.headline}
-      subheadline={problemSection.subheadline}
-      problems={problemSection.problems}
-      images={optimizedImages}
+<section id="problems" class="problem-section" aria-labelledby="problems-heading">
+  <div class="container flex flex-col gap-12 lg:gap-16">
+    <SectionHeader
+      id="problems-heading"
+      eyebrow={s.eyebrow}
+      headline={s.headline}
+      subheadline={s.subheadline}
     />
+
+    <ul class="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8" role="list">
+      {
+        s.problems.map((problem, index) => {
+          const image = images[problem.image];
+          return (
+            <li class="problem-card" data-reveal style={`--reveal-delay: ${(index % 3) * 80}ms`}>
+              <div class="problem-card__image-wrapper">
+                <picture>
+                  <source type="image/avif" srcset={image.avifSrcSet} sizes={SIZES} />
+                  <source type="image/webp" srcset={image.webpSrcSet} sizes={SIZES} />
+                  <img
+                    src={image.src}
+                    alt=""
+                    width={WIDTHS[0]}
+                    height={Math.round(WIDTHS[0] * ASPECT)}
+                    loading="lazy"
+                    decoding="async"
+                    class="problem-card__image"
+                  />
+                </picture>
+                <div class="problem-card__image-overlay" aria-hidden="true"></div>
+              </div>
+
+              <div class="problem-card__content">
+                <h3 class="problem-card__title">{problem.title}</h3>
+                <p class="problem-card__description">{problem.description}</p>
+                <p class="problem-card__solution">
+                  <svg class="problem-card__solution-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="8" cy="8" r="6.5" />
+                    <path d="M5 8.5l2 2 4-4.5" />
+                  </svg>
+                  <span>
+                    <strong class="problem-card__solution-label">{s.solutionLabel}:</strong>
+                    {problem.solution}
+                  </span>
+                </p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
   </div>
 </section>
 
@@ -167,9 +201,43 @@ const optimizedImages = Object.fromEntries(
 
   .problem-card__content {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: var(--space-2);
     padding: var(--space-5) var(--space-6);
+  }
+
+  .problem-card__solution {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    margin: auto 0 0;
+    padding-block-start: var(--space-4);
+    border-block-start: 1px dashed var(--border-primary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-gray-700);
+  }
+
+  .problem-card__solution-icon {
+    flex-shrink: 0;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-block-start: 0.15em;
+    color: #15803d;
+  }
+
+  [data-theme="dark"] .problem-card__solution-icon {
+    color: var(--color-accent);
+  }
+
+  .problem-card__solution-label {
+    font-weight: var(--font-semibold);
+    color: #15803d; /* green-700: 5:1 on white; accent-dark is only 3.3:1 */
+  }
+
+  [data-theme="dark"] .problem-card__solution-label {
+    color: var(--color-accent-light);
   }
 
   @media (min-width: 1024px) {

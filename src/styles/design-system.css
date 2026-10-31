@@ -207,6 +207,7 @@
   --color-gray-800: #E2E8F0;
   --color-gray-700: #CBD5E1;
   --color-gray-600: #94A3B8;
+  --color-gray-500: #8494AA; /* 4.7:1 on --bg-secondary, AA for small text */
 
   /* Border Colors */
   --border-primary: #334155;
@@ -239,6 +240,7 @@
     --color-gray-800: #E2E8F0;
     --color-gray-700: #CBD5E1;
     --color-gray-600: #94A3B8;
+    --color-gray-500: #8494AA; /* 4.7:1 on --bg-secondary, AA for small text */
 
     /* Border Colors */
     --border-primary: #334155;
@@ -329,43 +331,70 @@
    ============================================ */
 
 .btn {
+  --btn-ease: cubic-bezier(0.22, 1, 0.36, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-6);
   font-size: var(--text-base);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-semibold);
   border-radius: var(--radius-md);
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-base);
   text-decoration: none;
   white-space: nowrap;
+  /* Explicit list (not `all`) so hover lift and shadow animate smoothly. */
+  transition:
+    background-color 200ms var(--btn-ease),
+    border-color 200ms var(--btn-ease),
+    color 200ms var(--btn-ease),
+    box-shadow 200ms var(--btn-ease),
+    transform 200ms var(--btn-ease);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 .btn-primary {
   background: var(--color-primary);
   color: var(--color-white);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.12), 0 4px 12px -4px rgb(37 99 235 / 0.35);
 }
 
 .btn-primary:hover {
   background: var(--color-primary-dark);
   color: var(--color-white);
-  box-shadow: var(--shadow-glow-primary);
-  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgb(15 23 42 / 0.1), 0 10px 22px -6px rgb(37 99 235 / 0.5);
+}
+
+.btn-primary:active {
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.12), 0 4px 10px -4px rgb(37 99 235 / 0.4);
 }
 
 .btn-secondary {
   background: var(--color-white);
-  color: var(--color-secondary);
-  border: 1px solid var(--border-primary);
+  color: #0f172a;
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
 }
 
 .btn-secondary:hover {
-  background: var(--color-gray-50);
-  border-color: var(--border-secondary);
+  background: #f8fafc;
+  color: var(--color-primary-dark);
+  border-color: color-mix(in srgb, var(--color-primary) 45%, #cbd5e1);
+  box-shadow: 0 8px 18px -8px rgb(15 23 42 / 0.25);
 }
 
 .btn-accent {
@@ -835,6 +864,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .btn:hover,
+  .btn:active {
+    transform: none;
+  }
+
   .theme-toggle__thumb,
   .theme-toggle__icon,
   .lang-switcher {
@@ -867,16 +901,24 @@
   box-shadow: var(--shadow-xl), var(--shadow-glow-primary);
 }
 
-/* Buttons in Dark Mode */
+/* Buttons in Dark Mode. Fixed slate values: the dark theme inverts --color-gray-700/800,
+   which used to turn this button light with near-white text. */
 [data-theme="dark"] .btn-secondary {
-  background: var(--color-gray-800);
-  color: var(--color-gray-100);
-  border-color: var(--border-primary);
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #475569;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .btn-secondary:hover {
-  background: var(--color-gray-700);
-  border-color: var(--border-secondary);
+  background: #273449;
+  color: #ffffff;
+  border-color: color-mix(in srgb, var(--color-primary-light) 60%, #475569);
+  box-shadow: 0 10px 22px -10px rgb(0 0 0 / 0.6);
+}
+
+[data-theme="dark"] .btn:focus-visible {
+  outline-color: #93c5fd;
 }
 
 [data-theme="dark"] .btn-ghost {
@@ -940,7 +982,6 @@
 body,
 .card,
 .card-feature,
-.btn,
 .navbar,
 .section {
   transition: background-color var(--transition-base),

@@ -3,7 +3,6 @@ import {
   getAlternateLocale,
   getLocalePath,
   getTranslations,
-  localeConfig,
   type Locale,
 } from "../i18n";
 
@@ -23,7 +22,6 @@ const display = locale === "ar" ? t.lang.shortEn : t.lang.shortAr;
 <a
   href={alternatePath}
   class:list={["lang-switcher", variant === "full" && "lang-switcher--full"]}
-  aria-label={label}
   hreflang={alternateLocale}
   lang={alternateLocale}
   rel="alternate"
@@ -46,9 +44,7 @@ const display = locale === "ar" ? t.lang.shortEn : t.lang.shortAr;
     </svg>
   </span>
   <span class="lang-switcher__label">{display}</span>
-  <span class="visually-hidden">
-    ({localeConfig[alternateLocale].htmlLang})
-  </span>
+  <span class="visually-hidden" lang={locale}>— {label}</span>
 </a>
 
 <script>

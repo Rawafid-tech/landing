@@ -1,8 +1,6 @@
 export type Locale = "ar" | "en";
 
 export interface NavLinkTranslation {
-  home: string;
-  problems: string;
   features: string;
   howItWorks: string;
   integrations: string;
@@ -15,21 +13,22 @@ export interface Translations {
     title: string;
     description: string;
     tagline: string;
+    ogImageAlt: string;
   };
   nav: {
     skipLink: string;
     ariaLabel: string;
+    mobileAriaLabel: string;
     logoAriaLabel: string;
-    logoAlt: string;
     openMenu: string;
     closeMenu: string;
     mobileMenuLabel: string;
     links: NavLinkTranslation;
+    login: string;
     cta: string;
   };
   theme: {
-    switchToLight: string;
-    switchToDark: string;
+    toggleLabel: string;
   };
   lang: {
     switchToEn: string;
@@ -38,27 +37,25 @@ export interface Translations {
     shortAr: string;
   };
   hero: {
-    ariaLabel: string;
     badge: string;
-    headlinePrefix: string;
-    rotatingWords: readonly string[];
+    headline: string;
+    headlineAccent: string;
     subheadline: string;
     ctaPrimary: string;
-    ctaPrimaryHref: string;
     ctaSecondary: string;
-    ctaSecondaryHref: string;
+    trustListLabel: string;
     trustBadges: readonly string[];
+    worksWithLabel: string;
     dashboardAlt: string;
     floatingIcons: readonly {
       emoji: string;
-      label: string;
       position: "top-start" | "top-end" | "bottom-start" | "bottom-end";
-      delay: number;
     }[];
   };
   marketStats: {
-    ariaLabel: string;
     eyebrow: string;
+    /** Optional citation shown under the stats; hidden when empty. */
+    source: string;
     stats: readonly {
       id: string;
       icon: "merchants" | "carriers" | "time" | "market";
@@ -71,32 +68,19 @@ export interface Translations {
     }[];
   };
   problemSection: {
-    ariaLabel: string;
     eyebrow: string;
     headline: string;
     subheadline: string;
+    solutionLabel: string;
     problems: readonly {
       id: string;
       title: string;
       description: string;
+      solution: string;
       image: "dashboards" | "tracking" | "returns" | "manual" | "pricing" | "hidden-costs";
     }[];
   };
-  solutionSection: {
-    ariaLabel: string;
-    eyebrow: string;
-    headline: string;
-    subheadline: string;
-    beforeLabel: string;
-    afterLabel: string;
-    pairs: readonly {
-      id: string;
-      before: string;
-      after: string;
-    }[];
-  };
   featuresSection: {
-    ariaLabel: string;
     eyebrow: string;
     headline: string;
     subheadline: string;
@@ -108,41 +92,60 @@ export interface Translations {
       benefits: readonly string[];
     }[];
   };
+  dashboardPreviewSection: {
+    eyebrow: string;
+    headline: string;
+    subheadline: string;
+    tabsLabel: string;
+    tabs: readonly {
+      id: "overview" | "shipments" | "returns";
+      label: string;
+    }[];
+    hotspots: readonly {
+      id: string;
+      view: "overview" | "shipments" | "returns";
+      title: string;
+      description: string;
+      navigatesTo?: "overview" | "shipments" | "returns";
+    }[];
+    hotspotLabel: string;
+    openView: string;
+    closeHotspot: string;
+    cta: {
+      primary: string;
+      secondary: string;
+    };
+  };
   howItWorksSection: {
-    ariaLabel: string;
     eyebrow: string;
     headline: string;
     subheadline: string;
     steps: readonly {
       id: string;
-      number: string;
       icon: "connect" | "create" | "track";
       title: string;
       description: string;
     }[];
     cta: string;
-    ctaHref: string;
-    ctaAriaLabel: string;
   };
   integrationsSection: {
-    ariaLabel: string;
     eyebrow: string;
     headline: string;
     subheadline: string;
-    hubLabel: string;
-    hubTagline: string;
     stores: readonly {
       id: string;
-      icon: "shopify" | "Easy Orders" | "api";
+      icon: "shopify" | "easyorders" | "api";
       name: string;
       description: string;
     }[];
     couriers: readonly {
       id: string;
-      icon: "bosta" | "local";
+      icon: "bosta" | "jt" | "aramex";
       name: string;
       description: string;
     }[];
+    hubLabel: string;
+    hubTagline: string;
     comingSoon: readonly {
       id: string;
       name: string;
@@ -154,39 +157,7 @@ export interface Translations {
       comingSoon: string;
     };
   };
-  whyRawafidSection: {
-    ariaLabel: string;
-    eyebrow: string;
-    headline: string;
-    subheadline: string;
-    points: readonly {
-      id: string;
-      icon: "local" | "security" | "support" | "ease" | "pricing" | "updates";
-      title: string;
-      description: string;
-    }[];
-    comparison: {
-      ariaLabel: string;
-      headline: string;
-      columns: {
-        feature: string;
-        rawafid: string;
-        traditional: string;
-      };
-      rows: readonly {
-        id: string;
-        feature: string;
-        rawafid: { kind: "text" | "yes"; value?: string };
-        traditional: { kind: "text" | "no"; value?: string };
-      }[];
-      labels: {
-        yes: string;
-        no: string;
-      };
-    };
-  };
   pricingSection: {
-    ariaLabel: string;
     eyebrow: string;
     headline: string;
     subheadline: string;
@@ -195,8 +166,6 @@ export interface Translations {
       monthly: string;
       annual: string;
       annualSave: string;
-      monthlyHint: string;
-      annualHint: string;
     };
     plans: readonly {
       id: "starter" | "growth" | "enterprise";
@@ -206,6 +175,7 @@ export interface Translations {
       monthlyPrice?: string;
       annualPrice?: string;
       priceSuffix?: string;
+      annualNote?: string;
       freeLabel?: string;
       freeSub?: string;
       customLabel?: string;
@@ -214,15 +184,22 @@ export interface Translations {
       popularBadge?: string;
       features: readonly string[];
       cta: string;
-      ctaHref: string;
-      ctaAriaLabel: string;
+      ctaTarget: "signup" | "contact";
       ctaVariant: "primary" | "secondary";
     }[];
     featuresHeading: string;
     priceUpdated: string;
+    trust: {
+      label: string;
+      points: readonly {
+        id: string;
+        icon: "local" | "pricing" | "ease";
+        title: string;
+        description: string;
+      }[];
+    };
   };
   faqSection: {
-    ariaLabel: string;
     eyebrow: string;
     headline: string;
     subheadline: string;
@@ -233,111 +210,40 @@ export interface Translations {
     }[];
   };
   finalCtaSection: {
-    ariaLabel: string;
-    icon: string;
     headline: string;
     subheadline: string;
     ctaPrimary: string;
-    ctaPrimaryHref: string;
-    ctaPrimaryAriaLabel: string;
     ctaSecondary: string;
-    ctaSecondaryHref: string;
-    ctaSecondaryAriaLabel: string;
     trustBadges: readonly string[];
     trustListAriaLabel: string;
   };
   footerSection: {
-    ariaLabel: string;
     tagline: string;
     backToTop: string;
-    backToTopAriaLabel: string;
-    columns: readonly {
-      id: string;
-      title: string;
-      links: readonly {
-        id: string;
-        label: string;
-        href: string;
-        external?: boolean;
-        ariaLabel?: string;
-      }[];
-    }[];
+    externalHint: string;
+    productTitle: string;
     contact: {
       title: string;
-      email: {
-        label: string;
-        value: string;
-        href: string;
-        ariaLabel: string;
-      };
-      phone: {
-        label: string;
-        value: string;
-        href: string;
-        ariaLabel: string;
-      };
-      address: {
-        label: string;
-        value: string;
-      };
+      emailLabel: string;
+      phoneLabel: string;
+      whatsappLabel: string;
+      addressLabel: string;
+      address: string;
     };
     social: {
       ariaLabel: string;
-      links: readonly {
-        id: "linkedin" | "facebook" | "x" | "instagram";
-        label: string;
-        href: string;
-      }[];
+      labels: Record<"linkedin" | "facebook" | "x" | "instagram", string>;
     };
     legal: {
       navAriaLabel: string;
       copyright: string;
-      privacy: {
-        label: string;
-        href: string;
-        ariaLabel: string;
-      };
-      terms: {
-        label: string;
-        href: string;
-        ariaLabel: string;
-      };
+      privacy: string;
+      terms: string;
     };
   };
-  dashboardPreviewSection: {
-    ariaLabel: string;
-    eyebrow: string;
-    headline: string;
-    subheadline: string;
-    tabs: readonly {
-      id: "overview" | "shipments" | "returns";
-      label: string;
-    }[];
-    hotspots: readonly {
-      id: string;
-      view: "overview" | "shipments" | "returns";
-      title: string;
-      description: string;
-      countUp?: { value: number; suffix: string };
-      navigatesTo?: "overview" | "shipments" | "returns";
-    }[];
-    hints: {
-      drag: string;
-      click: string;
-    };
-    controls: {
-      zoomIn: string;
-      zoomOut: string;
-      zoomReset: string;
-      closeHotspot: string;
-    };
-    cta: {
-      primary: string;
-      primaryHref: string;
-      primaryAriaLabel: string;
-      secondary: string;
-      secondaryHref: string;
-      secondaryAriaLabel: string;
-    };
+  notFound: {
+    title: string;
+    description: string;
+    cta: string;
   };
 }

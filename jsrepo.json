@@ -1,6 +1,0 @@
-{
-  "$schema": "https://jsrepo.dev/schema.json",
-  "paths": {
-    "*": "./src/components/react-bits"
-  }
-}

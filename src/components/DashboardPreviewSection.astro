@@ -1,50 +1,255 @@
 ---
-import DashboardPreviewContent from "./react-bits/DashboardPreviewContent";
+import SectionHeader from "./SectionHeader.astro";
+import Sidebar from "./dashboard-preview/Sidebar.astro";
+import OverviewView from "./dashboard-preview/OverviewView.astro";
+import ShipmentsView from "./dashboard-preview/ShipmentsView.astro";
+import ReturnsView from "./dashboard-preview/ReturnsView.astro";
+import Hotspot from "./dashboard-preview/Hotspot.astro";
+import Icon from "./dashboard-preview/Icon.astro";
 import { getTranslations, type Locale } from "../i18n";
+import { APP_URL, SIGNUP_URL, getContactHref } from "../config/site";
+import { HOTSPOT_LAYOUT, getDemoData, type DemoView } from "../data/dashboard-demo";
 
 interface Props {
   locale?: Locale;
 }
 
 const locale = Astro.props.locale ?? "ar";
-const t = getTranslations(locale);
-const { dashboardPreviewSection: d } = t;
+const { dashboardPreviewSection: d } = getTranslations(locale);
+const data = getDemoData(locale);
+
+const VIEWS: DemoView[] = ["overview", "shipments", "returns"];
+const tabId = (view: DemoView) => `demo-tab-${view}`;
+const panelId = (view: DemoView) => `demo-panel-${view}`;
+const tabLabel = (view: DemoView) => d.tabs.find((tab) => tab.id === view)?.label ?? view;
+
+// Join translated hotspot copy with its canvas position.
+const hotspots = HOTSPOT_LAYOUT.flatMap((pos) => {
+  const copy = d.hotspots.find((h) => h.id === pos.id);
+  return copy ? [{ ...pos, ...copy }] : [];
+});
 ---
 
-<section
-  id="demo"
-  class="demo-section"
-  aria-label={d.ariaLabel}
->
-  <!-- Ambient glows -->
+<section id="demo" class="demo-section" aria-labelledby="demo-heading">
   <div class="demo-section__glow demo-section__glow--start" aria-hidden="true"></div>
-  <div class="demo-section__glow demo-section__glow--end"   aria-hidden="true"></div>
+  <div class="demo-section__glow demo-section__glow--end" aria-hidden="true"></div>
 
   <div class="container demo-section__container">
-    <DashboardPreviewContent
-      client:visible
-      locale={locale}
-      ariaLabel={d.ariaLabel}
-      eyebrow={d.eyebrow}
-      headline={d.headline}
-      subheadline={d.subheadline}
-      tabs={d.tabs}
-      hotspots={d.hotspots}
-      hints={d.hints}
-      controls={d.controls}
-      cta={d.cta}
-    />
+    <div class="demo-section__stack">
+      <SectionHeader id="demo-heading" eyebrow={d.eyebrow} headline={d.headline} subheadline={d.subheadline} />
+
+      <div class="demo-tabs" role="tablist" aria-label={d.tabsLabel} data-reveal>
+        {
+          d.tabs.map((tab) => (
+            <button
+              type="button"
+              role="tab"
+              id={tabId(tab.id)}
+              class="demo-tab"
+              aria-selected={tab.id === "overview" ? "true" : "false"}
+              aria-controls={panelId(tab.id)}
+              tabindex={tab.id === "overview" ? "0" : "-1"}
+              data-demo-tab={tab.id}
+            >
+              {tab.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="demo-frame" data-reveal style="--reveal-delay: 120ms">
+        <div class="demo-browser" aria-hidden="true" dir="ltr">
+          <span class="demo-browser__lights">
+            <span></span><span></span><span></span>
+          </span>
+          <span class="demo-browser__url">
+            <Icon name="lock" size={12} class="demo-browser__lock" />
+            {new URL(APP_URL).host}
+          </span>
+          <span class="demo-browser__actions">
+            <span></span><span></span><span></span>
+          </span>
+        </div>
+
+        <div class="demo-viewport">
+          <div class="demo-stage">
+            <div class="demo-canvas">
+              <Sidebar data={data} />
+              <div class="demo-main">
+                <OverviewView data={data} panelId={panelId("overview")} tabId={tabId("overview")} />
+                <ShipmentsView data={data} panelId={panelId("shipments")} tabId={tabId("shipments")} hidden />
+                <ReturnsView data={data} panelId={panelId("returns")} tabId={tabId("returns")} hidden />
+              </div>
+            </div>
+          </div>
+
+          <!-- Hotspots live outside the scaled canvas so dots and cards stay full size. -->
+          <div class="demo-hotspots">
+            {
+              VIEWS.map((view) => (
+                <div class="demo-hotspots__group" data-demo-hotspots={view} hidden={view !== "overview"}>
+                  {hotspots
+                    .filter((h) => h.view === view)
+                    .map((h) => (
+                      <Hotspot
+                        id={h.id}
+                        x={h.x}
+                        y={h.y}
+                        label={d.hotspotLabel.replace("{title}", h.title)}
+                        title={h.title}
+                        description={h.description}
+                        closeLabel={d.closeHotspot}
+                        navigatesTo={h.navigatesTo}
+                        navigateLabel={h.navigatesTo ? d.openView.replace("{view}", tabLabel(h.navigatesTo)) : undefined}
+                      />
+                    ))}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section__cta" data-reveal style="--reveal-delay: 200ms">
+        <a href={SIGNUP_URL} class="btn btn-primary btn-large">{d.cta.primary}</a>
+        <a href={getContactHref()} class="btn btn-secondary btn-large">{d.cta.secondary}</a>
+      </div>
+    </div>
   </div>
 </section>
 
+<script>
+  const CANVAS_WIDTH = 1100;
+
+  const root = document.getElementById("demo");
+
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-demo-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-demo-panel]"));
+    const groups = Array.from(root.querySelectorAll<HTMLElement>("[data-demo-hotspots]"));
+    const sideItems = Array.from(root.querySelectorAll<HTMLElement>(".demo-sidebar__item[data-demo-view]"));
+    const chips = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-demo-filter]"));
+    const rows = Array.from(root.querySelectorAll<HTMLTableRowElement>("tr[data-status]"));
+    let openDot: HTMLButtonElement | null = null;
+
+    const tipOf = (dot: HTMLElement) => document.getElementById(dot.getAttribute("aria-controls") ?? "");
+
+    const closeTip = (restoreFocus = false) => {
+      if (!openDot) return;
+      const dot = openDot;
+      openDot = null;
+      dot.setAttribute("aria-expanded", "false");
+      const tip = tipOf(dot);
+      if (tip) tip.hidden = true;
+      if (restoreFocus) dot.focus();
+    };
+
+    const openTip = (dot: HTMLButtonElement) => {
+      closeTip();
+      const tip = tipOf(dot);
+      if (!tip) return;
+      tip.hidden = false;
+      dot.setAttribute("aria-expanded", "true");
+      openDot = dot;
+    };
+
+    const selectView = (view: string, focusTab = false) => {
+      closeTip();
+      for (const tab of tabs) {
+        const active = tab.dataset.demoTab === view;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+        if (active && focusTab) tab.focus();
+      }
+      for (const panel of panels) panel.hidden = panel.dataset.demoPanel !== view;
+      for (const group of groups) group.hidden = group.dataset.demoHotspots !== view;
+      for (const item of sideItems) item.classList.toggle("is-active", item.dataset.demoView === view);
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => selectView(tab.dataset.demoTab ?? "overview"));
+      tab.addEventListener("keydown", (event) => {
+        const step = getComputedStyle(root).direction === "rtl" ? -1 : 1;
+        let next: number;
+        if (event.key === "ArrowRight") next = index + step;
+        else if (event.key === "ArrowLeft") next = index - step;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        const target = tabs[(next + tabs.length) % tabs.length];
+        selectView(target.dataset.demoTab ?? "overview", true);
+      });
+    });
+
+    root.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+
+      const dot = target.closest<HTMLButtonElement>("[data-demo-hotspot]");
+      if (dot) {
+        if (openDot === dot) closeTip();
+        else openTip(dot);
+        return;
+      }
+
+      if (target.closest("[data-demo-tip-close]")) {
+        closeTip(true);
+        return;
+      }
+
+      const chip = target.closest<HTMLButtonElement>("[data-demo-filter]");
+      if (chip) {
+        const filter = chip.dataset.demoFilter;
+        for (const c of chips) c.setAttribute("aria-pressed", String(c === chip));
+        for (const row of rows) row.hidden = filter !== "all" && row.dataset.status !== filter;
+        return;
+      }
+
+      // Sidebar items, "View all" and hotspot "Open …" buttons.
+      const viewLink = target.closest<HTMLElement>("[data-demo-view]");
+      if (viewLink?.dataset.demoView) {
+        const fromTip = !!viewLink.closest(".demo-tip");
+        selectView(viewLink.dataset.demoView, fromTip);
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!openDot) return;
+      const target = event.target as Node;
+      if (openDot.contains(target) || tipOf(openDot)?.contains(target)) return;
+      closeTip();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && openDot) closeTip(true);
+    });
+
+    // Fit the fixed-width canvas to the frame. Until this runs (or without
+    // ResizeObserver) the stage simply scrolls horizontally and hotspots stay hidden.
+    const stage = root.querySelector<HTMLElement>(".demo-stage");
+    if (stage && "ResizeObserver" in window) {
+      const fit = (width: number) => {
+        if (!width) return; // skipped by content-visibility; wait for a real size
+        root.style.setProperty("--demo-scale", Math.min(1, width / CANVAS_WIDTH).toFixed(4));
+        root.classList.add("is-ready");
+      };
+      fit(stage.clientWidth);
+      new ResizeObserver(([entry]) => fit(entry.contentRect.width)).observe(stage);
+    }
+  }
+</script>
+
 <style is:global>
-  /* ─── Section shell ───────────────────────────────────────── */
+  /* ─── Section shell ─────────────────────────────────────── */
   .demo-section {
+    --demo-canvas-h: 680px;
     position: relative;
     isolation: isolate;
     padding-block: var(--space-6) var(--space-8);
     background: var(--bg-primary);
     overflow: hidden;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
   }
 
   @media (min-width: 1024px) {
@@ -58,7 +263,19 @@ const { dashboardPreviewSection: d } = t;
     z-index: 1;
   }
 
-  /* ─── Ambient glows ───────────────────────────────────────── */
+  .demo-section__stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .demo-section__stack {
+      gap: var(--space-10);
+    }
+  }
+
   .demo-section__glow {
     position: absolute;
     width: min(32rem, 60vw);
@@ -70,13 +287,13 @@ const { dashboardPreviewSection: d } = t;
   }
 
   .demo-section__glow--start {
-    top: -20%;
+    top: -10%;
     inset-inline-start: -14%;
     background: color-mix(in srgb, var(--color-primary) 24%, transparent);
   }
 
   .demo-section__glow--end {
-    bottom: -20%;
+    bottom: -10%;
     inset-inline-end: -12%;
     background: color-mix(in srgb, var(--color-accent) 18%, transparent);
   }
@@ -85,21 +302,638 @@ const { dashboardPreviewSection: d } = t;
     opacity: 0.08;
   }
 
-  /* ─── Hotspot pulse keyframe ──────────────────────────────── */
-  @keyframes demo-hotspot-ping {
-    0%        { transform: scale(1);   opacity: 0.5; }
-    70%, 100% { transform: scale(2.4); opacity: 0;   }
+  .demo-section__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
   }
 
-  .demo-hotspot-ping {
+  /* ─── View tabs ─────────────────────────────────────────── */
+  .demo-tabs {
+    display: inline-flex;
+    max-width: 100%;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-full);
+    background: var(--bg-secondary);
+  }
+
+  .demo-tab {
+    padding: var(--space-2) var(--space-5);
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-600);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .demo-tab:hover {
+    color: var(--color-gray-900);
+  }
+
+  .demo-tab[aria-selected="true"] {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 12px -4px rgb(37 99 235 / 0.5);
+  }
+
+  .demo-tab:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 480px) {
+    .demo-tab {
+      padding-inline: var(--space-3);
+      font-size: 0.875rem;
+    }
+  }
+
+  /* ─── Browser frame ─────────────────────────────────────── */
+  .demo-frame {
+    position: relative;
+    width: 100%;
+    max-width: 1102px;
+    border: 1px solid var(--border-primary);
+    border-radius: 18px;
+    background: var(--bg-primary);
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 0.06),
+      0 30px 60px -24px rgb(15 23 42 / 0.28);
+  }
+
+  [data-theme="dark"] .demo-frame {
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.4),
+      0 30px 60px -24px rgb(0 0 0 / 0.6);
+  }
+
+  .demo-browser {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: 40px;
+    padding-inline: 14px;
+    border-block-end: 1px solid var(--border-primary);
+    border-radius: 17px 17px 0 0;
+    background: #f1f5f9;
+  }
+
+  [data-theme="dark"] .demo-browser {
+    background: #1e293b;
+  }
+
+  .demo-browser__lights,
+  .demo-browser__actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .demo-browser__lights span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+
+  .demo-browser__lights span:nth-child(1) { background: #f87171; }
+  .demo-browser__lights span:nth-child(2) { background: #fbbf24; }
+  .demo-browser__lights span:nth-child(3) { background: #4ade80; }
+
+  .demo-browser__actions span {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: #e2e8f0;
+  }
+
+  [data-theme="dark"] .demo-browser__actions span {
+    background: #334155;
+  }
+
+  .demo-browser__url {
+    display: flex;
+    flex: 0 1 320px;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 26px;
+    margin-inline: auto;
+    padding-inline: 10px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    background: #fff;
+    font-size: 12px;
+    color: #64748b;
+    white-space: nowrap;
+  }
+
+  [data-theme="dark"] .demo-browser__url {
+    border-color: #334155;
+    background: #0f172a;
+    color: #94a3b8;
+  }
+
+  .demo-browser__lock {
+    flex-shrink: 0;
+    color: #16a34a;
+  }
+
+  @media (max-width: 480px) {
+    .demo-browser__actions {
+      display: none;
+    }
+  }
+
+  /* ─── Stage & canvas (fixed 1100×680, scaled to fit) ────── */
+  .demo-viewport {
+    position: relative;
+  }
+
+  .demo-stage {
+    overflow-x: auto;
+    border-radius: 0 0 17px 17px;
+  }
+
+  .demo-section.is-ready .demo-stage {
+    height: calc(var(--demo-canvas-h) * var(--demo-scale, 1));
+    overflow: hidden;
+    overflow: clip;
+  }
+
+  .demo-canvas {
+    --dp-bg: #f8fafc;
+    --dp-surface: #ffffff;
+    --dp-border: #e2e8f0;
+    --dp-border-soft: #f1f5f9;
+    --dp-text: #0f172a;
+    --dp-text-2: #334155;
+    --dp-muted: #64748b;
+    display: flex;
+    width: 1100px;
+    height: var(--demo-canvas-h);
+    background: var(--dp-bg);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--dp-text);
+    text-align: start;
+    transform-origin: top left;
+  }
+
+  [dir="rtl"] .demo-canvas {
+    transform-origin: top right;
+  }
+
+  .demo-section.is-ready .demo-canvas {
+    transform: scale(var(--demo-scale, 1));
+  }
+
+  [data-theme="dark"] .demo-canvas {
+    --dp-bg: #0f172a;
+    --dp-surface: #1e293b;
+    --dp-border: #334155;
+    --dp-border-soft: #2a374b;
+    --dp-text: #f1f5f9;
+    --dp-text-2: #cbd5e1;
+    --dp-muted: #94a3b8;
+  }
+
+  .demo-main {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .demo-view {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .demo-view[hidden] {
+    display: none;
+  }
+
+  .demo-view:focus-visible {
+    outline: 3px solid #2563eb;
+    outline-offset: -3px;
+  }
+
+  .demo-view__body {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 20px;
+  }
+
+  /* ─── Shared dashboard pieces ───────────────────────────── */
+  .demo-card {
+    border: 1px solid var(--dp-border);
+    border-radius: 14px;
+    background: var(--dp-surface);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+  }
+
+  .demo-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border-block-end: 1px solid var(--dp-border);
+  }
+
+  .demo-card__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dp-text);
+  }
+
+  .demo-link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563eb;
+    cursor: pointer;
+  }
+
+  .demo-link:hover {
+    text-decoration: underline;
+  }
+
+  .demo-link:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  [data-theme="dark"] .demo-link {
+    color: #60a5fa;
+  }
+
+  .demo-ref {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #2563eb;
+    font-variant-numeric: tabular-nums;
+  }
+
+  [data-theme="dark"] .demo-ref {
+    color: #60a5fa;
+  }
+
+  .demo-amount {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dp-text);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .demo-courier {
+    display: inline-flex;
+    padding: 2px 9px;
+    border: 1px solid var(--dp-border);
+    border-radius: 999px;
+    background: var(--dp-bg);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dp-text-2);
+    white-space: nowrap;
+  }
+
+  .demo-avatar {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .demo-avatar--0 { background: #2563eb; }
+  .demo-avatar--1 { background: #334155; }
+  .demo-avatar--2 { background: #15803d; }
+  .demo-avatar--3 { background: #1e40af; }
+  .demo-avatar--4 { background: #475569; }
+  .demo-avatar--5 { background: #1d4ed8; }
+
+  .demo-person {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--dp-text);
+    white-space: nowrap;
+  }
+
+  .demo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .demo-pill::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .demo-pill--delivered,
+  .demo-pill--ret-refunded  { background: #dcfce7; color: #15803d; }
+  .demo-pill--transit,
+  .demo-pill--ret-collected { background: #dbeafe; color: #1d4ed8; }
+  .demo-pill--pending,
+  .demo-pill--ret-pending   { background: #fef3c7; color: #92400e; }
+  .demo-pill--failed        { background: #fee2e2; color: #b91c1c; }
+
+  [data-theme="dark"] .demo-pill--delivered,
+  [data-theme="dark"] .demo-pill--ret-refunded  { background: rgb(34 197 94 / 0.14); color: #4ade80; }
+  [data-theme="dark"] .demo-pill--transit,
+  [data-theme="dark"] .demo-pill--ret-collected { background: rgb(37 99 235 / 0.2); color: #93c5fd; }
+  [data-theme="dark"] .demo-pill--pending,
+  [data-theme="dark"] .demo-pill--ret-pending   { background: rgb(245 158 11 / 0.14); color: #fbbf24; }
+  [data-theme="dark"] .demo-pill--failed        { background: rgb(220 38 38 / 0.18); color: #fca5a5; }
+
+  .demo-table-card {
+    overflow: hidden;
+  }
+
+  .demo-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .demo-table th {
+    padding: 10px 14px;
+    border-block-end: 1px solid var(--dp-border);
+    background: var(--dp-bg);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dp-muted);
+    text-align: start;
+    white-space: nowrap;
+  }
+
+  .demo-table td {
+    padding: 8px 14px;
+    border-block-end: 1px solid var(--dp-border-soft);
+    font-size: 13px;
+    color: var(--dp-text-2);
+    vertical-align: middle;
+  }
+
+  .demo-table tbody tr:last-child td {
+    border-block-end: 0;
+  }
+
+  .demo-table tbody tr:hover td {
+    background: color-mix(in srgb, #2563eb 4%, transparent);
+  }
+
+  .demo-table tr[hidden] {
+    display: none;
+  }
+
+  .demo-table .demo-table__muted {
+    color: var(--dp-muted);
+    white-space: nowrap;
+  }
+
+  /* ─── Hotspots ──────────────────────────────────────────── */
+  .demo-hotspots {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: none;
+    pointer-events: none;
+  }
+
+  .demo-section.is-ready .demo-hotspots {
+    display: block;
+  }
+
+  .demo-hotspots__group[hidden] {
+    display: none;
+  }
+
+  .demo-hotspot {
+    --dot: 30px;
+    position: absolute;
+    inset-inline-start: var(--x);
+    inset-block-start: var(--y);
+    width: var(--dot);
+    height: var(--dot);
+    margin-inline-start: calc(var(--dot) / -2);
+    margin-block-start: calc(var(--dot) / -2);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  @media (max-width: 640px) {
+    .demo-hotspot {
+      --dot: 22px;
+    }
+  }
+
+  .demo-hotspot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgb(37 99 235 / 0.45);
     animation: demo-hotspot-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
 
-  /* ─── Reduced-motion overrides ────────────────────────────── */
+  .demo-hotspot__core {
+    position: absolute;
+    inset: 15%;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #2563eb;
+    box-shadow:
+      0 0 0 3px rgb(37 99 235 / 0.25),
+      0 4px 10px rgb(15 23 42 / 0.3);
+    transition: transform 150ms ease, background-color 150ms ease;
+  }
+
+  .demo-hotspot:hover .demo-hotspot__core {
+    transform: scale(1.12);
+  }
+
+  .demo-hotspot[aria-expanded="true"]::before {
+    animation: none;
+    opacity: 0;
+  }
+
+  .demo-hotspot[aria-expanded="true"] .demo-hotspot__core {
+    background: #1d4ed8;
+    transform: scale(1.18);
+  }
+
+  .demo-hotspot:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 3px;
+  }
+
+  [data-theme="dark"] .demo-hotspot:focus-visible {
+    outline-color: #60a5fa;
+  }
+
+  @keyframes demo-hotspot-ping {
+    0%        { transform: scale(1);   opacity: 0.6; }
+    70%, 100% { transform: scale(2.2); opacity: 0;   }
+  }
+
+  /* ─── Hotspot card ──────────────────────────────────────── */
+  .demo-tip {
+    --tip-w: min(18rem, calc(100% - 24px));
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    width: var(--tip-w);
+    flex-direction: column;
+    gap: var(--space-2);
+    inset-inline-start: clamp(12px, calc(var(--x) - 3rem), calc(100% - var(--tip-w) - 12px));
+    padding: var(--space-4);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-xl);
+    text-align: start;
+    pointer-events: auto;
+    animation: demo-tip-in 160ms ease-out;
+  }
+
+  .demo-tip[hidden] {
+    display: none;
+  }
+
+  .demo-tip[data-place="below"] {
+    inset-block-start: calc(var(--y) + 24px);
+  }
+
+  .demo-tip[data-place="above"] {
+    inset-block-end: calc(100% - var(--y) + 24px);
+  }
+
+  [data-theme="dark"] .demo-tip {
+    background: var(--bg-secondary);
+  }
+
+  .demo-tip__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .demo-tip__title {
+    font-size: 1rem;
+    font-weight: var(--font-semibold);
+    line-height: 1.35;
+    color: var(--color-gray-900);
+  }
+
+  .demo-tip__text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-gray-600);
+  }
+
+  [data-theme="dark"] .demo-tip__text {
+    color: var(--color-gray-700);
+  }
+
+  .demo-tip__close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-block-start: -4px;
+    margin-inline-end: -6px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-gray-500);
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .demo-tip__close:hover {
+    background: rgb(148 163 184 / 0.18);
+    color: var(--color-gray-900);
+  }
+
+  .demo-tip__close:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+
+  .demo-tip__action {
+    width: 100%;
+    margin-block-start: var(--space-1);
+  }
+
+  [dir="rtl"] .demo-tip__arrow {
+    transform: scaleX(-1);
+  }
+
+  @keyframes demo-tip-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ─── Reduced motion ────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
-    .demo-section__glow,
-    .demo-hotspot-ping {
-      animation: none !important;
+    .demo-hotspot::before {
+      animation: none;
+      opacity: 0;
+    }
+
+    .demo-tip {
+      animation: none;
+    }
+
+    .demo-hotspot__core,
+    .demo-tab,
+    .demo-chip {
+      transition: none;
     }
   }
 </style>

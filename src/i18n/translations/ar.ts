@@ -2,33 +2,32 @@ import type { Translations } from "../types";
 
 const ar: Translations = {
   meta: {
-    title: "روافد (Rawafid) — نظام تشغيل لوجستيات التجارة الإلكترونية",
+    title: "روافد — إدارة الشحنات والمرتجعات للمتاجر الإلكترونية في مصر",
     description:
-      "روافد (Rawafid) تساعد أصحاب المتاجر الإلكترونية على إدارة الشحنات والمرتجعات وتكامل شركات الشحن والتتبع اللحظي من منصة واحدة.",
+      "اربط متجرك على Shopify أو Easy Orders مع Bosta و J&T Express و Aramex، وأدِر الشحنات والمرتجعات والتحصيل والتتبع من لوحة تحكم واحدة. ابدأ مجاناً.",
     tagline: "نظام تشغيل لوجستيات التجارة الإلكترونية",
+    ogImageAlt: "روافد — أدِر شحنات ومرتجعات متجرك الإلكتروني وشركات الشحن من لوحة تحكم واحدة",
   },
   nav: {
     skipLink: "تخطي إلى المحتوى الرئيسي",
     ariaLabel: "التنقل الرئيسي",
+    mobileAriaLabel: "التنقل للجوال",
     logoAriaLabel: "Rawafid روافد — الصفحة الرئيسية",
-    logoAlt: "Rawafid روافد",
     openMenu: "فتح قائمة التنقل",
     closeMenu: "إغلاق قائمة التنقل",
     mobileMenuLabel: "قائمة التنقل",
     links: {
-      home: "الرئيسية",
-      problems: "التحديات",
       features: "الميزات",
       howItWorks: "كيف يعمل",
       integrations: "التكاملات",
       pricing: "الأسعار",
       faq: "الأسئلة",
     },
+    login: "تسجيل الدخول",
     cta: "ابدأ مجاناً",
   },
   theme: {
-    switchToLight: "التبديل إلى الوضع الفاتح",
-    switchToDark: "التبديل إلى الوضع الداكن",
+    toggleLabel: "الوضع الداكن",
   },
   lang: {
     switchToEn: "التبديل إلى الإنجليزية",
@@ -37,32 +36,31 @@ const ar: Translations = {
     shortAr: "عربي",
   },
   hero: {
-    ariaLabel: "القسم الرئيسي",
-    badge: "🚀 منصة الشحن #1 للتجارة الإلكترونية في مصر",
-    headlinePrefix: "أدِر كل شحناتك من",
-    rotatingWords: ["مكان واحد", "داشبورد واحدة", "منصة واحدة", "نظام موحد"],
+    badge: "مصممة للتجارة الإلكترونية في مصر",
+    headline: "أدِر كل شحنات متجرك الإلكتروني",
+    headlineAccent: "من مكان واحد",
     subheadline:
-      "روافد بتوحّد شركات الشحن، المتاجر، والشحنات في منصة واحدة. وداعاً للفوضى، مرحباً بالكفاءة.",
-    ctaPrimary: "ابدأ تجربتك المجانية",
-    ctaPrimaryHref: "#cta",
-    ctaSecondary: "شاهد العرض التوضيحي",
-    ctaSecondaryHref: "#demo",
+      "اربط متجرك، اشحن مع Bosta أو J&T Express أو Aramex، وتابع كل أوردر ومرتجع وتحصيل COD من لوحة تحكم واحدة مصممة للتاجر المصري.",
+    ctaPrimary: "ابدأ مجاناً",
+    ctaSecondary: "شوف المنصة من جوه",
+    trustListLabel: "ليه البداية سهلة",
     trustBadges: [
-      "14 يوم تجربة مجانية",
+      "باقة مجانية للأبد",
       "بدون بطاقة ائتمان",
-      "إلغاء في أي وقت",
+      "رقّي باقتك وقت ما تحب",
     ],
+    worksWithLabel: "متكامل مع",
     dashboardAlt: "معاينة لوحة تحكم روافد لإدارة الشحنات والمرتجعات",
     floatingIcons: [
-      { emoji: "📦", label: "إدارة الشحنات", position: "top-start", delay: 0.1 },
-      { emoji: "🚚", label: "شركات الشحن", position: "top-end", delay: 0.25 },
-      { emoji: "✅", label: "تتبع لحظي", position: "bottom-start", delay: 0.4 },
-      { emoji: "🔁", label: "إدارة المرتجعات", position: "bottom-end", delay: 0.55 },
+      { emoji: "📦", position: "top-start" },
+      { emoji: "🚚", position: "top-end" },
+      { emoji: "✅", position: "bottom-start" },
+      { emoji: "🔁", position: "bottom-end" },
     ],
   },
   marketStats: {
-    ariaLabel: "إحصائيات السوق المصري",
     eyebrow: "أرقام من السوق المصري",
+    source: "",
     stats: [
       {
         id: "merchant-pain",
@@ -100,92 +98,56 @@ const ar: Translations = {
     ],
   },
   problemSection: {
-    ariaLabel: "المشاكل اللي بيواجهها التجار",
     eyebrow: "التحديات",
     headline: "مشاكل بتواجه كل تاجر إلكتروني",
-    subheadline: "روافد بتحل المشاكل دي كلها من مكان واحد",
+    subheadline: "وإزاي روافد بتحل كل واحدة منهم",
+    solutionLabel: "مع روافد",
     problems: [
       {
         id: "multiple-dashboards",
         title: "داشبوردات متعددة",
         description: "كل شركة شحن ليها نظام مختلف، وبتضيع وقتك بين الداشبوردات",
+        solution: "لوحة تحكم واحدة لكل شركات الشحن",
         image: "dashboards",
       },
       {
         id: "no-unified-tracking",
         title: "مفيش تتبع موحد",
         description: "الشحنات متفرقة ومش قادر تتابعها كلها من مكان واحد",
+        solution: "تتبع لحظي لكل شحناتك في مكان واحد",
         image: "tracking",
       },
       {
         id: "returns-nightmare",
         title: "إدارة المرتجعات صعبة",
         description: "المرتجعات بتاخد وقت كتير ومفيش نظام واضح لإدارتها",
+        solution: "نظام متكامل للمرتجعات من الطلب لحد الإغلاق",
         image: "returns",
       },
       {
         id: "manual-entry",
         title: "إدخال يدوي للأوردرات",
         description: "بتدخل كل أوردر يدوياً وده بياخد وقت ومجهود كبير",
+        solution: "الأوردرات بتتزامن تلقائياً من متجرك",
         image: "manual",
       },
       {
         id: "price-comparison",
         title: "مقارنة الأسعار صعبة",
         description: "صعب تقارن أسعار شركات الشحن وتختار الأنسب لكل شحنة",
+        solution: "مقارنة فورية بين أسعار شركات الشحن",
         image: "pricing",
       },
       {
         id: "hidden-costs",
         title: "تكاليف مخفية",
         description: "مصاريف مش واضحة بتأثر على الربح وبتكتشفها متأخر",
+        solution: "شوف سعر كل شركة شحن قبل ما تشحن",
         image: "hidden-costs",
       },
     ],
   },
-  solutionSection: {
-    ariaLabel: "كيف تحل روافد تحديات اللوجستيات",
-    eyebrow: "الحل",
-    headline: "منصة واحدة. كل مشكلة اتحلت.",
-    subheadline:
-      "روافد بتستبدل فوضى التنقل بين الأنظمة بمنصة واحدة موحدة مصممة للتجارة الإلكترونية المصرية.",
-    beforeLabel: "قبل روافد",
-    afterLabel: "مع روافد",
-    pairs: [
-      {
-        id: "dashboards",
-        before: "6+ داشبوردات لكل شركة شحن",
-        after: "لوحة تحكم واحدة موحدة",
-      },
-      {
-        id: "entry",
-        before: "إدخال الأوردرات يدوياً كل مرة",
-        after: "مزامنة تلقائية من متجرك",
-      },
-      {
-        id: "tracking",
-        before: "مفيش تتبع موحد للشحنات",
-        after: "تتبع لحظي لكل شحناتك في مكان واحد",
-      },
-      {
-        id: "returns",
-        before: "مرتجعات بدون نظام واضح",
-        after: "نظام متكامل لإدارة المرتجعات",
-      },
-      {
-        id: "pricing",
-        before: "مقارنة أسعار الشحن صعبة",
-        after: "مقارنة فورية بين كل شركات الشحن",
-      },
-      {
-        id: "manual",
-        before: "ساعات من الشغل اليدوي المتكرر",
-        after: "أتمتة كاملة للعمليات",
-      },
-    ],
-  },
   featuresSection: {
-    ariaLabel: "ميزات المنصة",
     eyebrow: "الميزات",
     headline: "كل اللي محتاجه لإدارة شحناتك",
     subheadline:
@@ -225,7 +187,7 @@ const ar: Translations = {
           "اربط متجرك واستورد الأوردرات تلقائياً في دقائق.",
         benefits: [
           "دعم Shopify و Easy Orders",
-          "Custom API للمتاجر المخصصة",
+          "Custom API للمتاجر المخصصة (Enterprise)",
           "مزامنة تلقائية للأوردرات",
           "إنشاء شحنات تلقائي عند الأوردر",
         ],
@@ -235,12 +197,12 @@ const ar: Translations = {
         icon: "couriers",
         title: "شركات الشحن المتعددة",
         description:
-          "اشحن مع أي شركة من مكان واحد — قارن، اختار، واشحن.",
+          "اشحن مع أي شركة مربوطة من مكان واحد — قارن، اختار، واشحن.",
         benefits: [
-          "Bosta وشركات شحن محلية متعددة",
+          "Bosta و J&T Express و Aramex",
           "API موحد لكل الشركات",
           "داشبورد تتبع موحد",
-          "وقت التسليم المتوقع لكل شركة",
+          "قارن بين الشركات قبل الشحن",
         ],
       },
       {
@@ -272,11 +234,10 @@ const ar: Translations = {
     ],
   },
   dashboardPreviewSection: {
-    ariaLabel: "معاينة تفاعلية للوحة تحكم روافد",
     eyebrow: "معاينة تفاعلية",
     headline: "شوف روافد وهي شغّالة",
-    subheadline:
-      "اضغط على النقاط المضيئة لاستكشاف المميزات. اسحب للتنقل وكبّر للتفاصيل.",
+    subheadline: "بدّل بين التبويبات واضغط على النقاط المضيئة لاستكشاف لوحة التحكم.",
+    tabsLabel: "عروض لوحة التحكم",
     tabs: [
       { id: "overview", label: "نظرة عامة" },
       { id: "shipments", label: "الشحنات" },
@@ -287,99 +248,74 @@ const ar: Translations = {
         id: "stat-total",
         view: "overview",
         title: "إجمالي الشحنات",
-        description:
-          "شوف كل شحناتك في لمحة — مع مؤشر التغيير مقارنةً بالشهر اللي فات.",
-        countUp: { value: 1247, suffix: "" },
+        description: "شوف كل شحناتك في لمحة — مع مؤشر التغيير مقارنةً بالشهر اللي فات.",
       },
       {
         id: "stat-delivered",
         view: "overview",
         title: "نسبة التسليم الناجح",
-        description:
-          "تابع أداء شركات الشحن وشوف مين الأفضل تسليماً لعملاءك.",
-        countUp: { value: 89, suffix: ".3%" },
+        description: "تابع أداء شركات الشحن وشوف مين الأفضل تسليماً لعملاءك.",
       },
       {
         id: "stat-cod",
         view: "overview",
         title: "COD محصّل",
-        description:
-          "ابقى دايماً عارف كام فلوس اتحصلت — بدون جداول بيانات أو حسابات يدوية.",
-        countUp: { value: 34820, suffix: " ج.م" },
+        description: "ابقى دايماً عارف كام فلوس اتحصلت — بدون جداول بيانات أو حسابات يدوية.",
       },
       {
         id: "sidebar-shipments",
         view: "overview",
         title: "الشحنات",
-        description:
-          "اضغط لعرض كل الشحنات مع فلاتر الحالة وتفاصيل كل شحنة على حدة.",
+        description: "اعرض كل الشحنات مع فلاتر الحالة وتفاصيل كل شحنة على حدة.",
         navigatesTo: "shipments",
       },
       {
         id: "sidebar-returns",
         view: "overview",
         title: "المرتجعات",
-        description:
-          "نظام مرتجعات متكامل — تابع كل مرحلة من الطلب للاستلام والاسترداد.",
+        description: "نظام مرتجعات متكامل — تابع كل مرحلة من الطلب للاستلام والاسترداد.",
         navigatesTo: "returns",
       },
       {
         id: "create-shipment",
         view: "shipments",
         title: "إنشاء شحنة جديدة",
-        description:
-          "أنشئ شحنة في ثوانٍ — اختار شركة الشحن، أدخل العنوان، واطبع البوليصة فوراً.",
+        description: "أنشئ شحنة في ثوانٍ — اختار شركة الشحن، أدخل العنوان، واطبع البوليصة فوراً.",
       },
       {
         id: "shipment-row",
         view: "shipments",
         title: "تفاصيل الشحنة",
-        description:
-          "اضغط على أي شحنة لعرض التتبع الكامل، حالة التسليم، وبيانات العميل.",
+        description: "افتح أي شحنة لعرض التتبع الكامل، حالة التسليم، وبيانات العميل.",
       },
       {
         id: "return-row",
         view: "returns",
         title: "طلب الاسترجاع",
-        description:
-          "كل طلب مرتجع ليه سير عمل واضح — من الطلب لحد الاستلام والاسترداد.",
+        description: "كل طلب مرتجع ليه سير عمل واضح — من الطلب لحد الاستلام والاسترداد.",
       },
       {
         id: "return-status",
         view: "returns",
         title: "حالة المرتجع",
-        description:
-          "تتبع كل مرتجع لحظياً — في الانتظار، تم الاستلام، أو تم الاسترداد.",
+        description: "تتبع كل مرتجع لحظياً — في الانتظار، تم الاستلام، أو تم الاسترداد.",
       },
     ],
-    hints: {
-      drag: "اسحب للتنقل",
-      click: "اضغط على النقاط",
-    },
-    controls: {
-      zoomIn: "تكبير",
-      zoomOut: "تصغير",
-      zoomReset: "إعادة الضبط",
-      closeHotspot: "إغلاق",
-    },
+    hotspotLabel: "اعرض التفاصيل: {title}",
+    openView: "افتح {view}",
+    closeHotspot: "إغلاق",
     cta: {
-      primary: "ابدأ تجربتك المجانية",
-      primaryHref: "#cta",
-      primaryAriaLabel: "ابدأ تجربتك المجانية مع روافد",
-      secondary: "احجز عرضاً توضيحياً",
-      secondaryHref: "#contact",
-      secondaryAriaLabel: "احجز عرضاً توضيحياً مع فريق روافد",
+      primary: "ابدأ مجاناً",
+      secondary: "تواصل معنا",
     },
   },
   howItWorksSection: {
-    ariaLabel: "كيفية عمل روافد",
     eyebrow: "كيف يعمل",
     headline: "إزاي بتشتغل روافد؟",
     subheadline: "٣ خطوات بسيطة وشحناتك تحت السيطرة",
     steps: [
       {
         id: "connect",
-        number: "01",
         icon: "connect",
         title: "اربط متجرك",
         description:
@@ -387,7 +323,6 @@ const ar: Translations = {
       },
       {
         id: "create",
-        number: "02",
         icon: "create",
         title: "أنشئ الشحنة",
         description:
@@ -395,7 +330,6 @@ const ar: Translations = {
       },
       {
         id: "track",
-        number: "03",
         icon: "track",
         title: "تتبع وسلّم",
         description:
@@ -403,17 +337,12 @@ const ar: Translations = {
       },
     ],
     cta: "ابدأ مجاناً",
-    ctaHref: "#cta",
-    ctaAriaLabel: "ابدأ تجربتك المجانية مع روافد",
   },
   integrationsSection: {
-    ariaLabel: "تكاملات روافد مع المتاجر وشركات الشحن",
     eyebrow: "التكاملات",
     headline: "اربط كل أدواتك",
     subheadline:
-      "تكاملات جاهزة مع منصات التجارة الإلكترونية وشركات الشحن المحلية — كل حاجة في مكان واحد",
-    hubLabel: "روافد",
-    hubTagline: "المركز الموحد",
+      "تكاملات جاهزة مع منصات التجارة الإلكترونية وشركات الشحن — وبنضيف تكاملات جديدة باستمرار",
     stores: [
       {
         id: "shopify",
@@ -423,7 +352,7 @@ const ar: Translations = {
       },
       {
         id: "easy-orders",
-        icon: "Easy Orders",
+        icon: "easyorders",
         name: "Easy Orders",
         description: "استيراد وتحديث الحالة فوري",
       },
@@ -431,7 +360,7 @@ const ar: Translations = {
         id: "api",
         icon: "api",
         name: "Custom API",
-        description: "ربط أي متجر مخصص",
+        description: "ربط أي متجر مخصص (Enterprise)",
       },
     ],
     couriers: [
@@ -439,21 +368,23 @@ const ar: Translations = {
         id: "bosta",
         icon: "bosta",
         name: "Bosta",
-        description: "الشريك الرئيسي للتوصيل",
+        description: "إنشاء الشحنات وتتبع التوصيل",
       },
       {
-        id: "courier-2",
-        icon: "local",
-        name: "شركة شحن محلية",
-        description: "تغطية واسعة في مصر",
+        id: "jt-express",
+        icon: "jt",
+        name: "J&T Express",
+        description: "إنشاء الشحنات وتحديث الحالة",
       },
       {
-        id: "courier-3",
-        icon: "local",
-        name: "شريك التوصيل",
-        description: "شحن سريع وموثوق",
+        id: "aramex",
+        icon: "aramex",
+        name: "Aramex",
+        description: "إنشاء الشحنات والتتبع اللحظي",
       },
     ],
+    hubLabel: "روافد",
+    hubTagline: "كل أوردراتك وشحناتك في مكان واحد",
     comingSoon: [
       { id: "woocommerce", name: "WooCommerce" },
       { id: "magento", name: "Magento" },
@@ -467,127 +398,34 @@ const ar: Translations = {
       comingSoon: "قريباً",
     },
   },
-  whyRawafidSection: {
-    ariaLabel: "لماذا تختار روافد",
-    eyebrow: "لماذا روافد؟",
-    headline: "ليه تختار روافد؟",
-    subheadline: "منصة شحن مصممة للتاجر المصري — بمزايا حقيقية مش وعود فارغة",
-    points: [
-      {
-        id: "local-market",
-        icon: "local",
-        title: "مصممة للسوق المصري",
-        description: "نفهم احتياجات التاجر المصري وشركات الشحن المحلية — من COD للمرتجعات.",
-      },
-      {
-        id: "security",
-        icon: "security",
-        title: "بياناتك في أمان",
-        description: "تشفير كامل للبيانات مع أعلى معايير الحماية والخصوصية.",
-      },
-      {
-        id: "support",
-        icon: "support",
-        title: "دعم فني سريع",
-        description: "فريق دعم متاح للرد على استفساراتك خلال ساعات — مش أيام.",
-      },
-      {
-        id: "ease",
-        icon: "ease",
-        title: "سهولة الاستخدام",
-        description: "واجهة بسيطة ومباشرة — تبدأ الشغل من أول يوم بدون تعقيد.",
-      },
-      {
-        id: "pricing",
-        icon: "pricing",
-        title: "بدون تكاليف خفية",
-        description: "أسعار واضحة ومعلنة — مفيش مفاجآت في الفاتورة.",
-      },
-      {
-        id: "updates",
-        icon: "updates",
-        title: "تحديثات مستمرة",
-        description: "ميزات جديدة وتحسينات باستمرار بناءً على احتياجات التجار.",
-      },
-    ],
-    comparison: {
-      ariaLabel: "مقارنة روافد مع الطريقة التقليدية",
-      headline: "الفرق بين روافد والطرق التقليدية",
-      columns: {
-        feature: "الميزة",
-        rawafid: "روافد",
-        traditional: "الطريقة التقليدية",
-      },
-      rows: [
-        {
-          id: "dashboards",
-          feature: "عدد الداشبوردات",
-          rawafid: { kind: "text", value: "1" },
-          traditional: { kind: "text", value: "6+" },
-        },
-        {
-          id: "shipment-time",
-          feature: "وقت إنشاء الشحنة",
-          rawafid: { kind: "text", value: "30 ثانية" },
-          traditional: { kind: "text", value: "5+ دقائق" },
-        },
-        {
-          id: "tracking",
-          feature: "تتبع موحد",
-          rawafid: { kind: "yes" },
-          traditional: { kind: "no" },
-        },
-        {
-          id: "price-compare",
-          feature: "مقارنة الأسعار",
-          rawafid: { kind: "text", value: "فورية" },
-          traditional: { kind: "text", value: "يدوية" },
-        },
-        {
-          id: "returns",
-          feature: "إدارة المرتجعات",
-          rawafid: { kind: "text", value: "منظمة" },
-          traditional: { kind: "text", value: "فوضى" },
-        },
-      ],
-      labels: {
-        yes: "متاح",
-        no: "غير متاح",
-      },
-    },
-  },
   pricingSection: {
-    ariaLabel: "خطط أسعار روافد",
     eyebrow: "الأسعار",
     headline: "خطط تناسب كل الأحجام",
-    subheadline: "ابدأ مجاناً، وكبّر حسب احتياجك — بدون التزامات طويلة",
+    subheadline: "ابدأ بالباقة المجانية ورقّي باقتك مع نمو تجارتك — بدون التزامات طويلة",
     billing: {
-      toggleLabel: "اختر دورة الفوترة",
+      toggleLabel: "دورة الفوترة",
       monthly: "شهري",
       annual: "سنوي",
       annualSave: "وفّر 20%",
-      monthlyHint: "الفوترة الشهرية",
-      annualHint: "الفوترة السنوية — خصم 20%",
     },
     plans: [
       {
         id: "starter",
         name: "Starter",
-        tagline: "للمتاجر الصغيرة والتجربة",
+        tagline: "جرّب روافد باستخدام محدود — مجاناً للأبد",
         priceType: "free",
         freeLabel: "مجاني",
         freeSub: "للأبد",
         features: [
           "حتى 50 شحنة/شهر",
-          "شركة شحن واحدة",
-          "متجر واحد",
+          "ربط شركة شحن واحدة",
+          "ربط متجر واحد",
           "لوحة تحكم أساسية",
           "تتبع الشحنات",
           "دعم عبر البريد",
         ],
         cta: "ابدأ مجاناً",
-        ctaHref: "#cta",
-        ctaAriaLabel: "ابدأ الخطة المجانية Starter مع روافد",
+        ctaTarget: "signup",
         ctaVariant: "secondary",
       },
       {
@@ -598,21 +436,21 @@ const ar: Translations = {
         monthlyPrice: "299",
         annualPrice: "239",
         priceSuffix: "ج.م/شهرياً",
+        annualNote: "تُدفع 2,868 ج.م سنوياً",
         popular: true,
         popularBadge: "الأكثر شعبية",
         features: [
           "حتى 500 شحنة/شهر",
-          "3 شركات شحن",
-          "3 متاجر",
+          "ربط حتى 3 شركات شحن",
+          "ربط حتى 3 متاجر",
           "لوحة تحكم متقدمة",
           "تحليلات وتقارير",
           "إدارة المرتجعات",
           "دعم أولوية",
           "Webhooks",
         ],
-        cta: "اشترك الآن",
-        ctaHref: "#cta",
-        ctaAriaLabel: "اشترك في خطة Growth مع روافد",
+        cta: "ابدأ الآن",
+        ctaTarget: "signup",
         ctaVariant: "primary",
       },
       {
@@ -624,7 +462,7 @@ const ar: Translations = {
         customSub: "حسب احتياجك",
         features: [
           "شحنات غير محدودة",
-          "كل شركات الشحن",
+          "كل شركات الشحن المدعومة",
           "متاجر غير محدودة",
           "وصول API كامل",
           "مدير حساب مخصص",
@@ -633,25 +471,52 @@ const ar: Translations = {
           "دعم 24/7",
         ],
         cta: "تواصل معنا",
-        ctaHref: "#contact",
-        ctaAriaLabel: "تواصل مع فريق روافد لخطة Enterprise",
+        ctaTarget: "contact",
         ctaVariant: "secondary",
       },
     ],
     featuresHeading: "الميزات المتضمنة",
-    priceUpdated: "تم تحديث الأسعار إلى الفوترة {period}",
+    priceUpdated: "عرض أسعار الفوترة {period}",
+    trust: {
+      label: "ليه التجار بيختاروا روافد",
+      points: [
+        {
+          id: "local-market",
+          icon: "local",
+          title: "مصممة للسوق المصري",
+          description: "نفهم احتياجات التاجر المصري وشركات الشحن المحلية — من COD للمرتجعات.",
+        },
+        {
+          id: "pricing",
+          icon: "pricing",
+          title: "بدون تكاليف خفية",
+          description: "أسعار واضحة ومعلنة — مفيش مفاجآت في الفاتورة.",
+        },
+        {
+          id: "ease",
+          icon: "ease",
+          title: "سهولة الاستخدام",
+          description: "واجهة بسيطة ومباشرة — تبدأ الشغل من أول يوم بدون تعقيد.",
+        },
+      ],
+    },
   },
   faqSection: {
-    ariaLabel: "الأسئلة الشائعة عن روافد",
     eyebrow: "الأسئلة الشائعة",
     headline: "أسئلة شائعة",
     subheadline: "إجابات سريعة على أكثر الأسئلة اللي بنستقبلها من التجار",
     items: [
       {
+        id: "free-plan",
+        question: "أقدر أجرب روافد مجاناً؟",
+        answer:
+          "أيوه. بدل التجربة المحدودة بمدة، روافد فيها باقة مجانية دائمة (Starter) بعدد محدود من الشحنات الشهرية وعدد محدود من تكاملات شركات الشحن والمتاجر. استكشف المنصة في حدود الباقة، ورقّي وقت ما تحتاج أكتر.",
+      },
+      {
         id: "supported-couriers",
         question: "إيه شركات الشحن المدعومة؟",
         answer:
-          "حالياً بندعم Bosta وشركات شحن محلية تانية. بنضيف شركات جديدة باستمرار حسب طلبات العملاء — لو محتاج شركة معينة، تواصل معانا.",
+          "حالياً بندعم Bosta و J&T Express و Aramex، وبنضيف شركات جديدة حسب طلبات التجار — لو محتاج شركة معينة، تواصل معانا.",
       },
       {
         id: "shopify-connect",
@@ -675,7 +540,7 @@ const ar: Translations = {
         id: "pricing-plans",
         question: "إيه خطط الأسعار المتاحة؟",
         answer:
-          "عندنا 3 خطط: Starter (مجاني للأبد)، Growth (299 ج.م/شهر)، و Enterprise (مخصص). Growth فيها 14 يوم تجربة مجانية. شوف تفاصيل كل خطة في قسم الأسعار.",
+          "عندنا 3 خطط: Starter (مجانية للأبد بعدد محدود من الشحنات والتكاملات)، Growth (299 ج.م/شهر، أو 239 ج.م/شهر مع الفوترة السنوية)، و Enterprise (مخصص). شوف تفاصيل كل خطة في قسم الأسعار.",
       },
       {
         id: "cancel-anytime",
@@ -683,176 +548,54 @@ const ar: Translations = {
         answer:
           "أيوه، مفيش عقود طويلة. تقدر تلغي أو تغير خطتك في أي وقت من إعدادات الحساب — بدون رسوم إلغاء.",
       },
-      {
-        id: "free-trial",
-        question: "فيه تجربة مجانية؟",
-        answer:
-          "خطة Starter مجانية للأبد — مناسبة للتجربة والمتاجر الصغيرة. وخطة Growth فيها 14 يوم trial كامل بدون بطاقة ائتمان.",
-      },
     ],
   },
   finalCtaSection: {
-    ariaLabel: "ابدأ تجربتك المجانية مع روافد",
-    icon: "🚀",
     headline: "جاهز تبدأ؟",
     subheadline:
-      "بطّل تضيّع وقتك في الشغل اليدوي. ابدأ دلوقتي واحنا هنساعدك تنظم كل شحناتك.",
-    ctaPrimary: "ابدأ تجربتك المجانية",
-    ctaPrimaryHref: "https://app.rawafid.com/signup",
-    ctaPrimaryAriaLabel: "ابدأ تجربتك المجانية مع روافد",
-    ctaSecondary: "احجز Demo",
-    ctaSecondaryHref: "#contact",
-    ctaSecondaryAriaLabel: "احجز عرضاً توضيحياً مع فريق روافد",
+      "بطّل تضيّع وقتك في الشغل اليدوي. اعمل حسابك المجاني ونظّم كل شحناتك في مكان واحد.",
+    ctaPrimary: "ابدأ مجاناً",
+    ctaSecondary: "تواصل معنا",
     trustBadges: [
-      "14 يوم تجربة مجانية",
+      "باقة مجانية للأبد",
       "بدون بطاقة ائتمان",
-      "إلغاء في أي وقت",
+      "رقّي باقتك وقت ما تحب",
     ],
-    trustListAriaLabel: "ضمانات التجربة المجانية",
+    trustListAriaLabel: "ليه البداية سهلة",
   },
   footerSection: {
-    ariaLabel: "تذييل الموقع",
     tagline: "منصة تشغيل لوجستية للتجارة الإلكترونية",
     backToTop: "العودة للأعلى",
-    backToTopAriaLabel: "العودة إلى بداية الصفحة",
-    columns: [
-      {
-        id: "product",
-        title: "المنتج",
-        links: [
-          { id: "features", label: "الميزات", href: "#features" },
-          { id: "integrations", label: "التكاملات", href: "#integrations" },
-          { id: "pricing", label: "الأسعار", href: "#pricing" },
-          {
-            id: "changelog",
-            label: "التحديثات",
-            href: "https://rawafid.app/changelog",
-            external: true,
-            ariaLabel: "التحديثات — يفتح في نافذة جديدة",
-          },
-        ],
-      },
-      {
-        id: "company",
-        title: "الشركة",
-        links: [
-          {
-            id: "about",
-            label: "عن روافد",
-            href: "https://rawafid.app/about",
-            external: true,
-            ariaLabel: "عن روافد — يفتح في نافذة جديدة",
-          },
-          {
-            id: "careers",
-            label: "الوظائف",
-            href: "https://rawafid.app/careers",
-            external: true,
-            ariaLabel: "الوظائف — يفتح في نافذة جديدة",
-          },
-          {
-            id: "blog",
-            label: "المدونة",
-            href: "https://rawafid.app/blog",
-            external: true,
-            ariaLabel: "المدونة — يفتح في نافذة جديدة",
-          },
-          { id: "contact", label: "اتصل بنا", href: "#contact" },
-        ],
-      },
-      {
-        id: "support",
-        title: "الدعم",
-        links: [
-          {
-            id: "help",
-            label: "مركز المساعدة",
-            href: "https://help.rawafid.app",
-            external: true,
-            ariaLabel: "مركز المساعدة — يفتح في نافذة جديدة",
-          },
-          {
-            id: "docs",
-            label: "التوثيق",
-            href: "https://docs.rawafid.app",
-            external: true,
-            ariaLabel: "التوثيق — يفتح في نافذة جديدة",
-          },
-          {
-            id: "status",
-            label: "حالة النظام",
-            href: "https://status.rawafid.app",
-            external: true,
-            ariaLabel: "حالة النظام — يفتح في نافذة جديدة",
-          },
-          {
-            id: "api",
-            label: "API Docs",
-            href: "https://docs.rawafid.app/api",
-            external: true,
-            ariaLabel: "توثيق API — يفتح في نافذة جديدة",
-          },
-        ],
-      },
-    ],
+    externalHint: "(يفتح في نافذة جديدة)",
+    productTitle: "المنتج",
     contact: {
       title: "تواصل معنا",
-      email: {
-        label: "البريد الإلكتروني",
-        value: "hello@rawafid.com",
-        href: "mailto:hello@rawafid.com",
-        ariaLabel: "إرسال بريد إلكتروني إلى hello@rawafid.com",
-      },
-      phone: {
-        label: "الهاتف",
-        value: "+20 100 000 0000",
-        href: "tel:+201000000000",
-        ariaLabel: "الاتصال على +20 100 000 0000",
-      },
-      address: {
-        label: "العنوان",
-        value: "القاهرة، مصر",
-      },
+      emailLabel: "البريد الإلكتروني",
+      phoneLabel: "الهاتف",
+      whatsappLabel: "واتساب",
+      addressLabel: "العنوان",
+      address: "القاهرة، مصر",
     },
     social: {
-      ariaLabel: "روافد على شبكات التواصل الاجتماعي",
-      links: [
-        {
-          id: "linkedin",
-          label: "LinkedIn",
-          href: "https://www.linkedin.com/company/rawafid",
-        },
-        {
-          id: "facebook",
-          label: "Facebook",
-          href: "https://www.facebook.com/rawafid",
-        },
-        {
-          id: "x",
-          label: "X (Twitter)",
-          href: "https://x.com/rawafid",
-        },
-        {
-          id: "instagram",
-          label: "Instagram",
-          href: "https://www.instagram.com/rawafid",
-        },
-      ],
+      ariaLabel: "روافد على وسائل التواصل الاجتماعي",
+      labels: {
+        linkedin: "LinkedIn",
+        facebook: "Facebook",
+        x: "X (Twitter)",
+        instagram: "Instagram",
+      },
     },
     legal: {
       navAriaLabel: "روابط قانونية",
       copyright: "© {year} Rawafid روافد. جميع الحقوق محفوظة.",
-      privacy: {
-        label: "سياسة الخصوصية",
-        href: "https://rawafid.app/privacy",
-        ariaLabel: "سياسة الخصوصية — يفتح في نافذة جديدة",
-      },
-      terms: {
-        label: "الشروط والأحكام",
-        href: "https://rawafid.app/terms",
-        ariaLabel: "الشروط والأحكام — يفتح في نافذة جديدة",
-      },
+      privacy: "سياسة الخصوصية",
+      terms: "الشروط والأحكام",
     },
+  },
+  notFound: {
+    title: "الصفحة مش موجودة",
+    description: "الصفحة اللي بتدور عليها مش موجودة أو اتنقلت.",
+    cta: "ارجع للرئيسية",
   },
 };
 

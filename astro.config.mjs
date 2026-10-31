@@ -3,10 +3,9 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import react from '@astrojs/react';
-
 // https://astro.build/config
 export default defineConfig({
+  // Keep in sync with SITE_URL in src/config/site.ts.
   site: 'https://rawafid.app',
 
   vite: {
@@ -20,6 +19,4 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
-
-  integrations: [react()],
 });
